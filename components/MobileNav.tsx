@@ -31,7 +31,7 @@ const MobileNav = ({ user }) => {
             className="cursor-pointer"
           />
         </SheetTrigger>
-        <SheetContent side="right" className="border-none bg-white">
+        <SheetContent side="left" className="border-none bg-white">
           <SheetHeader>
             {/* Visible, accessible title */}
             <SheetTitle className="text-sm font-semibold text-gray-700">
