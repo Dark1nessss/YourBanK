@@ -164,8 +164,13 @@ const AuthForm = ({ type, user }: { type: 'sign-in' | 'sign-up', user?: any }) =
               <CustomInput control={form.control} name='password' label="Password" placeholder='Enter your password' />
 
               <div className="flex flex-col gap-4">
-                <Button type="submit" className="form-btn">
-                  { type === 'sign-in' 
+                <Button type="submit" disabled={isLoading} className="form-btn">
+                {isLoading ? (
+                    <>
+                      <Loader2 size={20} className="animate-spin" /> &nbsp;
+                      Loading...
+                    </>
+                  ) : type === 'sign-in' 
                     ? 'Sign In' : 'Sign Up'}
                 </Button>
               </div>
