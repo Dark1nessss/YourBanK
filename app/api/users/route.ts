@@ -61,3 +61,46 @@ export async function GET() {
     return NextResponse.json({ error: 'Failed to fetch users', details: error.message }, { status: 500 });
   }
 }
+
+export async function LOGIN(req: NextRequest) {
+  try {
+    const body = await req.json();
+    const { email, password } = body;
+
+    if (!email || !password) {
+      return NextResponse.json(
+        { error: 'Email and password are required' },
+        { status: 400 }
+      );
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Invalid email or password' },
+        { status: 401 }
+      );
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      return NextResponse.json(
+        { error: 'Invalid email or password' },
+        { status: 401 }
+      );
+    }
+
+    // Ideally, you'd generate a JWT token here for authentication
+    const loginUrl = '/';
+    return NextResponse.redirect(loginUrl);
+
+    return NextResponse.redirect(loginUrl);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: 'Failed to log in', details: error.message }, { status: 500 });
+  }
+}
