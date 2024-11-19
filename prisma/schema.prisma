@@ -28,3 +28,31 @@ model User {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
+model BankAccount {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String    @db.ObjectId
+  bankName      String
+  accountNumber String
+  balance       Float
+  createdAt     DateTime  @default(now())
+
+  user          User      @relation(fields: [userId], references: [id])
+  transactions  Transaction[]
+}
+
+model Transaction {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  bankAccountId String    @db.ObjectId
+  amount        Float
+  type          TransactionType
+  timestamp     DateTime  @default(now())
+
+  bankAccount   BankAccount @relation(fields: [bankAccountId], references: [id])
+}
+
+enum TransactionType {
+  DEPOSIT
+  WITHDRAWAL
+  TRANSFER
+}
