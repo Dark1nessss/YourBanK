@@ -1,61 +1,85 @@
-"use server";
+// transaction.actions.ts - Replacing Appwrite transaction actions with MongoDB
 
-import { ID, Query } from "node-appwrite";
-import { createAdminClient } from "../appwrite";
-import { parseStringify } from "../utils";
+import { PrismaClient } from "@prisma/client";
+import { ObjectId } from "bson";
 
-const {
-  APPWRITE_DATABASE_ID: DATABASE_ID,
-  APPWRITE_TRANSACTION_COLLECTION_ID: TRANSACTION_COLLECTION_ID,
-} = process.env;
+const prisma = new PrismaClient();
 
-export const createTransaction = async (transaction: CreateTransactionProps) => {
+// Function to create a transaction
+export const createTransaction = async (
+  bankAccountId: string,
+  amount: number,
+  type: string,
+  category?: string,
+  description?: string
+) => {
   try {
-    const { database } = await createAdminClient();
-
-    const newTransaction = await database.createDocument(
-      DATABASE_ID!,
-      TRANSACTION_COLLECTION_ID!,
-      ID.unique(),
-      {
-        channel: 'online',
-        category: 'Transfer',
-        ...transaction
-      }
-    )
-
-    return parseStringify(newTransaction);
+    const newTransaction = await prisma.transaction.create({
+      data: {
+        bankAccountId: new ObjectId(bankAccountId),
+        amount,
+        type,
+        category,
+        description,
+        timestamp: new Date(),
+      },
+    });
+    return newTransaction;
   } catch (error) {
-    console.log(error);
+    throw new Error(`Error creating transaction: ${error.message}`);
   }
-}
+};
 
-export const getTransactionsByBankId = async ({bankId}: getTransactionsByBankIdProps) => {
+// Function to get transactions by bank account ID
+export const getTransactionsByBankAccountId = async (bankAccountId: string) => {
   try {
-    const { database } = await createAdminClient();
-
-    const senderTransactions = await database.listDocuments(
-      DATABASE_ID!,
-      TRANSACTION_COLLECTION_ID!,
-      [Query.equal('senderBankId', bankId)],
-    )
-
-    const receiverTransactions = await database.listDocuments(
-      DATABASE_ID!,
-      TRANSACTION_COLLECTION_ID!,
-      [Query.equal('receiverBankId', bankId)],
-    );
-
-    const transactions = {
-      total: senderTransactions.total + receiverTransactions.total,
-      documents: [
-        ...senderTransactions.documents, 
-        ...receiverTransactions.documents,
-      ]
-    }
-
-    return parseStringify(transactions);
+    const transactions = await prisma.transaction.findMany({
+      where: {
+        bankAccountId: new ObjectId(bankAccountId),
+      },
+      orderBy: {
+        timestamp: 'desc',
+      },
+    });
+    return transactions;
   } catch (error) {
-    console.log(error);
+    throw new Error(`Error fetching transactions: ${error.message}`);
   }
-}
+};
+
+// Function to delete a transaction by ID
+export const deleteTransaction = async (transactionId: string) => {
+  try {
+    await prisma.transaction.delete({
+      where: {
+        id: new ObjectId(transactionId),
+      },
+    });
+    return { message: "Transaction deleted successfully" };
+  } catch (error) {
+    throw new Error(`Error deleting transaction: ${error.message}`);
+  }
+};
+
+// Function to update a transaction by ID
+export const updateTransaction = async (
+  transactionId: string,
+  updates: {
+    amount?: number;
+    type?: string;
+    category?: string;
+    description?: string;
+  }
+) => {
+  try {
+    const updatedTransaction = await prisma.transaction.update({
+      where: {
+        id: new ObjectId(transactionId),
+      },
+      data: updates,
+    });
+    return updatedTransaction;
+  } catch (error) {
+    throw new Error(`Error updating transaction: ${error.message}`);
+  }
+};
