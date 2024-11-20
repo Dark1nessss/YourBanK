@@ -14,7 +14,7 @@ datasource db {
 }
 
 model User {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
   firstName   String
   lastName    String
   address     String
@@ -22,33 +22,33 @@ model User {
   state       String
   postalCode  String
   dateOfBirth DateTime
-  ssn         String   @unique
-  email       String   @unique
+  ssn         String        @unique
+  email       String        @unique
   password    String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  BankAccount BankAccount[]
 }
 
 model BankAccount {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  userId        String    @db.ObjectId
+  id            String        @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String        @db.ObjectId
   bankName      String
   accountNumber String
   balance       Float
-  createdAt     DateTime  @default(now())
-
-  user          User      @relation(fields: [userId], references: [id])
+  createdAt     DateTime      @default(now())
+  user          User          @relation(fields: [userId], references: [id])
   transactions  Transaction[]
 }
 
 model Transaction {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  bankAccountId String    @db.ObjectId
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  bankAccountId String          @db.ObjectId
   amount        Float
   type          TransactionType
-  timestamp     DateTime  @default(now())
+  timestamp     DateTime        @default(now())
 
-  bankAccount   BankAccount @relation(fields: [bankAccountId], references: [id])
+  bankAccount BankAccount @relation(fields: [bankAccountId], references: [id])
 }
 
 enum TransactionType {
