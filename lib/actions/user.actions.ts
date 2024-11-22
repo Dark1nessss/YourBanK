@@ -10,7 +10,7 @@ const prisma = new PrismaClient();
 // Function to get user info
 export const getUserInfo = async (userId: string) => {
   try {
-    const url = new URL('/api/session/route', process.env.NEXT_PUBLIC_SITE_URL);
+    const url = new URL('/api/session', process.env.NEXT_PUBLIC_SITE_URL);
 
     const response = await fetch(url.toString(), {
       method: 'GET',
@@ -21,7 +21,7 @@ export const getUserInfo = async (userId: string) => {
     const data = await response.json();
     return data.user;
   } catch (error) {
-    throw new Error(`Error fetching logged-in user: ${error.message}`);
+    throw new Error(`Error fetching logged-in user: ${error}`);
   }
 };
 
@@ -39,7 +39,7 @@ export const signIn = async (email: string, password: string) => {
     // Set user session or token here
     return { message: "Sign in successful", user };
   } catch (error) {
-    throw new Error(`Error signing in: ${error.message}`);
+    throw new Error(`Error signing in: ${error}`);
   }
 };
 
@@ -73,32 +73,36 @@ export const signUp = async (
     });
     return { message: "Sign up successful", newUser };
   } catch (error) {
-    throw new Error(`Error signing up: ${error.message}`);
+    throw new Error(`Error signing up: ${error}`);
   }
 };
 
 // Function to get logged-in user
 export const getLoggedInUser = async () => {
   try {
-    const url = new URL('/api/session/route', process.env.NEXT_PUBLIC_SITE_URL);
+    const url = new URL('/api/session', process.env.NEXT_PUBLIC_SITE_URL);
 
     const response = await fetch(url.toString(), {
       method: 'GET',
+      credentials: 'include',
     });
+
+    console.log(response)
+
     if (!response.ok) {
       throw new Error('Failed to fetch logged-in user');
     }
     const data = await response.json();
     return data.user;
   } catch (error) {
-    throw new Error(`Error fetching logged-in user: ${error.message}`);
+    throw new Error(`Error fetching logged-in user: ${error}`);
   }
 };
 
 // Function to logout account
 export const logoutAccount = async () => {
   try {
-    const url = new URL('/api/session/route', process.env.NEXT_PUBLIC_SITE_URL);
+    const url = new URL('/api/session', process.env.NEXT_PUBLIC_SITE_URL);
 
     const response = await fetch(url.toString(), {
       method: 'DELETE',
@@ -108,7 +112,7 @@ export const logoutAccount = async () => {
     }
     return { message: "Logout successful" };
   } catch (error) {
-    throw new Error(`Error logging out: ${error.message}`);
+    throw new Error(`Error logging out: ${error}`);
   }
 };
 
@@ -126,7 +130,7 @@ export const createLinkToken = async () => {
     });
     return response.data;
   } catch (error) {
-    throw new Error(`Error creating link token: ${error.message}`);
+    throw new Error(`Error creating link token: ${error}`);
   }
 };
 
@@ -143,7 +147,7 @@ export const createBankAccount = async (userId: string, bankName: string, accoun
     });
     return { message: "Bank account created successfully", newBankAccount };
   } catch (error) {
-    throw new Error(`Error creating bank account: ${error.message}`);
+    throw new Error(`Error creating bank account: ${error}`);
   }
 };
 
@@ -155,7 +159,7 @@ export const exchangePublicToken = async (publicToken: string) => {
     });
     return { accessToken: response.data.access_token, itemId: response.data.item_id };
   } catch (error) {
-    throw new Error(`Error exchanging public token: ${error.message}`);
+    throw new Error(`Error exchanging public token: ${error}`);
   }
 };
 
@@ -169,7 +173,7 @@ export const getBanks = async (userId: string) => {
     });
     return banks;
   } catch (error) {
-    throw new Error(`Error fetching banks: ${error.message}`);
+    throw new Error(`Error fetching banks: ${error}`);
   }
 };
 
@@ -186,7 +190,7 @@ export const getBank = async (bankId: string) => {
     }
     return bank;
   } catch (error) {
-    throw new Error(`Error fetching bank: ${error.message}`);
+    throw new Error(`Error fetching bank: ${error}`);
   }
 };
 
@@ -203,6 +207,6 @@ export const getBankByAccountId = async (accountId: string) => {
     }
     return bankAccount;
   } catch (error) {
-    throw new Error(`Error fetching bank by account ID: ${error.message}`);
+    throw new Error(`Error fetching bank by account ID: ${error}`);
   }
 };
