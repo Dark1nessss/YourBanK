@@ -10,7 +10,7 @@ const prisma = new PrismaClient();
 // Function to get user info
 export const getUserInfo = async (userId: string) => {
   try {
-    const url = new URL('/api/session/route', process.env.NEXT_PUBLIC_SITE_URL);
+    const url = new URL('/api/session', process.env.NEXT_PUBLIC_SITE_URL);
 
     const response = await fetch(url.toString(), {
       method: 'GET',
@@ -80,7 +80,7 @@ export const signUp = async (
 // Function to get logged-in user
 export const getLoggedInUser = async () => {
   try {
-    const url = new URL('/api/session/route', process.env.NEXT_PUBLIC_SITE_URL);
+    const url = new URL('/api/session', process.env.NEXT_PUBLIC_SITE_URL);
 
     const response = await fetch(url.toString(), {
       method: 'GET',

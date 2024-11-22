@@ -43,9 +43,8 @@ export async function POST(req: NextRequest) {
       { expiresIn: '1h' }
     );
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       message: 'Login successful',
-      token,
       user: {
         id: user.id,
         firstName: user.firstName,
@@ -53,8 +52,21 @@ export async function POST(req: NextRequest) {
         email: user.email,
       },
     });
+
+    response.cookies.set('auth_token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      path: '/',
+      maxAge: 60 * 60, // 1 hour
+    });
+
+    return response;
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error: 'Failed to login', details: error.message }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to login', details: error.message },
+      { status: 500 }
+    );
   }
 }
