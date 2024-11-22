@@ -2,7 +2,6 @@
 
 import { PrismaClient } from "@prisma/client";
 import { ObjectId } from "bson";
-import { cookies } from "next/headers";
 import { plaidClient } from "../plaid";
 import { parseStringify } from "../utils";
 
@@ -11,14 +10,18 @@ const prisma = new PrismaClient();
 // Function to get user info
 export const getUserInfo = async (userId: string) => {
   try {
-    const user = await prisma.user.findUnique({
-      where: {
-        id: new ObjectId(userId),
-      },
+    const url = new URL('/api/session/route', process.env.NEXT_PUBLIC_SITE_URL);
+
+    const response = await fetch(url.toString(), {
+      method: 'GET',
     });
-    return user;
+    if (!response.ok) {
+      throw new Error('Failed to fetch logged-in user');
+    }
+    const data = await response.json();
+    return data.user;
   } catch (error) {
-    throw new Error(`Error fetching user info: ${error.message}`);
+    throw new Error(`Error fetching logged-in user: ${error.message}`);
   }
 };
 
@@ -77,20 +80,16 @@ export const signUp = async (
 // Function to get logged-in user
 export const getLoggedInUser = async () => {
   try {
-    const session = cookies().get("user-session");
-    if (!session || !session.value) {
-      throw new Error("No logged-in user");
-    }
-    const userId = session.value;
-    const user = await prisma.user.findUnique({
-      where: {
-        id: new ObjectId(userId),
-      },
+    const url = new URL('/api/session/route', process.env.NEXT_PUBLIC_SITE_URL);
+
+    const response = await fetch(url.toString(), {
+      method: 'GET',
     });
-    if (!user) {
-      throw new Error("User not found");
+    if (!response.ok) {
+      throw new Error('Failed to fetch logged-in user');
     }
-    return user;
+    const data = await response.json();
+    return data.user;
   } catch (error) {
     throw new Error(`Error fetching logged-in user: ${error.message}`);
   }
@@ -99,7 +98,14 @@ export const getLoggedInUser = async () => {
 // Function to logout account
 export const logoutAccount = async () => {
   try {
-    const session = cookies().set("user-session", "", { maxAge: -1 });
+    const url = new URL('/api/session/route', process.env.NEXT_PUBLIC_SITE_URL);
+
+    const response = await fetch(url.toString(), {
+      method: 'DELETE',
+    });
+    if (!response.ok) {
+      throw new Error('Failed to log out');
+    }
     return { message: "Logout successful" };
   } catch (error) {
     throw new Error(`Error logging out: ${error.message}`);
