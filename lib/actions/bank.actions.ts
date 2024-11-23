@@ -159,7 +159,7 @@ export const getTransactions = async ({
       const response = await plaidClient.transactionsSync({
         access_token: accessToken,
       });
-
+      console.log('Access token:', accessToken);
       const data = response.data;
 
       transactions = response.data.added.map((transaction) => ({

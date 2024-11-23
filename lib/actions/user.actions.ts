@@ -208,7 +208,7 @@ export const exchangePublicToken = async ({
       account_id: accountData.account_id,
       processor: "dwolla" as ProcessorTokenCreateRequestProcessorEnum,
     };
-
+    console.log('Access token:', accessToken);
     const processorTokenResponse = await plaidClient.processorTokenCreate(request);
     const processorToken = processorTokenResponse.data.processor_token;
 
