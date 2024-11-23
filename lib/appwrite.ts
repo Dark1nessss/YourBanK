@@ -13,7 +13,9 @@ export async function createSessionClient() {
   if (!session || !session.value) {
     throw new Error("No session");
   }
+
   client.setSession(session.value);
+
   return {
     get account() {
       return new Account(client);
@@ -26,18 +28,17 @@ export async function createAdminClient() {
     .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!)
     .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT!)
     .setKey(process.env.NEXT_APPWRITE_KEY!);
-    
+
   return {
     get account() {
       return new Account(client);
     },
-
     get database() {
       return new Databases(client);
     },
-    
     get user() {
       return new Users(client);
     }
   };
 }
+
