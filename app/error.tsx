@@ -1,31 +1,59 @@
-// app/error.tsx
+"use client";
 
-"use client"; // Required for error boundary components
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/button';
+import Image from 'next/image';
+import Link from 'next/link';
 
-import { useEffect } from "react";
-import Link from "next/link";
-
-export default function ErrorPage({ error, reset }: { error: Error; reset: () => void }) {
-  useEffect(() => {
-    // Log the error to an error reporting service (e.g., Sentry)
-    console.error(error);
-  }, [error]);
-
+const Error = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-gray-800">
-      <h1 className="text-4xl font-bold text-red-500 mb-4">500 - Internal Server Error</h1>
-      <p className="text-lg mb-6">Oops! Something went wrong on our end. Please try again later.</p>
-      <div className="space-x-4">
-        <button
-          onClick={reset}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+    <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen bg-white p-4 lg:p-16 gap-y-10 gap-x-10 lg:gap-x-40">
+      <motion.div
+        className="w-4/5 md:w-3/5 lg:w-1/2 flex items-center justify-center mx-auto"
+        animate={{ x: [0, 0, 0, 0], y: [0, -5, 5, 0], rotate: [0, 0, 0, 0] }}
+        transition={{ repeat: Infinity, duration: 4 }}
+      >
+        <Image 
+          src="/icons/500-internal-server-error-animate.svg"
+          width={300}
+          height={300}
+          alt="500-error"
+          className="w-full h-auto max-w-xs md:max-w-sm lg:max-w-md"
+        /> 
+      </motion.div>
+      <div className="w-4/5 md:w-3/5 lg:w-1/2 mt-10 lg:mt-0 flex flex-col items-center lg:items-start text-center lg:text-left space-y-4 lg:space-y-6">
+        <motion.h1
+          className="text-6xl md:text-7xl lg:text-9xl font-extrabold text-green-600 drop-shadow-lg"
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
         >
-          Retry
-        </button>
-        <Link href="/" className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
-          Go to Home
-        </Link>
+          500
+        </motion.h1>
+        <motion.p
+          className="text-lg md:text-xl lg:text-2xl text-gray-700 max-w-lg"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 1 }}
+        >
+          Its not you! Its us. Please refresh the page or click go home.
+        </motion.p>
+        <motion.div
+          className="mt-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1, duration: 1 }}
+        >
+          <Link href="/" passHref>
+          <Button className="px-8 py-4 md:px-10 md:py-5 bg-green-600 text-white rounded-lg shadow-lg hover:bg-green-700 transition-all">
+            Go Home
+          </Button>
+          </Link>
+        </motion.div>
       </div>
     </div>
   );
-}
+};
+
+export default Error;
