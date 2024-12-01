@@ -13,7 +13,7 @@ const NotFound = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen bg-gradient-to-b from-white to-green-50 p-4 lg:p-16 gap-y-10 gap-x-10 lg:gap-x-40">
+    <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen bg-gradient-to-b from-white to-blue-50 p-4 lg:p-16 gap-y-10 gap-x-10 lg:gap-x-40">
       <motion.div
         className="w-4/5 md:w-3/5 lg:w-1/2 flex items-center justify-center mx-auto"
         animate={{ 
