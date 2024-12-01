@@ -50,7 +50,7 @@ const Error = ({ error, reset }: { error: Error; reset: () => void }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 1 }}
         >
-          Don't worry, it's not you – it's us. We're working on fixing this issue.
+          Don&apos;t worry, it&apos;s not you – it&apos;s us. We&apos;re working on fixing this issue.
         </motion.p>
         <motion.div
           className="flex flex-col sm:flex-row gap-4 mt-6"

@@ -47,7 +47,7 @@ const NotFound = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 1 }}
         >
-          Oops! It seems you've ventured into uncharted digital space.
+          Oops! It seems you&apos;ve ventured into uncharted digital space.
         </motion.p>
         <motion.p
           className="text-lg md:text-xl text-gray-600 max-w-lg"
@@ -55,7 +55,7 @@ const NotFound = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 1 }}
         >
-          The page you're looking for has drifted off into the cosmic void.
+          The page you&apos;re looking for has drifted off into the cosmic void.
         </motion.p>
         <motion.div
           className="flex flex-col sm:flex-row gap-4 mt-6"
