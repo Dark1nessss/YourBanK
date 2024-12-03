@@ -1,60 +1,213 @@
-"use server";
+// user.actions.ts - Final version for user actions with MongoDB
 
-import { ID } from "node-appwrite";
-import { createAdminClient, createSessionClient } from "../appwrite";
-import { cookies } from "next/headers";
+import { PrismaClient } from "@prisma/client";
+import { ObjectId } from "bson";
+import { plaidClient } from "../plaid";
 import { parseStringify } from "../utils";
 
-export const signIn = async ({ email, password }: signInProps) => {
-  try {
-    const { account } = await createAdminClient();
-    const response = await account.createEmailPasswordSession(email, password);
-    return parseStringify(response);
-  } catch (error) {
-    console.error('Error', error);
-  }
-}
+const prisma = new PrismaClient();
 
-export const signUp = async (userData: SignUpParams) => {
-  const { email, password, firstName, lastName } = userData;
-  
+// Function to get user info
+export const getUserInfo = async (userId: string) => {
   try {
-    const { account } = await createAdminClient();
-    const newUserAccount = await account.create(
-      ID.unique(), 
-      email, 
-      password, 
-      `${firstName} ${lastName}`
-    );
-    const session = await account.createEmailPasswordSession(email, password);
-    cookies().set("appwrite-session", session.secret, {
-      path: "/",
-      httpOnly: true,
-      sameSite: "strict",
-      secure: true,
+    const url = new URL('/api/session', process.env.NEXT_PUBLIC_SITE_URL);
+
+    const response = await fetch(url.toString(), {
+      method: 'GET',
+      credentials: "include",
     });
-    return parseStringify(newUserAccount);
+    if (!response.ok) {
+      throw new Error('Failed to fetch logged-in user');
+    }
+    const data = await response.json();
+    return data.user;
   } catch (error) {
-    console.error('Error', error);
+    throw new Error(`Error fetching logged-in user: ${error}`);
   }
-}
+};
 
-export async function getLoggedInUser() {
+// Function to sign in
+export const signIn = async (email: string, password: string) => {
   try {
-    const { account } = await createSessionClient();
-    const user = await account.get();
-    return parseStringify(user);
+    const user = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+    if (!user || user.password !== password) {
+      throw new Error("Invalid credentials");
+    }
+    // Set user session or token here
+    return { message: "Sign in successful", user };
   } catch (error) {
-    console.log(error)
-    return null;
+    throw new Error(`Error signing in: ${error}`);
   }
-}
+};
+
+// Function to sign up
+export const signUp = async (
+  firstName: string,
+  lastName: string,
+  address: string,
+  city: string,
+  state: string,
+  postalCode: string,
+  dateOfBirth: Date,
+  ssn: string,
+  email: string,
+  password: string
+) => {
+  try {
+    const newUser = await prisma.user.create({
+      data: {
+        firstName,
+        lastName,
+        address,
+        city,
+        state,
+        postalCode,
+        dateOfBirth,
+        ssn,
+        email,
+        password,
+      },
+    });
+    return { message: "Sign up successful", newUser };
+  } catch (error) {
+    throw new Error(`Error signing up: ${error}`);
+  }
+};
+
+// Function to get logged-in user
+export const getLoggedInUser = async () => {
+  try {
+    const url = new URL('/api/session', process.env.NEXT_PUBLIC_SITE_URL);
+
+    const response = await fetch(url.toString(), {
+      method: 'GET',
+      credentials: 'include',
+    });
+
+    console.log(response)
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch logged-in user');
+    }
+    const data = await response.json();
+    return data.user;
+  } catch (error) {
+    throw new Error(`Error fetching logged-in user: ${error}`);
+  }
+};
+
+// Function to logout account
 export const logoutAccount = async () => {
   try {
-    const { account } = await createSessionClient();
-    cookies().delete('appwrite-session');
-    await account.deleteSession('current');
+    const url = new URL('/api/session', process.env.NEXT_PUBLIC_SITE_URL);
+
+    const response = await fetch(url.toString(), {
+      method: 'DELETE',
+    });
+    if (!response.ok) {
+      throw new Error('Failed to log out');
+    }
+    return { message: "Logout successful" };
   } catch (error) {
-    return null;
+    throw new Error(`Error logging out: ${error}`);
   }
-}
+};
+
+// Function to create link token
+export const createLinkToken = async () => {
+  try {
+    const response = await plaidClient.linkTokenCreate({
+      user: {
+        client_user_id: "user-id-placeholder", // Replace with real user ID from session or context
+      },
+      client_name: "YourBank App",
+      products: ["auth", "transactions"],
+      country_codes: ["US"],
+      language: "en",
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(`Error creating link token: ${error}`);
+  }
+};
+
+// Function to create bank account
+export const createBankAccount = async (userId: string, bankName: string, accountNumber: string, balance: number) => {
+  try {
+    const newBankAccount = await prisma.bankAccount.create({
+      data: {
+        userId: new ObjectId(userId),
+        bankName,
+        accountNumber,
+        balance,
+      },
+    });
+    return { message: "Bank account created successfully", newBankAccount };
+  } catch (error) {
+    throw new Error(`Error creating bank account: ${error}`);
+  }
+};
+
+// Function to exchange public token
+export const exchangePublicToken = async (publicToken: string) => {
+  try {
+    const response = await plaidClient.itemPublicTokenExchange({
+      public_token: publicToken,
+    });
+    return { accessToken: response.data.access_token, itemId: response.data.item_id };
+  } catch (error) {
+    throw new Error(`Error exchanging public token: ${error}`);
+  }
+};
+
+// Function to get banks
+export const getBanks = async (userId: string) => {
+  try {
+    const banks = await prisma.bankAccount.findMany({
+      where: {
+        userId: new ObjectId(userId),
+      },
+    });
+    return banks;
+  } catch (error) {
+    throw new Error(`Error fetching banks: ${error}`);
+  }
+};
+
+// Function to get a specific bank
+export const getBank = async (bankId: string) => {
+  try {
+    const bank = await prisma.bankAccount.findUnique({
+      where: {
+        id: new ObjectId(bankId),
+      },
+    });
+    if (!bank) {
+      throw new Error("Bank not found");
+    }
+    return bank;
+  } catch (error) {
+    throw new Error(`Error fetching bank: ${error}`);
+  }
+};
+
+// Function to get bank by account ID
+export const getBankByAccountId = async (accountId: string) => {
+  try {
+    const bankAccount = await prisma.bankAccount.findUnique({
+      where: {
+        accountNumber: accountId,
+      },
+    });
+    if (!bankAccount) {
+      throw new Error("Bank account not found");
+    }
+    return bankAccount;
+  } catch (error) {
+    throw new Error(`Error fetching bank by account ID: ${error}`);
+  }
+};

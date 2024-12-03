@@ -8,14 +8,14 @@ declare type SearchParamProps = {
 // ========================================
 
 declare type SignUpParams = {
-  firstName?: string;
-  lastName?: string;
-  address1?: string;
-  city?: string;
-  state?: string;
-  postalCode?: string;
-  dateOfBirth?: string;
-  ssn?: string;
+  firstName: string;
+  lastName: string;
+  address1: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  dateOfBirth: string;
+  ssn: string;
   email: string;
   password: string;
 };
@@ -26,7 +26,7 @@ declare type LoginUser = {
 };
 
 declare type User = {
-  $id: string;
+  _id: string;
   email: string;
   userId: string;
   dwollaCustomerUrl: string;
@@ -50,7 +50,7 @@ declare type NewUserParams = {
 };
 
 declare type Account = {
-  id: string;
+  _id: string;
   availableBalance: number;
   currentBalance: number;
   officialName: string;
@@ -59,13 +59,11 @@ declare type Account = {
   name: string;
   type: string;
   subtype: string;
-  appwriteItemId: string;
-  sharableId: string;
+  shareableId: string;
 };
 
 declare type Transaction = {
-  id: string;
-  $id: string;
+  _id: string;
   name: string;
   paymentChannel: string;
   type: string;
@@ -75,31 +73,30 @@ declare type Transaction = {
   category: string;
   date: string;
   image: string;
-  type: string;
-  $createdAt: string;
+  createdAt: Date;
   channel: string;
   senderBankId: string;
   receiverBankId: string;
 };
 
 declare type Bank = {
-  $id: string;
+  _id: string;
   accountId: string;
   bankId: string;
   accessToken: string;
   fundingSourceUrl: string;
   userId: string;
-  sharableId: string;
+  shareableId: string;
 };
 
 declare type AccountTypes =
   | "depository"
   | "credit"
-  | "loan "
+  | "loan"
   | "investment"
   | "other";
 
-declare type Category = "Food and Drink" | "Travel" | "Transfer";
+  declare type Category = "Food and Drink" | "Travel" | "Transfer" | "Entertainment" | "Utilities" | "Healthcare" | "Other";
 
 declare type CategoryCount = {
   name: string;
@@ -110,6 +107,7 @@ declare type CategoryCount = {
 declare type Receiver = {
   firstName: string;
   lastName: string;
+  email?: string;
 };
 
 declare type TransferParams = {
@@ -128,7 +126,7 @@ declare type NewDwollaCustomerParams = {
   firstName: string;
   lastName: string;
   email: string;
-  type: string;
+  type: "personal" | "business";
   address1: string;
   city: string;
   state: string;
@@ -145,7 +143,7 @@ declare interface CreditCardProps {
 
 declare interface BankInfoProps {
   account: Account;
-  appwriteItemId?: string;
+  bankId?: string;
   type: "full" | "card";
 }
 
@@ -200,10 +198,10 @@ declare interface BankDropdownProps {
 
 declare interface BankTabItemProps {
   account: Account;
-  appwriteItemId?: string;
+  bankId?: string;
 }
 
-declare interface TotlaBalanceBoxProps {
+declare interface TotalBalanceBoxProps {
   accounts: Account[];
   totalBanks: number;
   totalCurrentBalance: number;
@@ -211,6 +209,7 @@ declare interface TotlaBalanceBoxProps {
 
 declare interface FooterProps {
   user: User;
+  type?: 'mobile' | 'desktop'
 }
 
 declare interface RightSidebarProps {
@@ -226,7 +225,7 @@ declare interface SiderbarProps {
 declare interface RecentTransactionsProps {
   accounts: Account[];
   transactions: Transaction[];
-  appwriteItemId: string;
+  bankId: string;
   page: number;
 }
 
@@ -261,7 +260,7 @@ declare interface getAccountsProps {
 }
 
 declare interface getAccountProps {
-  appwriteItemId: string;
+  documentId: string;
 }
 
 declare interface getInstitutionProps {
@@ -313,7 +312,7 @@ declare interface createBankAccountProps {
   accountId: string;
   bankId: string;
   fundingSourceUrl: string;
-  sharableId: string;
+  shareableId: string;
 }
 
 declare interface getBanksProps {
