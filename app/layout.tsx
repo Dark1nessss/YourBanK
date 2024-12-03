@@ -1,6 +1,9 @@
 export const dynamic = 'force-dynamic'
 
+export const dynamic = 'force-dynamic'
+
 import type { Metadata } from "next";
+import { Inter, IBM_Plex_Serif } from "next/font/google";
 import { Inter, IBM_Plex_Serif } from "next/font/google";
 import "./globals.css";
 
@@ -10,10 +13,16 @@ const ibmPlexSerif = IBM_Plex_Serif({
   weight: ['400', '700'],
   variable: '--font-ibm-plex-serif'
 })
+const inter = Inter({ subsets: ["latin"], variable: '--font-inter' });
+const ibmPlexSerif = IBM_Plex_Serif({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  variable: '--font-ibm-plex-serif'
+})
 
 export const metadata: Metadata = {
-  title: "Horizon",
-  description: "Horizon is a modern banking platform for everyone.",
+  title: "YourBanK",
+  description: "YourBanK, all in one place.",
   icons: {
     icon: '/icons/logo.svg'
   }
@@ -26,6 +35,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <body className={`${inter.variable} ${ibmPlexSerif.variable}`}>{children}</body>
       <body className={`${inter.variable} ${ibmPlexSerif.variable}`}>{children}</body>
     </html>
   );

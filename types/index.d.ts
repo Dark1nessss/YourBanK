@@ -16,6 +16,14 @@ declare type SignUpParams = {
   postalCode: string;
   dateOfBirth: string;
   ssn: string;
+  firstName: string;
+  lastName: string;
+  address1: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  dateOfBirth: string;
+  ssn: string;
   email: string;
   password: string;
 };
@@ -59,6 +67,7 @@ declare type Account = {
   name: string;
   type: string;
   subtype: string;
+  appwriteItemId: string;
   shareableId: string;
 };
 
@@ -86,6 +95,7 @@ declare type Bank = {
   accessToken: string;
   fundingSourceUrl: string;
   userId: string;
+  shareableId: string;
   shareableId: string;
 };
 
@@ -202,6 +212,7 @@ declare interface BankTabItemProps {
 }
 
 declare interface TotalBalanceBoxProps {
+declare interface TotalBalanceBoxProps {
   accounts: Account[];
   totalBanks: number;
   totalCurrentBalance: number;
@@ -209,6 +220,7 @@ declare interface TotalBalanceBoxProps {
 
 declare interface FooterProps {
   user: User;
+  type?: 'mobile' | 'desktop'
   type?: 'mobile' | 'desktop'
 }
 
@@ -312,6 +324,7 @@ declare interface createBankAccountProps {
   accountId: string;
   bankId: string;
   fundingSourceUrl: string;
+  shareableId: string;
   shareableId: string;
 }
 

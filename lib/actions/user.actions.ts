@@ -1,78 +1,108 @@
-// user.actions.ts - Final version for user actions with MongoDB
+'use server';
 
-import { PrismaClient } from "@prisma/client";
-import { ObjectId } from "bson";
-import { plaidClient } from "../plaid";
-import { parseStringify } from "../utils";
+import { ID, Query } from "node-appwrite";
+import { createAdminClient, createSessionClient } from "../appwrite";
+import { cookies } from "next/headers";
+import { encryptId, extractCustomerIdFromUrl, parseStringify } from "../utils";
+import { CountryCode, ProcessorTokenCreateRequest, ProcessorTokenCreateRequestProcessorEnum, Products } from "plaid";
+
+import { plaidClient } from '@/lib/plaid';
+import { revalidatePath } from "next/cache";
+import { addFundingSource, createDwollaCustomer } from "./dwolla.actions";
+
+const {
+  APPWRITE_DATABASE_ID: DATABASE_ID,
+  APPWRITE_USER_COLLECTION_ID: USER_COLLECTION_ID,
+  APPWRITE_BANK_COLLECTION_ID: BANK_COLLECTION_ID,
+} = process.env;
+
+export const getUserInfo = async ({ userId }: getUserInfoProps) => {
+  try {
+    const { database } = await createAdminClient();
+
+    const user = await database.listDocuments(
+      DATABASE_ID!,
+      USER_COLLECTION_ID!,
+      [Query.equal('userId', [userId])]
+    )
+
+    return parseStringify(user.documents[0]);
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 const prisma = new PrismaClient();
 
 // Function to get user info
 export const getUserInfo = async (userId: string) => {
   try {
-    const url = new URL('/api/session', process.env.NEXT_PUBLIC_SITE_URL);
+    const { account } = await createAdminClient();
+    const session = await account.createEmailPasswordSession(email, password);
 
-    const response = await fetch(url.toString(), {
-      method: 'GET',
-      credentials: "include",
+    cookies().set("appwrite-session", session.secret, {
+      path: "/",
+      httpOnly: true,
+      sameSite: "strict",
+      secure: true,
     });
-    if (!response.ok) {
-      throw new Error('Failed to fetch logged-in user');
-    }
-    const data = await response.json();
-    return data.user;
+
+    const user = await getUserInfo({ userId: session.userId }) 
+
+    return parseStringify(user);
   } catch (error) {
     throw new Error(`Error fetching logged-in user: ${error}`);
   }
-};
+}
 
-// Function to sign in
-export const signIn = async (email: string, password: string) => {
-  try {
-    const user = await prisma.user.findUnique({
-      where: {
-        email,
-      },
-    });
-    if (!user || user.password !== password) {
-      throw new Error("Invalid credentials");
-    }
-    // Set user session or token here
-    return { message: "Sign in successful", user };
-  } catch (error) {
-    throw new Error(`Error signing in: ${error}`);
-  }
-};
+export const signUp = async ({ password, ...userData }: SignUpParams) => {
+  const { email, firstName, lastName } = userData;
+  
+  let newUserAccount;
 
-// Function to sign up
-export const signUp = async (
-  firstName: string,
-  lastName: string,
-  address: string,
-  city: string,
-  state: string,
-  postalCode: string,
-  dateOfBirth: Date,
-  ssn: string,
-  email: string,
-  password: string
-) => {
   try {
-    const newUser = await prisma.user.create({
-      data: {
-        firstName,
-        lastName,
-        address,
-        city,
-        state,
-        postalCode,
-        dateOfBirth,
-        ssn,
-        email,
-        password,
-      },
+    const { account, database } = await createAdminClient();
+
+    newUserAccount = await account.create(
+      ID.unique(), 
+      email, 
+      password, 
+      `${firstName} ${lastName}`
+    );
+
+    if(!newUserAccount) throw new Error('Error creating user')
+
+    const dwollaCustomerUrl = await createDwollaCustomer({
+      ...userData,
+      type: 'personal'
+    })
+
+    if(!dwollaCustomerUrl) throw new Error('Error creating Dwolla customer')
+
+    const dwollaCustomerId = extractCustomerIdFromUrl(dwollaCustomerUrl);
+
+    const newUser = await database.createDocument(
+      DATABASE_ID!,
+      USER_COLLECTION_ID!,
+      ID.unique(),
+      {
+        ...userData,
+        userId: newUserAccount.$id,
+        dwollaCustomerId,
+        dwollaCustomerUrl
+      }
+    )
+
+    const session = await account.createEmailPasswordSession(email, password);
+
+    cookies().set("appwrite-session", session.secret, {
+      path: "/",
+      httpOnly: true,
+      sameSite: "strict",
+      secure: true,
     });
-    return { message: "Sign up successful", newUser };
+
+    return parseStringify(newUser);
   } catch (error) {
     throw new Error(`Error signing up: ${error}`);
   }
@@ -81,133 +111,188 @@ export const signUp = async (
 // Function to get logged-in user
 export const getLoggedInUser = async () => {
   try {
-    const url = new URL('/api/session', process.env.NEXT_PUBLIC_SITE_URL);
+    const { account } = await createSessionClient();
+    const result = await account.get();
 
-    const response = await fetch(url.toString(), {
-      method: 'GET',
-      credentials: 'include',
-    });
+    const user = await getUserInfo({ userId: result.$id})
 
-    console.log(response)
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch logged-in user');
-    }
-    const data = await response.json();
-    return data.user;
+    return parseStringify(user);
   } catch (error) {
     throw new Error(`Error fetching logged-in user: ${error}`);
   }
-};
+}
 
-// Function to logout account
 export const logoutAccount = async () => {
   try {
-    const url = new URL('/api/session', process.env.NEXT_PUBLIC_SITE_URL);
+    const { account } = await createSessionClient();
 
-    const response = await fetch(url.toString(), {
-      method: 'DELETE',
-    });
-    if (!response.ok) {
-      throw new Error('Failed to log out');
-    }
-    return { message: "Logout successful" };
+    cookies().delete('appwrite-session');
+
+    await account.deleteSession('current');
   } catch (error) {
-    throw new Error(`Error logging out: ${error}`);
+    return null;
   }
-};
+}
 
-// Function to create link token
-export const createLinkToken = async () => {
+export const createLinkToken = async (user: User) => {
   try {
-    const response = await plaidClient.linkTokenCreate({
+    const tokenParams = {
       user: {
-        client_user_id: "user-id-placeholder", // Replace with real user ID from session or context
+        client_user_id: user.$id
       },
-      client_name: "YourBank App",
-      products: ["auth", "transactions"],
-      country_codes: ["US"],
-      language: "en",
-    });
-    return response.data;
-  } catch (error) {
-    throw new Error(`Error creating link token: ${error}`);
-  }
-};
+      client_name: `${user.firstName} ${user.lastName}`,
+      products: ['auth', 'transactions'] as Products[],
+      language: 'en',
+      country_codes: ['US'] as CountryCode[],
+    }
 
-// Function to create bank account
-export const createBankAccount = async (userId: string, bankName: string, accountNumber: string, balance: number) => {
-  try {
-    const newBankAccount = await prisma.bankAccount.create({
-      data: {
-        userId: new ObjectId(userId),
-        bankName,
-        accountNumber,
-        balance,
-      },
-    });
-    return { message: "Bank account created successfully", newBankAccount };
-  } catch (error) {
-    throw new Error(`Error creating bank account: ${error}`);
-  }
-};
+    const response = await plaidClient.linkTokenCreate(tokenParams);
 
-// Function to exchange public token
-export const exchangePublicToken = async (publicToken: string) => {
+    return parseStringify({ linkToken: response.data.link_token })
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const createBankAccount = async ({
+  userId,
+  bankId,
+  accountId,
+  accessToken,
+  fundingSourceUrl,
+  shareableId,
+}: createBankAccountProps) => {
   try {
+    const { database } = await createAdminClient();
+
+    const bankAccount = await database.createDocument(
+      DATABASE_ID!,
+      BANK_COLLECTION_ID!,
+      ID.unique(),
+      {
+        userId,
+        bankId,
+        accountId,
+        accessToken,
+        fundingSourceUrl,
+        shareableId,
+      }
+    )
+
+    return parseStringify(bankAccount);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const exchangePublicToken = async ({
+  publicToken,
+  user,
+}: exchangePublicTokenProps) => {
+  try {
+    // Exchange public token for access token and item ID
     const response = await plaidClient.itemPublicTokenExchange({
       public_token: publicToken,
     });
-    return { accessToken: response.data.access_token, itemId: response.data.item_id };
-  } catch (error) {
-    throw new Error(`Error exchanging public token: ${error}`);
-  }
-};
 
-// Function to get banks
-export const getBanks = async (userId: string) => {
-  try {
-    const banks = await prisma.bankAccount.findMany({
-      where: {
-        userId: new ObjectId(userId),
-      },
+    const accessToken = response.data.access_token;
+    const itemId = response.data.item_id;
+    
+    // Get account information from Plaid using the access token
+    const accountsResponse = await plaidClient.accountsGet({
+      access_token: accessToken,
     });
-    return banks;
-  } catch (error) {
-    throw new Error(`Error fetching banks: ${error}`);
-  }
-};
 
-// Function to get a specific bank
-export const getBank = async (bankId: string) => {
-  try {
-    const bank = await prisma.bankAccount.findUnique({
-      where: {
-        id: new ObjectId(bankId),
-      },
-    });
-    if (!bank) {
-      throw new Error("Bank not found");
-    }
-    return bank;
-  } catch (error) {
-    throw new Error(`Error fetching bank: ${error}`);
-  }
-};
+    const accountData = accountsResponse.data.accounts[0];
 
-// Function to get bank by account ID
-export const getBankByAccountId = async (accountId: string) => {
-  try {
-    const bankAccount = await prisma.bankAccount.findUnique({
-      where: {
-        accountNumber: accountId,
-      },
+    // Create a processor token for Dwolla using the access token and account ID
+    const request: ProcessorTokenCreateRequest = {
+      access_token: accessToken,
+      account_id: accountData.account_id,
+      processor: "dwolla" as ProcessorTokenCreateRequestProcessorEnum,
+    };
+    console.log('Access token:', accessToken);
+    const processorTokenResponse = await plaidClient.processorTokenCreate(request);
+    const processorToken = processorTokenResponse.data.processor_token;
+
+     // Create a funding source URL for the account using the Dwolla customer ID, processor token, and bank name
+     const fundingSourceUrl = await addFundingSource({
+      dwollaCustomerId: user.dwollaCustomerId,
+      processorToken,
+      bankName: accountData.name,
     });
-    if (!bankAccount) {
-      throw new Error("Bank account not found");
-    }
-    return bankAccount;
+    
+    // If the funding source URL is not created, throw an error
+    if (!fundingSourceUrl) throw Error;
+
+    // Create a bank account using the user ID, item ID, account ID, access token, funding source URL, and shareableId ID
+    await createBankAccount({
+      userId: user.$id,
+      bankId: itemId,
+      accountId: accountData.account_id,
+      accessToken,
+      fundingSourceUrl,
+      shareableId: encryptId(accountData.account_id),
+    });
+
+    // Revalidate the path to reflect the changes
+    revalidatePath("/");
+
+    // Return a success message
+    return parseStringify({
+      publicTokenExchange: "complete",
+    });
   } catch (error) {
-    throw new Error(`Error fetching bank by account ID: ${error}`);
+    console.error("An error occurred while creating exchanging token:", error);
   }
-};
+}
+
+export const getBanks = async ({ userId }: getBanksProps) => {
+  try {
+    const { database } = await createAdminClient();
+
+    const banks = await database.listDocuments(
+      DATABASE_ID!,
+      BANK_COLLECTION_ID!,
+      [Query.equal('userId', [userId])]
+    )
+
+    return parseStringify(banks.documents);
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const getBank = async ({ documentId }: getBankProps) => {
+  try {
+    const { database } = await createAdminClient();
+
+    const bank = await database.listDocuments(
+      DATABASE_ID!,
+      BANK_COLLECTION_ID!,
+      [Query.equal('$id', [documentId])]
+    )
+
+    return parseStringify(bank.documents[0]);
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const getBankByAccountId = async ({ accountId }: getBankByAccountIdProps) => {
+  try {
+    const { database } = await createAdminClient();
+
+    const bank = await database.listDocuments(
+      DATABASE_ID!,
+      BANK_COLLECTION_ID!,
+      [Query.equal('accountId', [accountId])]
+    )
+
+    if(bank.total !== 1) return null;
+
+    return parseStringify(bank.documents[0]);
+  } catch (error) {
+    console.log(error)
+  }
+}
