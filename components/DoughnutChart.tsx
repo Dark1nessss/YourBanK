@@ -5,16 +5,13 @@ import { Doughnut } from "react-chartjs-2";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const generateGreenShades = (count) => {
+const staticGreenShades = ["#66ff66", "#33cc33", "#009900"];
+
+const generateStaticGreenShades = (count: number): string[] => {
   const shades = [];
-
   for (let i = 0; i < count; i++) {
-    const r = 0;
-    const g = Math.floor(128 + Math.random() * 127);
-    const b = Math.floor(64 + Math.random() * 64);
-    shades.push(`rgb(${r}, ${g}, ${b})`);
+    shades.push(staticGreenShades[i % staticGreenShades.length]);
   }
-
   return shades;
 };
 
@@ -27,7 +24,7 @@ const DoughnutChart = ({ accounts }: DoughnutChartProps) => {
       {
         label: 'Banks',
         data: balances,
-        backgroundColor: generateGreenShades(balances.length),
+        backgroundColor: generateStaticGreenShades(balances.length),
       }
     ],
     labels: accountNames
