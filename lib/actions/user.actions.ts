@@ -14,6 +14,7 @@ export const getUserInfo = async (userId: string) => {
 
     const response = await fetch(url.toString(), {
       method: 'GET',
+      credentials: "include",
     });
     if (!response.ok) {
       throw new Error('Failed to fetch logged-in user');

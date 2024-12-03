@@ -31,7 +31,7 @@ export const createTransaction = async (
 };
 
 // Function to get transactions by bank account ID
-export const getTransactionsByBankAccountId = async (bankAccountId: string) => {
+export const getTransactionsByBankId = async (bankAccountId: string) => {
   try {
     const transactions = await prisma.transaction.findMany({
       where: {

@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key';
+const JWT_SECRET = process.env.JWT_SECRET;
 
 export function middleware(req: NextRequest) {
   const token = req.cookies.get('auth_token')?.value;
@@ -20,5 +20,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*'], // Protege rotas começando com "/dashboard"
+  matcher: ['/:path*'], // Protege rotas começando com "/dashboard"
 };

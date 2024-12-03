@@ -88,7 +88,7 @@ const AuthForm = ({ type, user }: { type: 'sign-in' | 'sign-up', user?: any }) =
           password: values.password,
         });
         console.log('Login successful:', response.data);
-        router.push('/dashboard'); // Redirecionar para o dashboard
+        router.push('/'); // Redirecionar para o dashboard
       }
     } catch (error) {
       console.error('Error:', error);
