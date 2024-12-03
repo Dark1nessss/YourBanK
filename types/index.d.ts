@@ -103,7 +103,7 @@ declare type Category = "Food and Drink" | "Travel" | "Transfer";
 
 declare type CategoryCount = {
   name: string;
-  count: any;
+  count: number;
   totalCount: number;
 };
 
