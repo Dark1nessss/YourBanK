@@ -32,7 +32,10 @@ export const getUserInfo = async ({ userId }: getUserInfoProps) => {
   }
 }
 
-export const signIn = async ({ email, password }: signInProps) => {
+const prisma = new PrismaClient();
+
+// Function to get user info
+export const getUserInfo = async (userId: string) => {
   try {
     const { account } = await createAdminClient();
     const session = await account.createEmailPasswordSession(email, password);
@@ -48,7 +51,7 @@ export const signIn = async ({ email, password }: signInProps) => {
 
     return parseStringify(user);
   } catch (error) {
-    console.error('Error', error);
+    throw new Error(`Error fetching logged-in user: ${error}`);
   }
 }
 
@@ -101,11 +104,12 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
 
     return parseStringify(newUser);
   } catch (error) {
-    console.error('Error', error);
+    throw new Error(`Error signing up: ${error}`);
   }
-}
+};
 
-export async function getLoggedInUser() {
+// Function to get logged-in user
+export const getLoggedInUser = async () => {
   try {
     const { account } = await createSessionClient();
     const result = await account.get();
@@ -114,8 +118,7 @@ export async function getLoggedInUser() {
 
     return parseStringify(user);
   } catch (error) {
-    console.log(error)
-    return null;
+    throw new Error(`Error fetching logged-in user: ${error}`);
   }
 }
 
