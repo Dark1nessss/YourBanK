@@ -23,7 +23,7 @@ export default function LandingLayout({
   return (
     <body className="font-inter">
       <main className="flex min-h-screen w-full flex-col">
-        <header className="bg-gray-3 border-b">
+        <header className="bg-green-200 border-b">
           <div className="container mx-auto px-4 py-4 flex justify-between items-center">
             <div className="flex items-center space-x-2">
               <Image src="/icons/logo.svg" width={30} height={30} alt="logo" />

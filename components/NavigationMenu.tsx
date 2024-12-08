@@ -53,7 +53,7 @@ const ListItem = React.forwardRef<
         <a
           ref={ref}
           className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:shadow-md transition-all .5s bg-gray-1",
+            "block select-none space-y-1 rounded-[4px] p-3 leading-none no-underline outline-none focus:text-accent-foreground shadow-sm hover:shadow-md transition-all .5s bg-green-300",
             className
           )}
           {...props}
@@ -75,12 +75,12 @@ export default function NavigationMenuDemo() {
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuTrigger>Services</NavigationMenuTrigger>
-          <NavigationMenuContent className="bg-gray-2">
+          <NavigationMenuContent className="bg-gray-1">
             <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
               <li className="row-span-3">
                 <NavigationMenuLink asChild>
                   <a
-                    className="flex h-full w-full select-none flex-col justify-end rounded-md p-6 no-underline outline-none hover:shadow-md transition-all .5s"
+                    className="flex h-full w-full select-none flex-col justify-end rounded-[4px] p-6 no-underline outline-none shadow-sm hover:shadow-md transition-all .5s"
                     href="/main"
                   >
                     <Image
@@ -112,7 +112,7 @@ export default function NavigationMenuDemo() {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuTrigger>Products</NavigationMenuTrigger>
-          <NavigationMenuContent className="bg-gray-2">
+          <NavigationMenuContent className="bg-gray-1">
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
               {components.map((component) => (
                 <ListItem
