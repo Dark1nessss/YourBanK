@@ -18,6 +18,7 @@
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
 .glassmorphism {
   background: rgba(255, 255, 255, 0.25);
   backdrop-filter: blur(4px);
@@ -102,6 +103,10 @@
 
   .text-36 {
     @apply text-[36px] leading-[44px];
+  }
+
+  .title {
+    @apply font-ibm-plex-serif font-bold text-xl;
   }
 
   /* Home */

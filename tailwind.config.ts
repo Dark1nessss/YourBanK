@@ -60,6 +60,9 @@ const config = {
           2: "#344054",
         },
         gray: {
+          1: "#EDF2F7",
+          2: "#F5F5F5",
+          3: "#D9DEE2",
           25: "#FCFCFD",
           200: "#EAECF0",
           300: "#D0D5DD",
@@ -69,6 +72,42 @@ const config = {
           900: "#101828",
         },
       },
+      // New additions for the landing page
+      /* START NEW ADDITIONS */
+      border: "hsl(var(--border))",
+      input: "hsl(var(--input))",
+      ring: "hsl(var(--ring))",
+      background: "hsl(var(--background))",
+      foreground: "hsl(var(--foreground))",
+      primary: {
+        DEFAULT: "hsl(var(--primary))",
+        foreground: "hsl(var(--primary-foreground))",
+      },
+      secondary: {
+        DEFAULT: "hsl(var(--secondary))",
+        foreground: "hsl(var(--secondary-foreground))",
+      },
+      destructive: {
+        DEFAULT: "hsl(var(--destructive))",
+        foreground: "hsl(var(--destructive-foreground))",
+      },
+      muted: {
+        DEFAULT: "hsl(var(--muted))",
+        foreground: "hsl(var(--muted-foreground))",
+      },
+      accent: {
+        DEFAULT: "hsl(var(--accent))",
+        foreground: "hsl(var(--accent-foreground))",
+      },
+      popover: {
+        DEFAULT: "hsl(var(--popover))",
+        foreground: "hsl(var(--popover-foreground))",
+      },
+      card: {
+        DEFAULT: "hsl(var(--card))",
+        foreground: "hsl(var(--card-foreground))",
+      },
+      /* END NEW ADDITIONS */
       backgroundImage: {
         "bank-gradient": "linear-gradient(90deg, #39A36A 0%, #2E8754 100%)",
         "gradient-mesh": "url('/icons/gradient-mesh.svg')",
@@ -101,6 +140,14 @@ const config = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      // New additions for the landing page
+      /* START NEW ADDITIONS */
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
+      /* END NEW ADDITIONS */
     },
   },
   plugins: [require("tailwindcss-animate")],
