@@ -72,7 +72,7 @@ ListItem.displayName = "ListItem"
 export default function NavigationMenuDemo() {
   return (
     <NavigationMenu>
-      <NavigationMenuList className="text-white">
+      <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuTrigger>Services</NavigationMenuTrigger>
           <NavigationMenuContent className="bg-gray-1">
