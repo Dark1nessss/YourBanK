@@ -380,4 +380,29 @@
   .sidebar-label {
     @apply text-16 font-semibold text-black-2 max-xl:hidden;
   }
+
+  /* Landing Page */
+  .nav-header {
+    @apply bg-gradient-to-r from-white via-white via-10% to-green-200 to-70% border-b border-green-200;
+  }
+
+  .nav-logo {
+    @apply flex items-center space-x-2 hover:opacity-80 transition-opacity;
+  }
+
+  .nav-content-grid {
+    @apply grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr];
+  }
+
+  .nav-content-grid.wide {
+    @apply grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px];
+  }
+
+  .nav-feature-item {
+    @apply flex h-full w-full select-none flex-col justify-end rounded-[4px] p-6 no-underline outline-none shadow-sm hover:shadow-md transition-all duration-500;
+  }
+
+  .contact-us-button{
+    @apply px-4 py-2 bg-green-600 text-white rounded-[4px] hover:bg-green-700 transition-colors ml-4;
+  }
 }

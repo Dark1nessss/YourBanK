@@ -71,76 +71,86 @@ ListItem.displayName = "ListItem"
 
 export default function NavigationMenuDemo() {
   return (
-    <NavigationMenu>
-      <NavigationMenuList>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>Services</NavigationMenuTrigger>
-          <NavigationMenuContent className="bg-gray-1">
-            <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-              <li className="row-span-3">
-                <NavigationMenuLink asChild>
-                  <a
-                    className="flex h-full w-full select-none flex-col justify-end rounded-[4px] p-6 no-underline outline-none shadow-sm hover:shadow-md transition-all .5s"
-                    href="/main"
-                  >
-                    <Image
-                        src="/icons/logo.svg"
-                        alt="YourBanK Logo"
-                        width={32}
-                        height={32}
-                    />
-                    <div className="mb-2 mt-4 text-lg font-bold title">
-                      Your<span className="text-green-700">BanK</span>
-                    </div>
-                    <p className="text-md leading-normal">
-                      Secure, innovative, and personalized banking solutions for a brighter financial future.
-                    </p>
-                  </a>
+    <header className="nav-header">
+      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+        <NavigationMenu>
+          <NavigationMenuList className="flex-1 justify-start gap-6">
+            <NavigationMenuItem>
+              <Link href="/" legacyBehavior passHref>
+                <NavigationMenuLink className="nav-logo">
+                  <Image src="/icons/logo.svg" width={30} height={30} alt="logo" />
+                  <h1 className="title">
+                    Your<span className="text-green-700">BanK</span>
+                  </h1>
                 </NavigationMenuLink>
-              </li>
-              <ListItem href="/personal" title="Personal Banking">
-                Tailored solutions for your individual financial needs.
-              </ListItem>
-              <ListItem href="/business" title="Business Banking">
-                Comprehensive services to help your business thrive.
-              </ListItem>
-              <ListItem href="/wealth" title="Wealth Management">
-                Expert guidance to grow and protect your assets.
-              </ListItem>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>Products</NavigationMenuTrigger>
-          <NavigationMenuContent className="bg-gray-1">
-            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-              {components.map((component) => (
-                <ListItem
-                  key={component.title}
-                  title={component.title}
-                  href={component.href}
-                >
-                  {component.description}
-                </ListItem>
-              ))}
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <Link href="/about" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              About Us
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <Link href="/contact" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Contact
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
-      </NavigationMenuList>
-    </NavigationMenu>
+              </Link>
+            </NavigationMenuItem>
+            <NavigationMenuItem className="hidden md:block">
+              <NavigationMenuTrigger>Services</NavigationMenuTrigger>
+              <NavigationMenuContent className="bg-gray-1">
+                <ul className="nav-content-grid">
+                  <li className="row-span-3">
+                    <NavigationMenuLink asChild>
+                      <a className="nav-feature-item" href="/main">
+                        <Image
+                            src="/icons/logo.svg"
+                            alt="YourBanK Logo"
+                            width={32}
+                            height={32}
+                        />
+                        <div className="mb-2 mt-4 text-lg font-bold title">
+                          Your<span className="text-green-700">BanK</span>
+                        </div>
+                        <p className="text-md leading-normal">
+                          Secure, innovative, and personalized banking solutions for a brighter financial future.
+                        </p>
+                      </a>
+                    </NavigationMenuLink>
+                  </li>
+                  <ListItem href="/personal" title="Personal Banking">
+                    Tailored solutions for your individual financial needs.
+                  </ListItem>
+                  <ListItem href="/business" title="Business Banking">
+                    Comprehensive services to help your business thrive.
+                  </ListItem>
+                  <ListItem href="/wealth" title="Wealth Management">
+                    Expert guidance to grow and protect your assets.
+                  </ListItem>
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+            <NavigationMenuItem className="hidden md:block">
+              <NavigationMenuTrigger>Products</NavigationMenuTrigger>
+              <NavigationMenuContent className="bg-gray-1">
+                <ul className="nav-content-grid wide">
+                  {components.map((component) => (
+                    <ListItem
+                      key={component.title}
+                      title={component.title}
+                      href={component.href}
+                    >
+                      {component.description}
+                    </ListItem>
+                  ))}
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+            <NavigationMenuItem className="hidden md:block">
+              <Link href="/about" legacyBehavior passHref>
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  About Us
+                </NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
+        <Link 
+          href="/contact" 
+          className="contact-us-button"
+        >
+          Contact Us
+        </Link>
+      </div>
+    </header>
   )
 }

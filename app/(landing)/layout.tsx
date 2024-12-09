@@ -22,26 +22,14 @@ export default function LandingLayout({
   children: React.ReactNode
 }) {
   return (
-    <body className="font-inter">
-      <main className="flex min-h-screen w-full flex-col">
-        <header className="bg-gradient-to-r from-white via-white via-10% to-[#20c997] to-70% border-b">
-          <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-            <div className="flex items-center space-x-2">
-              <Image src="/icons/logo.svg" width={30} height={30} alt="logo" />
-              <h1 className="title">
-                Your<span className="text-green-700">BanK</span>
-              </h1>
-            </div>
-            <NavigationMenuDemo />
-          </div>
-        </header>
-
-        <div className="flex-grow container mx-auto px-4 py-8">
-          {children}
-        </div>
-
-        <FooterLanding />
-      </main>
-    </body>
+    <body className={`${inter.variable} ${ibmPlexSerif.variable} font-inter`}>
+    <main className="flex min-h-screen w-full flex-col">
+      <NavigationMenuDemo />
+      <div className="flex-grow container mx-auto px-4 py-8">
+        {children}
+      </div>
+      <FooterLanding />
+    </main>
+  </body>
   )
 }
