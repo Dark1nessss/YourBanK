@@ -51,7 +51,7 @@ export const signIn = async ({ email, password }: signInProps) => {
     const token = jwt.sign(
       { userId: session.userId },
       JWT_SECRET,
-      { expiresIn: "1h" } // O token expira em 1 hora
+      { expiresIn: "30m" } // O token expira em 1 hora
     );
 
     cookies().set("jwt-token", token, {
@@ -120,7 +120,7 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
     const token = jwt.sign(
       { userId: session.userId },
       JWT_SECRET,
-      { expiresIn: "1h" } // meti so 1 hora, podes mudar aqui o tempo que expira
+      { expiresIn: "30m" } // meti so 1 hora, podes mudar aqui o tempo que expira
     );
 
      cookies().set("jwt-token", token, {
