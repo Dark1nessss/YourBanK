@@ -47,11 +47,11 @@ export const signIn = async ({ email, password }: signInProps) => {
       secure: true,
     });
 
-    // Gerar JWT
+    // Generates JWT token
     const token = jwt.sign(
       { userId: session.userId },
       JWT_SECRET,
-      { expiresIn: "30m" } // O token expira em 1 hora
+      { expiresIn: "30m" } // token expires in 30 minutes
     );
 
     cookies().set("jwt-token", token, {
@@ -120,7 +120,7 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
     const token = jwt.sign(
       { userId: session.userId },
       JWT_SECRET,
-      { expiresIn: "30m" } // meti so 1 hora, podes mudar aqui o tempo que expira
+      { expiresIn: "30m" }
     );
 
      cookies().set("jwt-token", token, {
