@@ -9,12 +9,15 @@ import { CountryCode, ProcessorTokenCreateRequest, ProcessorTokenCreateRequestPr
 import { plaidClient } from '@/lib/plaid';
 import { revalidatePath } from "next/cache";
 import { addFundingSource, createDwollaCustomer } from "./dwolla.actions";
+import jwt from "jsonwebtoken";
 
 const {
   APPWRITE_DATABASE_ID: DATABASE_ID,
   APPWRITE_USER_COLLECTION_ID: USER_COLLECTION_ID,
   APPWRITE_BANK_COLLECTION_ID: BANK_COLLECTION_ID,
 } = process.env;
+
+const JWT_SECRET = process.env.JWT_SECRET!;
 
 export const getUserInfo = async ({ userId }: getUserInfoProps) => {
   try {
@@ -42,6 +45,20 @@ export const signIn = async ({ email, password }: signInProps) => {
       httpOnly: true,
       sameSite: "strict",
       secure: true,
+    });
+
+    // Gerar JWT
+    const token = jwt.sign(
+      { userId: session.userId },
+      JWT_SECRET,
+      { expiresIn: "1h" } // O token expira em 1 hora
+    );
+
+    cookies().set("jwt-token", token, {
+      path: "/",
+      httpOnly: true, // flag httpOnly
+      secure: false,
+      sameSite: "strict",
     });
 
     const user = await getUserInfo({ userId: session.userId }) 
@@ -97,6 +114,20 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
       httpOnly: true,
       sameSite: "strict",
       secure: true,
+    });
+
+    // jwt
+    const token = jwt.sign(
+      { userId: session.userId },
+      JWT_SECRET,
+      { expiresIn: "1h" } // meti so 1 hora, podes mudar aqui o tempo que expira
+    );
+
+     cookies().set("jwt-token", token, {
+      path: "/",
+      httpOnly: true,
+      secure: false,
+      sameSite: "strict",
     });
 
     return parseStringify(newUser);
