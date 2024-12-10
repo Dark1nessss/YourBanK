@@ -155,6 +155,7 @@ export const logoutAccount = async () => {
     const { account } = await createSessionClient();
 
     cookies().delete('appwrite-session');
+    cookies().delete('jwt-token')
 
     await account.deleteSession('current');
   } catch (error) {
