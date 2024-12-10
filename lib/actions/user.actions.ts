@@ -56,7 +56,7 @@ export const signIn = async ({ email, password }: signInProps) => {
     const token = jwt.sign(
       { userId: session.userId },
       JWT_SECRET,
-      { expiresIn: "10s" }, // token expires in 30 minutes
+      { expiresIn: "30m" }, // token expires in 30 minutes
     );
 
     cookies().set("jwt-token", token, {
@@ -64,7 +64,7 @@ export const signIn = async ({ email, password }: signInProps) => {
       httpOnly: true, // flag httpOnly
       secure: false,
       sameSite: "strict",
-      maxAge: 10, // 30 minutes
+      maxAge: 30 * 60, // 30 minutes
     });
 
     const user = await getUserInfo({ userId: session.userId });
@@ -132,7 +132,7 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
       httpOnly: true,
       secure: false,
       sameSite: "strict",
-      maxAge: 10, // 30 minutes
+      maxAge: 30 * 60, // 30 minutes
     });
 
     return parseStringify(newUser);
