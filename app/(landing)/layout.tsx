@@ -25,7 +25,7 @@ export default function LandingLayout({
     <body className={`${inter.variable} ${ibmPlexSerif.variable} font-inter`}>
     <main className="flex min-h-screen w-full flex-col">
       <NavigationMenuDemo />
-      <div className="flex-grow container mx-auto px-4 py-8">
+      <div className="flex-grow">
         {children}
       </div>
       <FooterLanding />

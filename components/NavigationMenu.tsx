@@ -53,13 +53,13 @@ const ListItem = React.forwardRef<
         <a
           ref={ref}
           className={cn(
-            "block select-none space-y-1 rounded-[4px] p-3 leading-none no-underline outline-none focus:text-accent-foreground shadow-sm hover:shadow-md transition-all .5s bg-green-300",
+            "block select-none space-y-1 rounded-sm p-3 leading-none no-underline outline-none focus:text-accent-foreground shadow-sm hover:shadow-md transition-all .5s bg-green-300",
             className
           )}
           {...props}
         >
           <div className="text-md font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+          <p className="line-clamp-2 text-sm leading-snug">
             {children}
           </p>
         </a>
@@ -73,7 +73,7 @@ export default function NavigationMenuDemo() {
   return (
     <header className="nav-header">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <NavigationMenu>
+        <NavigationMenu className="opacity-100 z-20">
           <NavigationMenuList className="flex-1 justify-start gap-6">
             <NavigationMenuItem>
               <Link href="/" legacyBehavior passHref>

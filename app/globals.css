@@ -382,8 +382,16 @@
   }
 
   /* Landing Page */
+  .landing-page{
+    @apply min-h-screen overflow-hidden;
+  }
+
+  .welcome-landing{
+    @apply relative bg-blue-500 py-24;
+  }
+
   .nav-header {
-    @apply bg-gradient-to-r from-gray-4 via-gray-4 via-10% to-blue-500 to-70% border-b;
+    @apply bg-gradient-to-r from-gray-4 via-gray-4 via-10% to-blue-500 to-70%;
   }
 
   .nav-logo {
@@ -408,5 +416,25 @@
 
   .footer-landing{
     @apply container mx-auto px-4 text-center text-sm
+  }
+
+  .button-hero{
+    @apply bg-green-500 hover:bg-green-600 text-white px-8 py-6 rounded-xl text-lg transition-all duration-300 hover:shadow-lg hover:translate-y-[-2px];
+  }
+
+  .image-hero{
+    @apply bg-white rounded-[2rem] p-8 aspect-[4/3] shadow-2xl flex items-center justify-center transform hover:rotate-1 transition-transform duration-300
+  }
+
+  .benefits-image{
+    @apply bg-gray-50 rounded-[2rem] p-8 aspect-[4/3] shadow-lg flex items-center justify-center;
+  }
+
+  .benefits-button{
+    @apply bg-blue-500 hover:bg-blue-600 text-white px-8 py-6 rounded-xl text-lg transition-all duration-300 hover:shadow-lg hover:translate-y-[-2px];
+  }
+
+  .cta-button{
+    @apply bg-green-500 hover:bg-green-600 text-white px-12 py-6 rounded-xl text-lg transition-all duration-300 hover:shadow-lg hover:translate-y-[-2px];
   }
 }
