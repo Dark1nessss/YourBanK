@@ -399,10 +399,10 @@
   }
 
   .nav-feature-item {
-    @apply flex h-full w-full select-none flex-col justify-end rounded-[4px] p-6 no-underline outline-none shadow-sm hover:shadow-md transition-all duration-500;
+    @apply flex h-full w-full select-none flex-col justify-end rounded-md p-6 no-underline outline-none shadow-sm hover:shadow-md transition-all duration-500;
   }
 
   .contact-us-button{
-    @apply px-4 py-2 shadow-sm bg-green-600 text-white rounded-[4px] hover:bg-green-700 transition-colors ml-4;
+    @apply px-4 py-2 shadow-sm bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors ml-4;
   }
 }
