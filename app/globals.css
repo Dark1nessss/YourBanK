@@ -419,7 +419,7 @@
   }
 
   .button-hero{
-    @apply bg-green-500 hover:bg-green-600 text-white px-8 py-6 rounded-xl text-lg transition-all duration-300 hover:shadow-lg hover:translate-y-[-2px];
+    @apply bg-green-500 hover:bg-green-600 text-white px-8 py-6 mt-4 rounded-xl text-lg transition-all duration-300 hover:shadow-lg hover:translate-y-[-2px];
   }
 
   .image-hero{
@@ -431,10 +431,10 @@
   }
 
   .benefits-button{
-    @apply bg-blue-500 hover:bg-blue-600 text-white px-8 py-6 rounded-xl text-lg transition-all duration-300 hover:shadow-lg hover:translate-y-[-2px];
+    @apply bg-blue-500 hover:bg-blue-600 text-white px-8 py-6 mt-4 rounded-xl text-lg transition-all duration-300 hover:shadow-lg hover:translate-y-[-2px];
   }
 
   .cta-button{
-    @apply bg-green-500 hover:bg-green-600 text-white px-12 py-6 rounded-xl text-lg transition-all duration-300 hover:shadow-lg hover:translate-y-[-2px];
+    @apply bg-green-500 hover:bg-green-600 text-white px-12 py-6 mt-4 rounded-xl text-lg transition-all duration-300 hover:shadow-lg hover:translate-y-[-2px];
   }
 }

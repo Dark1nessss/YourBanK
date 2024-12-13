@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
 
@@ -23,11 +24,13 @@ export default function LandingPage() {
               <p className="text-xl text-white/90 leading-relaxed max-w-lg">
                 Discover amazing features and boost your productivity with our innovative solutions.
               </p>
-              <Button 
-                className="button-hero"
-              >
-                Get Started
-              </Button>
+              <Link href="/sign-in">
+                <Button 
+                  className="button-hero"
+                >
+                  Get Started
+                </Button>
+              </Link>
             </motion.div>
             <motion.div 
               initial={{ opacity: 0, scale: 0.95 }}
@@ -125,9 +128,11 @@ export default function LandingPage() {
               <p className="text-lg text-gray-600 leading-relaxed">
                 Experience the difference with our platform. We provide innovative solutions that help you achieve more with less effort.
               </p>
-              <Button className="benefits-button">
-                Learn More
-              </Button>
+              <Link href="/learn-more">
+                <Button className="benefits-button">
+                  Learn More
+                </Button>
+              </Link>
             </motion.div>
           </div>
         </div>
@@ -149,9 +154,11 @@ export default function LandingPage() {
             <p className="text-lg text-gray-600 leading-relaxed">
               Join thousands of satisfied customers and take your business to the next level with our platform.
             </p>
-            <Button className="cta-button">
-              Sign Up Now
-            </Button>
+            <Link href="/sign-up">
+              <Button className="cta-button">
+                Sign Up Now
+              </Button>
+            </Link>
           </div>
         </motion.div>
       </section>
