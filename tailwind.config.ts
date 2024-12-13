@@ -47,11 +47,20 @@ const config = {
         green: {
           25: "#F3FCF4",
           100: "#D4EED8",
-          200: "#cef2c9",
+          200: "#20c997",
           500: "#39A36A",
           600: "#2E8754",
           700: "#21673F",
           900: "#1A4D31",
+        },
+        blue: {
+          25:"#f4f7ff",
+          100:"#cbdcff",
+          200:"#518bff",
+          500:"#2970FF",
+          600:"#2059cc",
+          700:"#184399",
+          900:"#081632",
         },
         sky: {
           1: "#F3F9FF",
@@ -64,6 +73,7 @@ const config = {
           1: "#EDF2F7",
           2: "#F5F5F5",
           3: "#D9DEE2",
+          4: "#EFF4FF",
           25: "#FCFCFD",
           200: "#EAECF0",
           300: "#D0D5DD",
@@ -73,42 +83,6 @@ const config = {
           900: "#101828",
         },
       },
-      // New additions for the landing page
-      /* START NEW ADDITIONS */
-      border: "hsl(var(--border))",
-      input: "hsl(var(--input))",
-      ring: "hsl(var(--ring))",
-      background: "hsl(var(--background))",
-      foreground: "hsl(var(--foreground))",
-      primary: {
-        DEFAULT: "hsl(var(--primary))",
-        foreground: "hsl(var(--primary-foreground))",
-      },
-      secondary: {
-        DEFAULT: "hsl(var(--secondary))",
-        foreground: "hsl(var(--secondary-foreground))",
-      },
-      destructive: {
-        DEFAULT: "hsl(var(--destructive))",
-        foreground: "hsl(var(--destructive-foreground))",
-      },
-      muted: {
-        DEFAULT: "hsl(var(--muted))",
-        foreground: "hsl(var(--muted-foreground))",
-      },
-      accent: {
-        DEFAULT: "hsl(var(--accent))",
-        foreground: "hsl(var(--accent-foreground))",
-      },
-      popover: {
-        DEFAULT: "hsl(var(--popover))",
-        foreground: "hsl(var(--popover-foreground))",
-      },
-      card: {
-        DEFAULT: "hsl(var(--card))",
-        foreground: "hsl(var(--card-foreground))",
-      },
-      /* END NEW ADDITIONS */
       backgroundImage: {
         "bank-gradient": "linear-gradient(90deg, #39A36A 0%, #2E8754 100%)",
         "gradient-mesh": "url('/icons/gradient-mesh.svg')",
@@ -141,14 +115,6 @@ const config = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
-      // New additions for the landing page
-      /* START NEW ADDITIONS */
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
-      },
-      /* END NEW ADDITIONS */
     },
   },
   plugins: [require("tailwindcss-animate")],

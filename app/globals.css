@@ -380,4 +380,61 @@
   .sidebar-label {
     @apply text-16 font-semibold text-black-2 max-xl:hidden;
   }
+
+  /* Landing Page */
+  .landing-page{
+    @apply min-h-screen overflow-hidden;
+  }
+
+  .welcome-landing{
+    @apply relative bg-blue-500 py-24;
+  }
+
+  .nav-header {
+    @apply bg-gradient-to-r from-gray-4 via-gray-4 via-10% to-blue-500 to-70%;
+  }
+
+  .nav-logo {
+    @apply flex items-center space-x-2;
+  }
+
+  .nav-content-grid {
+    @apply grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr];
+  }
+
+  .nav-content-grid.wide {
+    @apply grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px];
+  }
+
+  .nav-feature-item {
+    @apply flex h-full w-full select-none flex-col justify-end rounded-md p-6 no-underline outline-none shadow-sm hover:shadow-md transition-all duration-500;
+  }
+
+  .contact-us-button{
+    @apply px-4 py-2 shadow-sm bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors ml-4;
+  }
+
+  .footer-landing{
+    @apply container mx-auto px-4 text-center text-sm
+  }
+
+  .button-hero{
+    @apply bg-green-500 hover:bg-green-600 text-white px-8 py-6 mt-4 rounded-xl text-lg transition-all duration-300 hover:shadow-lg hover:translate-y-[-2px];
+  }
+
+  .image-hero{
+    @apply bg-white rounded-[2rem] p-8 aspect-[4/3] shadow-2xl flex items-center justify-center transform hover:rotate-1 transition-transform duration-300
+  }
+
+  .benefits-image{
+    @apply bg-gray-50 rounded-[2rem] p-8 aspect-[4/3] shadow-lg flex items-center justify-center;
+  }
+
+  .benefits-button{
+    @apply bg-blue-500 hover:bg-blue-600 text-white px-8 py-6 mt-4 rounded-xl text-lg transition-all duration-300 hover:shadow-lg hover:translate-y-[-2px];
+  }
+
+  .cta-button{
+    @apply bg-green-500 hover:bg-green-600 text-white px-12 py-6 mt-4 rounded-xl text-lg transition-all duration-300 hover:shadow-lg hover:translate-y-[-2px];
+  }
 }
