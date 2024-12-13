@@ -415,7 +415,7 @@
   }
 
   .footer-landing{
-    @apply container mx-auto px-4 text-center text-sm
+    @apply container mx-auto px-4 text-center text-sm;
   }
 
   .button-hero{
@@ -423,7 +423,7 @@
   }
 
   .image-hero{
-    @apply bg-white rounded-[2rem] p-8 aspect-[4/3] shadow-2xl flex items-center justify-center transform hover:rotate-1 transition-transform duration-300
+    @apply bg-white rounded-[2rem] p-8 aspect-[4/3] shadow-2xl flex items-center justify-center transform hover:rotate-1 transition-transform duration-300;
   }
 
   .benefits-image{
