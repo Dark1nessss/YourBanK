@@ -405,4 +405,8 @@
   .contact-us-button{
     @apply px-4 py-2 shadow-sm bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors ml-4;
   }
+
+  .footer-landing{
+    @apply container mx-auto px-4 text-center text-sm
+  }
 }
