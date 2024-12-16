@@ -1,0 +1,87 @@
+YourBanK/
+├── app/
+│   ├── (auth)/
+│   │   ├── sign-in/
+│   │   │   └── page.tsx
+│   │   └── sign-up/
+│   │       └── page.tsx
+│   ├── (landing)/
+│   │   ├── carrers/
+│   │   │   └── page.tsx
+│   │   ├── docs/
+│   │   │   └── page.tsx
+│   │   ├── main/
+│   │   │   └── page.tsx
+│   │   └── layout.tsx
+│   ├── (root)/
+│   │   ├── my-banks/
+│   │   │   └── page.tsx
+│   │   ├── pay-ment-transfer/
+│   │   │   └── page.tsx
+│   │   ├── transaction-history/
+│   │   │   └── page.tsx
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   ├── api/
+│   │   └── sentry-example-api/
+│   │       └── route.ts
+│   ├── sentry-example-page/
+│   │   └── page.tsx
+│   ├── error.tsx
+│   ├── global-error.jsx
+│   ├── globals.css
+│   ├── layout.tsx
+│   ├── middleware.ts
+│   └── not-found.tsx
+├── components/
+│   ├── AnimatedCounter.tsx
+│   ├── AuthForm.tsx
+│   ├── BankCard.tsx
+│   ├── BankDropdown.tsx
+│   ├── BankInfo.tsx
+│   ├── BankTabItem.tsx
+│   ├── Category.tsx
+│   ├── ClientWrapper.tsx
+│   ├── Copy.tsx
+│   ├── CustomInput.tsx
+│   ├── DoughnutChart.tsx
+│   ├── Footer.tsx
+│   ├── FooterLanding.tsx
+│   ├── ForbiddenPage.tsx
+│   ├── HeaderBox.tsx
+│   ├── MobileNav.tsx
+│   ├── NavigationMenu.tsx
+│   ├── Pagination.tsx
+│   ├── PaymentTransferForm.tsx
+│   ├── PlaidLink.tsx
+│   ├── RecentTransactions.tsx
+│   ├── RightSidebar.tsx
+│   ├── Sidebar.tsx
+│   ├── TotalBalanceBox.tsx
+│   ├── TransactionsTable.tsx
+│   └── ui/
+│       ├── button.tsx
+│       ├── form.tsx
+│       ├── input.tsx
+│       ├── label.tsx
+│       ├── navigation-menu.tsx
+│       ├── progress.tsx
+│       ├── select.tsx
+│       ├── sheet.tsx
+│       ├── table.tsx
+│       ├── tabs.tsx
+│       └── textarea.tsx
+├── constants/
+│   └── index.ts
+├── lib/
+│   ├── appwrite.ts
+│   ├── plaid.ts
+│   ├── utils.ts
+│   └── actions/
+│       ├── bank.actions.ts
+│       ├── dwolla.actions.ts
+│       ├── transaction.actions.ts
+│       └── user.actions.ts
+├── types/
+│   └── index.d.ts
+├── REST OF THE CONFIG FILES
