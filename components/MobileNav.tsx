@@ -15,6 +15,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import Footer from "./Footer"
+import PlaidLink from './PlaidLink'
 
 const MobileNav = ({ user }: MobileNavProps) => {
   const pathname = usePathname();
@@ -61,15 +62,14 @@ const MobileNav = ({ user }: MobileNavProps) => {
                             'brightness-[3] invert-0': isActive
                           })}
                         />
-                      <p className={cn("text-16 font-semibold text-black-2", { "text-white": isActive })}>
+                      <p className={cn("text-16 font-semibold text-black-2 z-50", { "text-white": isActive })}>
                         {item.label}
                       </p>
                     </Link>
                   </SheetClose>
                 )
               })}
-
-              USER
+              <PlaidLink user={user} />
               </nav>
             </SheetClose>
 
