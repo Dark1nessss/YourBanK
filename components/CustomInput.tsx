@@ -6,6 +6,10 @@ import { Control, FieldPath } from 'react-hook-form'
 import { z } from 'zod'
 import { authFormSchema } from '@/lib/utils'
 
+const sanitizeInput = (value: string) => {
+  return value.replace(/['";]/g, '');
+}
+
 const formSchema = authFormSchema('sign-up')
 
 interface CustomInput {
@@ -32,6 +36,7 @@ const CustomInput = ({ control, name, label, placeholder }: CustomInput) => {
                 className="input-class"
                 type={name === 'password' ? 'password' : 'text'}
                 {...field}
+                onChange={(e) => field.onChange(sanitizeInput(e.target.value))}
               />
             </FormControl>
             <FormMessage className="form-message mt-2" />
