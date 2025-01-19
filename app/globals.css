@@ -276,7 +276,11 @@
 
   /* Auth */
   .auth-asset {
-    @apply flex h-screen w-full sticky top-0 items-center justify-end bg-sky-1 max-lg:hidden;
+    @apply flex h-screen w-full sticky top-0 items-center justify-center bg-sky-1 max-lg:hidden;
+  }
+
+  .auth-bank-card {
+    @apply transition-all duration-300 ease-out;
   }
 
   /* Auth Form */
