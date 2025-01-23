@@ -107,13 +107,13 @@ export default function NavigationMenuDemo() {
                       </a>
                     </NavigationMenuLink>
                   </li>
-                  <ListItem href="/personal" title="Personal Banking">
+                  <ListItem href="#features" title="Services">
                     Tailored solutions for your individual financial needs.
                   </ListItem>
-                  <ListItem href="/business" title="Business Banking">
+                  <ListItem href="#benefits" title="Products">
                     Comprehensive services to help your business thrive.
                   </ListItem>
-                  <ListItem href="/wealth" title="Wealth Management">
+                  <ListItem href="#cta" title="About Us">
                     Expert guidance to grow and protect your assets.
                   </ListItem>
                 </ul>
