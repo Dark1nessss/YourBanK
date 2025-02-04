@@ -12,8 +12,8 @@ const Sidebar = ({ user }: SiderbarProps) => {
   const pathname = usePathname();
 
   return (
-    <nav className="flex flex-col gap-4">
     <section className="sidebar">
+      <nav className="flex flex-col gap-4">
         <Link href="/" className="mb-12 cursor-pointer flex items-center gap-2">
           <Image 
             src="/icons/logo.svg"
@@ -50,10 +50,10 @@ const Sidebar = ({ user }: SiderbarProps) => {
         })}
         
         <PlaidLink user={user} />
+      </nav>
 
       <Footer user={user} />
     </section>
-    </nav>
   )
 }
 
