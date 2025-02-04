@@ -20,7 +20,7 @@ import {
 import { Input } from "@/components/ui/input"
 import CustomInput from './CustomInput';
 import { authFormSchema } from '@/lib/utils';
-import { Loader2 } from 'lucide-react';
+import { Loader } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { getLoggedInUser, signIn, signUp } from '@/lib/actions/user.actions';
 import PlaidLink from './PlaidLink';
@@ -28,7 +28,9 @@ import PlaidLink from './PlaidLink';
 const AuthForm = ({ type }: { type: string }) => {
   const router = useRouter();
   const [user, setUser] = useState(null);
+  const [redirectInitiated, setRedirectInitiated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const formSchema = authFormSchema(type);
 
@@ -43,6 +45,7 @@ const AuthForm = ({ type }: { type: string }) => {
    
     // 2. Define a submit handler.
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
+      setErrorMessage('');
       setIsLoading(true);
 
       try {
@@ -73,17 +76,22 @@ const AuthForm = ({ type }: { type: string }) => {
             password: data.password,
           })
 
-          if(response) router.push('/')
+          if(response){ 
+            setRedirectInitiated(true);
+            router.push('/')
+            return;
+          }
         }
       } catch (error) {
         console.log(error);
+        setErrorMessage(errorMessage || "An unexpected error occurred.");
       } finally {
         setIsLoading(false);
       }
     }
 
   return (
-    <section className="auth-form">
+    <section className="auth-form relative">
       <header className='flex flex-col gap-5 md:gap-8'>
           <Link href="/" className="cursor-pointer flex items-center gap-1">
             <Image 
@@ -144,15 +152,10 @@ const AuthForm = ({ type }: { type: string }) => {
               <CustomInput control={form.control} name='password' label="Password" placeholder='Enter your password' />
 
               <div className="flex flex-col gap-4">
-                <Button type="submit" disabled={isLoading} className="form-btn">
-                  {isLoading ? (
-                    <>
-                      <Loader2 size={20} className="animate-spin" /> &nbsp;
-                      Loading...
-                    </>
-                  ) : type === 'sign-in' 
-                    ? 'Sign In' : 'Sign Up'}
-                </Button>
+              <Button type="submit" disabled={isLoading} className="form-btn">
+                {type === 'sign-in' ? 'Sign In' : 'Sign Up'}
+              </Button>
+              {errorMessage && <p className="text-red-500 text-sm mt-2">{errorMessage}</p>}
               </div>
             </form>
           </Form>
@@ -168,6 +171,21 @@ const AuthForm = ({ type }: { type: string }) => {
             </Link>
           </footer>
         </>
+      )}
+      {(isLoading || redirectInitiated) && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center transition-all duration-300 backdrop-blur-[.8px] backdrop-filter">
+          <div className="flex flex-col items-center space-y-4">
+            <Loader size={64} className="animate-spin text-green-700" />
+            <span className="text-green-700 text-lg font-semibold inline-flex items-center">
+              Please wait
+              <span className="ml-1 inline-flex">
+                <span className="dot inline-block animate-ellipsis text-xl" style={{ animationDelay: '0s' }}>.</span>
+                <span className="dot inline-block animate-ellipsis text-xl" style={{ animationDelay: '0.2s' }}>.</span>
+                <span className="dot inline-block animate-ellipsis text-xl" style={{ animationDelay: '0.4s' }}>.</span>
+              </span>
+            </span>
+          </div>
+        </div>
       )}
     </section>
   )

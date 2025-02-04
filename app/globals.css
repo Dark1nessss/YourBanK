@@ -45,6 +45,25 @@
   background: #7878a3;
 }
 
+@keyframes ellipsis {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  33% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+  66% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+}
+
 @layer utilities {
   .input-class {
     @apply text-16 placeholder:text-16 rounded-lg border border-gray-300 text-gray-900 placeholder:text-gray-500;
@@ -307,6 +326,10 @@
 
   .form-link {
     @apply text-14 cursor-pointer font-medium text-bankGradient;
+  }
+
+  .animate-ellipsis {
+    animation: ellipsis 1.4s infinite;
   }
 
   /* Payment Transfer */
