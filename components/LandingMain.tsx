@@ -37,8 +37,14 @@ const demoCards = [
       appwriteItemId: "demo1",
       name: "Savings Account",
       currentBalance: 45750.0,
+      availableBalance: 45750.0,
       mask: "8448",
       shareableId: "demo-share-1",
+      id: "demo1",
+      officialName: "Savings Account",
+      institutionId: "bank-demo",
+      type: "savings",
+      subtype: "personal",
     },
     userName: "John Doe",
   },
@@ -83,19 +89,19 @@ const testimonials = [
     quote: "YourBanK has transformed how we manage our business finances. The integration features are seamless.",
     author: "Sarah Chen",
     role: "CEO, TechStart Inc.",
-    image: "/testimonials/sarah.jpg",
+    image: "/icons/sarah.png",
   },
   {
     quote: "The security features give us peace of mind. Best banking platform we've ever used.",
     author: "Michael Rodriguez",
     role: "CFO, Global Ventures",
-    image: "/testimonials/michael.jpg",
+    image: "/icons/michael.png",
   },
   {
     quote: "Their customer support is exceptional. They're always there when you need them.",
     author: "Emily Thompson",
     role: "Small Business Owner",
-    image: "/testimonials/emily.jpg",
+    image: "/icons/emily.png",
   },
 ]
 
@@ -111,10 +117,10 @@ const comparisonFeatures = [
 ]
 
 const integrationLogos = [
-  { name: "Stripe", logo: "https://v0.dev/static/stripe.svg" },
-  { name: "PayPal", logo: "https://v0.dev/static/paypal.svg" },
-  { name: "Wise", logo: "https://v0.dev/static/wise.svg" },
-  { name: "Plaid", logo: "https://v0.dev/static/plaid.svg" },
+  { name: "Stripe", logo: "/icons/stripe.svg" },
+  { name: "Visa", logo: "/icons/visa.svg" },
+  { name: "Mastercard", logo: "/icons/mastercard.svg" },
+  { name: "Plaid", logo: "/icons/plaid_white.svg" },
 ]
 
 const FloatingParticles = () => {
@@ -391,7 +397,7 @@ export default function LandingPage() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="mt-4 text-lg text-gray-400 sm:text-xl max-w-3xl mx-auto"
           >
-            Experience banking that's tailored to your individual needs with powerful features and personalized service.
+            Experience banking that`&apos;`s tailored to your individual needs with powerful features and personalized service.
           </motion.p>
         </motion.div>
 
@@ -484,7 +490,7 @@ export default function LandingPage() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="mt-4 text-lg text-gray-400 sm:text-xl max-w-3xl mx-auto"
           >
-            Comprehensive banking solutions designed to help your business thrive in today's competitive market.
+            Comprehensive banking solutions designed to help your business thrive in today`&apos;`s competitive market.
           </motion.p>
         </motion.div>
 
@@ -717,11 +723,6 @@ export default function LandingPage() {
                   viewport={{ once: true }}
                   className="relative rounded-2xl border border-gray-800 bg-gray-900/50 p-8"
                 >
-                  <div className="mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="inline-block h-5 w-5 text-yellow-500" />
-                    ))}
-                  </div>
                   <p className="mb-4 text-gray-300">{testimonial.quote}</p>
                   <div className="flex items-center gap-4">
                     <Image
@@ -1000,29 +1001,25 @@ export default function LandingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 viewport={{ once: true }}
-                className="mt-10 flex flex-col gap-4 sm:flex-row"
+                className="flex flex-col gap-4 sm:flex-row"
               >
                 <Link href="#" className="group inline-block">
-                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                     <Image
                       src="/icons/app-store.svg"
                       width={120}
-                      height={40}
+                      height={120}
                       alt="Download on the App Store"
-                      className="h-[48px] w-auto transition-opacity group-hover:opacity-80"
+                      className="h-[120px] w-auto transition-opacity group-hover:opacity-80"
                     />
-                  </motion.div>
                 </Link>
                 <Link href="#" className="group inline-block">
-                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                     <Image
                       src="/icons/play-store.svg"
                       width={120}
-                      height={40}
+                      height={120}
                       alt="Get it on Google Play"
-                      className="h-[48px] w-auto transition-opacity group-hover:opacity-80"
+                      className="h-[120px] w-auto transition-opacity group-hover:opacity-80"
                     />
-                  </motion.div>
                 </Link>
               </motion.div>
               <motion.div
@@ -1030,19 +1027,8 @@ export default function LandingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
                 viewport={{ once: true }}
-                className="mt-8 flex items-center gap-4"
+                className=" flex items-center gap-4"
               >
-                <div className="flex -space-x-2">
-                  {[1, 2, 3, 4].map((i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.1 }}
-                      className="h-8 w-8 rounded-full border-2 border-[#1a1f2d] bg-gray-800"
-                    />
-                  ))}
-                </div>
                 <div className="text-sm text-gray-400">Trusted by 2M+ users worldwide</div>
               </motion.div>
             </motion.div>

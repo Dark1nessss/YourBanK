@@ -11,7 +11,7 @@ const FooterLanding = () => {
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2">
-              <Image src="/logo_white.svg" width={32} height={32} alt="YourBanK logo" />
+              <Image src="/icons/logo_white.svg" width={32} height={32} alt="YourBanK logo" />
               <span className="font-ibm-plex-serif text-xl font-bold text-white">
                 Your<span className="text-green-500">BanK</span>
               </span>

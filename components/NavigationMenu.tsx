@@ -67,7 +67,12 @@ const solutions = [
   },
 ]
 
-const ListItem = React.forwardRef<React.ElementRef<"a">, React.ComponentPropsWithoutRef<"a">>(
+interface ListItemProps extends React.ComponentPropsWithoutRef<"a"> {
+  title: string;
+  icon: React.ComponentType<{ className?: string }>;
+}
+
+const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
   ({ className, title, children, icon: Icon, ...props }, ref) => {
     return (
       <li>
@@ -80,7 +85,7 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, React.ComponentPropsWit
             )}
             {...props}
           >
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-800">
+            <div className="flex h-10 w-16 items-center justify-center rounded-lg bg-gray-800">
               {Icon && <Icon className="h-5 w-5 text-green-500" />}
             </div>
             <div>
