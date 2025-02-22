@@ -3,6 +3,8 @@
 import * as React from "react"
 import Link from "next/link"
 import Image from "next/image"
+import { motion } from "framer-motion"
+import { Menu, CreditCard, BarChart3, Shield, Wallet, Building2, Users, Briefcase, X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import {
@@ -14,142 +16,284 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
+import { Button } from "@/components/ui/button"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
-const components: { title: string; href: string; description: string }[] = [
+const features = [
   {
-    title: "Features",
-    href: "/features",
-    description: "Explore our innovative banking features designed for you.",
+    title: "Bank Integration",
+    description: "Connect and manage your US bank accounts securely.",
+    href: "/#personal-banking",
+    icon: Wallet,
   },
   {
-    title: "Accounts",
-    href: "/accounts",
-    description: "Discover our range of personal and business accounts.",
+    title: "Card Management",
+    description: "Create and manage your virtual and physical cards seamlessly.",
+    href: "/main/#business-banking",
+    icon: CreditCard,
   },
   {
-    title: "Loans",
-    href: "/loans",
-    description: "Find the right loan solution for your needs.",
+    title: "Analytics Dashboard",
+    description: "Track your spending and monitor your financial health.",
+    href: "/main/#enterprise-solutions",
+    icon: BarChart3,
   },
   {
-    title: "Investments",
-    href: "/investments",
-    description: "Grow your wealth with our investment options.",
-  },
-  {
-    title: "Support",
-    href: "/support",
-    description: "Get help and answers to your banking questions.",
+    title: "Security Center",
+    description: "Advanced security features to protect your finances.",
+    href: "/main/#integrations",
+    icon: Shield,
   },
 ]
 
-const ListItem = React.forwardRef<
-  React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
-  return (
-    <li>
-      <NavigationMenuLink asChild>
-        <a
-          ref={ref}
-          className={cn(
-            "block select-none space-y-1 rounded-sm p-3 leading-none no-underline outline-none focus:text-accent-foreground shadow-sm hover:shadow-md transition-all .5s bg-green-300",
-            className
-          )}
-          {...props}
-        >
-          <div className="text-md font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug">
-            {children}
-          </p>
-        </a>
-      </NavigationMenuLink>
-    </li>
-  )
-})
+const solutions = [
+  {
+    title: "Personal Banking",
+    description: "Manage your personal finances with ease.",
+    href: "/main/#personal-banking",
+    icon: Users,
+  },
+  {
+    title: "Business Banking",
+    description: "Powerful tools for your business growth.",
+    href: "/main/#business-banking",
+    icon: Building2,
+  },
+  {
+    title: "Enterprise Solutions",
+    description: "Custom solutions for large organizations.",
+    href: "/main/#enterprise-solutions",
+    icon: Briefcase,
+  },
+]
+
+const ListItem = React.forwardRef<React.ElementRef<"a">, React.ComponentPropsWithoutRef<"a">>(
+  ({ className, title, children, icon: Icon, ...props }, ref) => {
+    return (
+      <li>
+        <NavigationMenuLink asChild>
+          <a
+            ref={ref}
+            className={cn(
+              "flex select-none items-center gap-4 rounded-lg p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-800/50",
+              className,
+            )}
+            {...props}
+          >
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-800">
+              {Icon && <Icon className="h-5 w-5 text-green-500" />}
+            </div>
+            <div>
+              <div className="text-sm font-medium text-white">{title}</div>
+              <p className="line-clamp-2 text-sm leading-snug text-gray-400">{children}</p>
+            </div>
+          </a>
+        </NavigationMenuLink>
+      </li>
+    )
+  },
+)
 ListItem.displayName = "ListItem"
 
 export default function NavigationMenuDemo() {
+  const [isOpen, setIsOpen] = React.useState(false)
+
   return (
-    <header className="nav-header">
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <NavigationMenu className="opacity-100 z-20">
-          <NavigationMenuList className="flex-1 justify-start gap-6">
-            <NavigationMenuItem>
-              <Link href="/" legacyBehavior passHref>
-                <NavigationMenuLink className="nav-logo">
-                  <Image src="/icons/logo.svg" width={30} height={30} alt="logo" />
-                  <h1 className="title">
-                    Your<span className="text-green-700">BanK</span>
-                  </h1>
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
-            <NavigationMenuItem className="hidden md:block">
-              <NavigationMenuTrigger>Services</NavigationMenuTrigger>
-              <NavigationMenuContent className="bg-gray-1">
-                <ul className="nav-content-grid">
-                  <li className="row-span-3">
-                    <NavigationMenuLink asChild>
-                      <a className="nav-feature-item" href="/main">
-                        <Image
-                            src="/icons/logo.svg"
-                            alt="YourBanK Logo"
-                            width={32}
-                            height={32}
-                        />
-                        <div className="mb-2 mt-4 text-lg font-bold title">
-                          Your<span className="text-green-700">BanK</span>
-                        </div>
-                        <p className="text-md leading-normal">
-                          Secure, innovative, and personalized banking solutions for a brighter financial future.
-                        </p>
-                      </a>
-                    </NavigationMenuLink>
-                  </li>
-                  <ListItem href="#features" title="Services">
-                    Tailored solutions for your individual financial needs.
-                  </ListItem>
-                  <ListItem href="#benefits" title="Products">
-                    Comprehensive services to help your business thrive.
-                  </ListItem>
-                  <ListItem href="#cta" title="About Us">
-                    Expert guidance to grow and protect your assets.
-                  </ListItem>
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-            <NavigationMenuItem className="hidden md:block">
-              <NavigationMenuTrigger>Products</NavigationMenuTrigger>
-              <NavigationMenuContent className="bg-gray-1">
-                <ul className="nav-content-grid wide">
-                  {components.map((component) => (
-                    <ListItem
-                      key={component.title}
-                      title={component.title}
-                      href={component.href}
+    <header className="sticky top-0 z-50 w-full border-b border-gray-800 bg-[#1a1f2d]">
+      <div className="container">
+        <div className="flex h-16 items-center justify-between">
+          <div className="flex items-center gap-8">
+            <Link href="/" className="flex items-center gap-2">
+              <Image src="/icons/logo.svg" width={32} height={32} alt="YourBanK logo" />
+              <span className="font-ibm-plex-serif text-xl font-bold text-white">
+                Your<span className="text-[#39A36A]">BanK</span>
+              </span>
+            </Link>
+
+            <NavigationMenu className="hidden lg:flex">
+              <NavigationMenuList className="gap-2">
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="bg-transparent text-white hover:bg-gray-800 hover:text-white data-[state=open]:bg-gray-800">
+                    Features
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      className="w-[600px] rounded-xl border border-gray-800 bg-[#1a1f2d]/95 p-4 backdrop-blur-sm"
                     >
-                      {component.description}
-                    </ListItem>
-                  ))}
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-            <NavigationMenuItem className="hidden md:block">
-              <Link href="/about" legacyBehavior passHref>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  About Us
-                </NavigationMenuLink>
+                      <ul className="grid gap-3 md:grid-cols-2">
+                        {features.map((feature) => (
+                          <ListItem key={feature.title} title={feature.title} href={feature.href} icon={feature.icon}>
+                            {feature.description}
+                          </ListItem>
+                        ))}
+                      </ul>
+                    </motion.div>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="bg-transparent text-white hover:bg-gray-800 hover:text-white data-[state=open]:bg-gray-800">
+                    Solutions
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      className="w-[600px] rounded-xl border border-gray-800 bg-[#1a1f2d]/95 p-4 backdrop-blur-sm"
+                    >
+                      <ul className="grid gap-3 md:grid-cols-2">
+                        {solutions.map((solution) => (
+                          <ListItem
+                            key={solution.title}
+                            title={solution.title}
+                            href={solution.href}
+                            icon={solution.icon}
+                          >
+                            {solution.description}
+                          </ListItem>
+                        ))}
+                      </ul>
+                    </motion.div>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <Link href="/#pricing" legacyBehavior passHref>
+                    <NavigationMenuLink
+                      className={cn(
+                        navigationMenuTriggerStyle(),
+                        "bg-transparent text-white hover:bg-gray-800 hover:text-white",
+                      )}
+                    >
+                      Pricing
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <div className="hidden lg:flex lg:items-center lg:gap-4">
+              <Link href="/sign-in">
+                <Button variant="ghost" className="text-white hover:bg-gray-800 hover:text-white">
+                  Sign In
+                </Button>
               </Link>
-            </NavigationMenuItem>
-          </NavigationMenuList>
-        </NavigationMenu>
-        <Link 
-          href="/contact" 
-          className="contact-us-button"
-        >
-          Contact Us
-        </Link>
+              <Link href="/sign-up">
+                <Button className="bg-[#39A36A] hover:bg-[#2E8754]">Get Started</Button>
+              </Link>
+            </div>
+
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setIsOpen(true)}>
+                  <Menu className="h-6 w-6 text-white" />
+                  <span className="sr-only">Toggle menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent
+                side="right"
+                className="w-full border-gray-800 bg-[#1a1f2d] p-0 sm:max-w-md"
+                showClose={false}
+              >
+                <motion.div
+                  className="flex flex-col"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
+                >
+                  <div className="flex items-center justify-between border-b border-gray-800 px-6 py-4">
+                    <Link href="/" className="flex items-center gap-2">
+                      <Image src="/icons/logo.svg" width={24} height={24} alt="YourBanK logo" />
+                      <span className="font-ibm-plex-serif text-lg font-bold text-white">
+                        Your<span className="text-[#39A36A]">BanK</span>
+                      </span>
+                    </Link>
+                    <SheetTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => setIsOpen(false)}
+                        className="h-10 w-10 rounded-full p-0 text-white hover:bg-gray-800"
+                      >
+                        <X className="h-5 w-5" />
+                        <span className="sr-only">Close menu</span>
+                      </Button>
+                    </SheetTrigger>
+                  </div>
+
+                  <div className="flex-1 space-y-6 overflow-auto py-6">
+                    <div className="px-6">
+                      <div className="mb-4 text-xs font-semibold uppercase tracking-wider text-gray-400">Features</div>
+                      <ul className="grid gap-3">
+                        {features.map((feature) => (
+                          <li key={feature.title}>
+                            <Link
+                              href={feature.href}
+                              className="flex items-center gap-3 rounded-lg p-3 text-white transition-colors hover:bg-gray-800"
+                            >
+                              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-800">
+                                <feature.icon className="h-4 w-4 text-green-500" />
+                              </div>
+                              <div className="text-sm font-medium">{feature.title}</div>
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="px-6">
+                      <div className="mb-4 text-xs font-semibold uppercase tracking-wider text-gray-400">Solutions</div>
+                      <ul className="grid gap-3">
+                        {solutions.map((solution) => (
+                          <li key={solution.title}>
+                            <Link
+                              href={solution.href}
+                              className="flex items-center gap-3 rounded-lg p-3 text-white transition-colors hover:bg-gray-800"
+                            >
+                              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-800">
+                                <solution.icon className="h-4 w-4 text-green-500" />
+                              </div>
+                              <div className="text-sm font-medium">{solution.title}</div>
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="px-6">
+                      <Link
+                        href="/#pricing"
+                        className="flex items-center gap-3 rounded-lg p-3 text-white transition-colors hover:bg-gray-800"
+                      >
+                        <div className="text-sm font-medium">Pricing</div>
+                      </Link>
+                    </div>
+                  </div>
+
+                  <div className="border-t border-gray-800 p-6">
+                    <div className="flex flex-col gap-4">
+                      <Link href="/sign-in">
+                        <Button
+                          variant="outline"
+                          className="w-full border-gray-700 text-white hover:bg-gray-800 hover:text-white"
+                        >
+                          Sign In
+                        </Button>
+                      </Link>
+                      <Link href="/sign-up">
+                        <Button className="w-full bg-[#39A36A] hover:bg-[#2E8754]">Get Started</Button>
+                      </Link>
+                    </div>
+                  </div>
+                </motion.div>
+              </SheetContent>
+            </Sheet>
+          </div>
+        </div>
       </div>
     </header>
   )

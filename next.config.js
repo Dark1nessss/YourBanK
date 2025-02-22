@@ -43,5 +43,8 @@ module.exports = withSentryConfig(
     // https://docs.sentry.io/product/crons/
     // https://vercel.com/docs/cron-jobs
     automaticVercelMonitors: true,
+    images: {
+      domains: ['v0.dev']
+    }
   }
 );
