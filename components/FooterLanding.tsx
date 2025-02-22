@@ -25,22 +25,22 @@ const FooterLanding = () => {
             <h3 className="mb-4 text-sm font-semibold uppercase text-white">Products</h3>
             <ul className="space-y-3 text-sm">
               <li>
-                <Link href="/#personal-banking" className="hover:text-green-400">
+                <Link href="/main/#personal-banking" className="hover:text-green-400">
                   Bank Integration
                 </Link>
               </li>
               <li>
-                <Link href="/#business-banking" className="hover:text-green-400">
+                <Link href="/main/#business-banking" className="hover:text-green-400">
                   Virtual Cards
                 </Link>
               </li>
               <li>
-                <Link href="/#enterprise-solutions" className="hover:text-green-400">
+                <Link href="/main/#enterprise-solutions" className="hover:text-green-400">
                   Money Transfers
                 </Link>
               </li>
               <li>
-                <Link href="/#integrations" className="hover:text-green-400">
+                <Link href="/main/#integrations" className="hover:text-green-400">
                   Analytics
                 </Link>
               </li>
@@ -51,22 +51,22 @@ const FooterLanding = () => {
             <h3 className="mb-4 text-sm font-semibold uppercase text-white">Company</h3>
             <ul className="space-y-3 text-sm">
               <li>
-                <Link href="/#about" className="hover:text-green-400">
+                <Link href="/main/#about" className="hover:text-green-400">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="/#careers" className="hover:text-green-400">
+                <Link href="/main/#careers" className="hover:text-green-400">
                   Careers
                 </Link>
               </li>
               <li>
-                <Link href="/#press" className="hover:text-green-400">
+                <Link href="/main/#press" className="hover:text-green-400">
                   Press
                 </Link>
               </li>
               <li>
-                <Link href="/#contact" className="hover:text-green-400">
+                <Link href="/main/#contact" className="hover:text-green-400">
                   Contact
                 </Link>
               </li>
@@ -77,17 +77,17 @@ const FooterLanding = () => {
             <h3 className="mb-4 text-sm font-semibold uppercase text-white">Legal</h3>
             <ul className="space-y-3 text-sm">
               <li>
-                <Link href="/#privacy" className="hover:text-green-400">
+                <Link href="/main/#privacy" className="hover:text-green-400">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/#terms" className="hover:text-green-400">
+                <Link href="/main/#terms" className="hover:text-green-400">
                   Terms of Service
                 </Link>
               </li>
               <li>
-                <Link href="/#security" className="hover:text-green-400">
+                <Link href="/main/#security" className="hover:text-green-400">
                   Security
                 </Link>
               </li>

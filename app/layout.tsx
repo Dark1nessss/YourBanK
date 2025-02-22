@@ -1,6 +1,7 @@
 export const dynamic = 'force-dynamic'
 
 import type { Metadata } from "next";
+import { Analytics } from '@vercel/analytics/next';
 import { Inter, IBM_Plex_Serif } from "next/font/google";
 import "./globals.css";
 import { ClientWrapper } from "@/components/ClientWrapper";
@@ -29,6 +30,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} ${ibmPlexSerif.variable}`}>
       <ClientWrapper>{children}</ClientWrapper>
+      <Analytics />
       </body>
     </html>
   );
