@@ -60,7 +60,7 @@ export const signIn = async ({ email, password }: signInProps) => {
     );
 
     cookies().set("jwt-token", token, {
-      path: "/",
+      path: "/dashboard",
       httpOnly: true, // flag httpOnly
       secure: false,
       sameSite: "strict",
@@ -116,7 +116,7 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
     const session = await account.createEmailPasswordSession(email, password);
 
     cookies().set("appwrite-session", session.secret, {
-      path: "/",
+      path: "/dashboard",
       httpOnly: true,
       sameSite: "strict",
       secure: true,
@@ -128,7 +128,7 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
     });
 
     cookies().set("jwt-token", token, {
-      path: "/",
+      path: "/dashboard",
       httpOnly: true,
       secure: false,
       sameSite: "strict",
@@ -271,7 +271,7 @@ export const exchangePublicToken = async ({
     });
 
     // Revalidate the path to reflect the changes
-    revalidatePath("/");
+    revalidatePath("/dashboard");
 
     // Return a success message
     return parseStringify({

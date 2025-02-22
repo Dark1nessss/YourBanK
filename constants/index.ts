@@ -1,7 +1,7 @@
 export const sidebarLinks = [
   {
     imgURL: "/icons/home.svg",
-    route: "/",
+    route: "/dashboard",
     label: "Home",
   },
   {
@@ -113,3 +113,22 @@ export const transactionCategoryStyles = {
     chipBackgroundColor: "bg-inherit",
   },
 };
+
+export const demoCards = [
+  {
+    account: {
+      appwriteItemId: "demo1",
+      name: "Savings Account",
+      currentBalance: 45750.0,
+      availableBalance: 45750.0,
+      mask: "8448",
+      shareableId: "demo-share-1",
+      id: "demo1",
+      officialName: "Savings Account",
+      institutionId: "bank-demo",
+      type: "savings",
+      subtype: "personal",
+    },
+    userName: "John Doe",
+  },
+];

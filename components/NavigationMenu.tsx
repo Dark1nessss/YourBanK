@@ -29,19 +29,19 @@ const features = [
   {
     title: "Card Management",
     description: "Create and manage your virtual and physical cards seamlessly.",
-    href: "/main/#business-banking",
+    href: "/#business-banking",
     icon: CreditCard,
   },
   {
     title: "Analytics Dashboard",
     description: "Track your spending and monitor your financial health.",
-    href: "/main/#enterprise-solutions",
+    href: "/#enterprise-solutions",
     icon: BarChart3,
   },
   {
     title: "Security Center",
     description: "Advanced security features to protect your finances.",
-    href: "/main/#integrations",
+    href: "/#integrations",
     icon: Shield,
   },
 ]
@@ -50,19 +50,19 @@ const solutions = [
   {
     title: "Personal Banking",
     description: "Manage your personal finances with ease.",
-    href: "/main/#personal-banking",
+    href: "/#personal-banking",
     icon: Users,
   },
   {
     title: "Business Banking",
     description: "Powerful tools for your business growth.",
-    href: "/main/#business-banking",
+    href: "/#business-banking",
     icon: Building2,
   },
   {
     title: "Enterprise Solutions",
     description: "Custom solutions for large organizations.",
-    href: "/main/#enterprise-solutions",
+    href: "/#enterprise-solutions",
     icon: Briefcase,
   },
 ]

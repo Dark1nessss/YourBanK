@@ -27,28 +27,8 @@ import { cn } from "@/lib/utils"
 import BankCard from "./BankCard"
 import { useRef } from "react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Star } from "lucide-react"
 import React from "react"
-
-// Demo data for the cards
-const demoCards = [
-  {
-    account: {
-      appwriteItemId: "demo1",
-      name: "Savings Account",
-      currentBalance: 45750.0,
-      availableBalance: 45750.0,
-      mask: "8448",
-      shareableId: "demo-share-1",
-      id: "demo1",
-      officialName: "Savings Account",
-      institutionId: "bank-demo",
-      type: "savings",
-      subtype: "personal",
-    },
-    userName: "John Doe",
-  },
-]
+import { demoCards } from "@/constants"
 
 const features = [
   {
@@ -264,7 +244,7 @@ export default function LandingPage() {
                       <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                     </Button>
                   </Link>
-                  <Link href="/demo" className="group">
+                  <Link href="/#demo" className="group">
                     <Button
                       variant="ghost"
                       size="lg"
