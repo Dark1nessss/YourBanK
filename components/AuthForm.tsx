@@ -78,7 +78,7 @@ const AuthForm = ({ type }: { type: string }) => {
 
           if(response){ 
             setRedirectInitiated(true);
-            router.push('/')
+            router.push('/dashboard')
             return;
           }
         }

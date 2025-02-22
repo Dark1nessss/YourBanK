@@ -46,7 +46,7 @@ export const signIn = async ({ email, password }: signInProps) => {
     const session = await account.createEmailPasswordSession(email, password);
 
     cookies().set("appwrite-session", session.secret, {
-      path: "/",
+      path: "/dashboard",
       httpOnly: true,
       sameSite: "strict",
       secure: true,
