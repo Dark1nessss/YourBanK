@@ -46,7 +46,7 @@ export const signIn = async ({ email, password }: signInProps) => {
     const session = await account.createEmailPasswordSession(email, password);
 
     cookies().set("appwrite-session", session.secret, {
-      path: "/dashboard",
+      path: "/",
       httpOnly: true,
       sameSite: "strict",
       secure: true,
@@ -60,7 +60,7 @@ export const signIn = async ({ email, password }: signInProps) => {
     );
 
     cookies().set("jwt-token", token, {
-      path: "/dashboard",
+      path: "/",
       httpOnly: true, // flag httpOnly
       secure: false,
       sameSite: "strict",
@@ -116,7 +116,7 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
     const session = await account.createEmailPasswordSession(email, password);
 
     cookies().set("appwrite-session", session.secret, {
-      path: "/dashboard",
+      path: "/",
       httpOnly: true,
       sameSite: "strict",
       secure: true,
@@ -128,7 +128,7 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
     });
 
     cookies().set("jwt-token", token, {
-      path: "/dashboard",
+      path: "/",
       httpOnly: true,
       secure: false,
       sameSite: "strict",
