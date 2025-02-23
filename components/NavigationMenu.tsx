@@ -4,7 +4,7 @@ import * as React from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { motion } from "framer-motion"
-import { Menu, CreditCard, BarChart3, Shield, Wallet, Building2, Users, Briefcase, X } from "lucide-react"
+import { Menu, CreditCard, BarChart3, Shield, Wallet, Building2, Users, Briefcase, X, Book } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import {
@@ -165,14 +165,15 @@ export default function NavigationMenuDemo() {
                   </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <Link href="/#pricing" legacyBehavior passHref>
+                  <Link href="/#docs" legacyBehavior passHref>
                     <NavigationMenuLink
                       className={cn(
                         navigationMenuTriggerStyle(),
                         "bg-transparent text-white hover:bg-gray-800 hover:text-white",
                       )}
                     >
-                      Pricing
+                      <Book className="mr-2 h-4 w-4" />
+                      Docs
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
@@ -270,11 +271,15 @@ export default function NavigationMenuDemo() {
                     </div>
 
                     <div className="px-6">
+                    <div className="mb-4 text-xs font-semibold uppercase tracking-wider text-gray-400">Documentation</div>
                       <Link
-                        href="/#pricing"
+                        href="/#docs"
                         className="flex items-center gap-3 rounded-lg p-3 text-white transition-colors hover:bg-gray-800"
                       >
-                        <div className="text-sm font-medium">Pricing</div>
+                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-800">
+                          <Book className="h-4 w-4 text-green-500" />
+                        </div>
+                        <div className="text-sm font-medium">Docs</div>
                       </Link>
                     </div>
                   </div>
