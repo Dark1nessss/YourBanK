@@ -26,22 +26,27 @@ const FooterLanding = () => {
             <ul className="space-y-3 text-sm">
               <li>
                 <Link href="/#personal-banking" className="hover:text-green-400">
-                  Bank Integration
+                  Personal Banking
                 </Link>
               </li>
               <li>
                 <Link href="/#business-banking" className="hover:text-green-400">
-                  Virtual Cards
+                  Business Banking
                 </Link>
               </li>
               <li>
                 <Link href="/#enterprise-solutions" className="hover:text-green-400">
-                  Money Transfers
+                  Enterprise Solutions
                 </Link>
               </li>
               <li>
                 <Link href="/#integrations" className="hover:text-green-400">
-                  Analytics
+                  Integrations
+                </Link>
+              </li>
+              <li>
+                <Link href="/#testimonials" className="hover:text-green-400">
+                  Testimonials
                 </Link>
               </li>
             </ul>
