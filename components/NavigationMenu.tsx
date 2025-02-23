@@ -46,27 +46,6 @@ const features = [
   },
 ]
 
-const solutions = [
-  {
-    title: "Personal Banking",
-    description: "Manage your personal finances with ease.",
-    href: "/#personal-banking",
-    icon: Users,
-  },
-  {
-    title: "Business Banking",
-    description: "Powerful tools for your business growth.",
-    href: "/#business-banking",
-    icon: Building2,
-  },
-  {
-    title: "Enterprise Solutions",
-    description: "Custom solutions for large organizations.",
-    href: "/#enterprise-solutions",
-    icon: Briefcase,
-  },
-]
-
 interface ListItemProps extends React.ComponentPropsWithoutRef<"a"> {
   title: string;
   icon: React.ComponentType<{ className?: string }>;
@@ -132,32 +111,6 @@ export default function NavigationMenuDemo() {
                         {features.map((feature) => (
                           <ListItem key={feature.title} title={feature.title} href={feature.href} icon={feature.icon}>
                             {feature.description}
-                          </ListItem>
-                        ))}
-                      </ul>
-                    </motion.div>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="bg-transparent text-white hover:bg-gray-800 hover:text-white data-[state=open]:bg-gray-800">
-                    Solutions
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 10 }}
-                      className="w-[600px] rounded-xl border border-gray-800 bg-[#1a1f2d]/95 p-4 backdrop-blur-sm"
-                    >
-                      <ul className="grid gap-3 md:grid-cols-2">
-                        {solutions.map((solution) => (
-                          <ListItem
-                            key={solution.title}
-                            title={solution.title}
-                            href={solution.href}
-                            icon={solution.icon}
-                          >
-                            {solution.description}
                           </ListItem>
                         ))}
                       </ul>
@@ -245,25 +198,6 @@ export default function NavigationMenuDemo() {
                                 <feature.icon className="h-4 w-4 text-green-500" />
                               </div>
                               <div className="text-sm font-medium">{feature.title}</div>
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <div className="px-6">
-                      <div className="mb-4 text-xs font-semibold uppercase tracking-wider text-gray-400">Solutions</div>
-                      <ul className="grid gap-3">
-                        {solutions.map((solution) => (
-                          <li key={solution.title}>
-                            <Link
-                              href={solution.href}
-                              className="flex items-center gap-3 rounded-lg p-3 text-white transition-colors hover:bg-gray-800"
-                            >
-                              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-800">
-                                <solution.icon className="h-4 w-4 text-green-500" />
-                              </div>
-                              <div className="text-sm font-medium">{solution.title}</div>
                             </Link>
                           </li>
                         ))}

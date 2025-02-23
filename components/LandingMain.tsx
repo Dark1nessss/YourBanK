@@ -638,6 +638,85 @@ export default function LandingPage() {
         </motion.div>
       </section>
 
+      {/* Integration Partners Section */}
+      <section
+        id="integrations"
+        className="relative border-t border-gray-800 bg-[#1a1f2d] py-24 transition-all duration-700"
+      >
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0 bg-gradient-to-b from-gray-900/20 via-transparent to-transparent opacity-75" />
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 1 }}
+            className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-[#39A36A]/5 via-transparent to-transparent"
+          />
+        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="mx-auto max-w-3xl text-center"
+        >
+          <motion.span
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="mb-6 inline-block text-sm font-medium text-[#39A36A] tracking-wider uppercase"
+          >
+            Integrations
+          </motion.span>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="font-ibm-plex-serif text-4xl font-bold tracking-tight text-white sm:text-5xl xl:text-6xl bg-clip-text"
+          >
+            Seamless Integration Partners
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="mt-4 text-lg text-gray-400 sm:text-xl max-w-3xl mx-auto"
+          >
+            Connect with the tools you already use and love.
+          </motion.p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          viewport={{ once: true, margin: "-100px" }}
+          className="relative z-10"
+        >
+          <div className="container mx-auto max-w-[1400px]">
+            <motion.div className="mt-16 flex flex-wrap items-center justify-center gap-12">
+              {integrationLogos.map((partner, index) => (
+                <motion.div
+                  key={partner.name}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  whileHover={{ scale: 1.1 }}
+                  className="relative h-12 w-32"
+                >
+                  <Image
+                    src={partner.logo || "/placeholder.svg"}
+                    alt={partner.name}
+                    fill
+                    className="object-contain opacity-50 grayscale transition-all hover:opacity-100 hover:grayscale-0"
+                  />
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </motion.div>
+      </section>
+
       {/* Testimonials Section */}
       <section
         id="testimonials"
@@ -720,85 +799,6 @@ export default function LandingPage() {
                 </motion.div>
               ))}
             </div>
-          </div>
-        </motion.div>
-      </section>
-
-      {/* Integration Partners Section */}
-      <section
-        id="integrations"
-        className="relative border-t border-gray-800 bg-[#1a1f2d] py-24 transition-all duration-700"
-      >
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-to-b from-gray-900/20 via-transparent to-transparent opacity-75" />
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-            className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-[#39A36A]/5 via-transparent to-transparent"
-          />
-        </div>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="mx-auto max-w-3xl text-center"
-        >
-          <motion.span
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="mb-6 inline-block text-sm font-medium text-[#39A36A] tracking-wider uppercase"
-          >
-            Integrations
-          </motion.span>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="font-ibm-plex-serif text-4xl font-bold tracking-tight text-white sm:text-5xl xl:text-6xl bg-clip-text"
-          >
-            Seamless Integration Partners
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-4 text-lg text-gray-400 sm:text-xl max-w-3xl mx-auto"
-          >
-            Connect with the tools you already use and love.
-          </motion.p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          viewport={{ once: true, margin: "-100px" }}
-          className="relative z-10"
-        >
-          <div className="container mx-auto max-w-[1400px]">
-            <motion.div className="mt-16 flex flex-wrap items-center justify-center gap-12">
-              {integrationLogos.map((partner, index) => (
-                <motion.div
-                  key={partner.name}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  whileHover={{ scale: 1.1 }}
-                  className="relative h-12 w-32"
-                >
-                  <Image
-                    src={partner.logo || "/placeholder.svg"}
-                    alt={partner.name}
-                    fill
-                    className="object-contain opacity-50 grayscale transition-all hover:opacity-100 hover:grayscale-0"
-                  />
-                </motion.div>
-              ))}
-            </motion.div>
           </div>
         </motion.div>
       </section>
