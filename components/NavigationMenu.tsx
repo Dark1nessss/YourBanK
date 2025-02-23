@@ -118,7 +118,7 @@ export default function NavigationMenuDemo() {
                   </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <Link href="/#docs" legacyBehavior passHref>
+                  <Link href="/docs" legacyBehavior passHref>
                     <NavigationMenuLink
                       className={cn(
                         navigationMenuTriggerStyle(),

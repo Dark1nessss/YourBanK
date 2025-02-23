@@ -27,7 +27,7 @@ const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
       user,
     })
 
-    router.push('/dashboard');
+    router.refresh()
   }, [user])
   
   const config: PlaidLinkOptions = {
