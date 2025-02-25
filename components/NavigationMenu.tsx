@@ -207,7 +207,7 @@ export default function NavigationMenuDemo() {
                     <div className="px-6">
                     <div className="mb-4 text-xs font-semibold uppercase tracking-wider text-gray-400">Documentation</div>
                       <Link
-                        href="/#docs"
+                        href="/docs"
                         className="flex items-center gap-3 rounded-lg p-3 text-white transition-colors hover:bg-gray-800"
                       >
                         <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-800">
