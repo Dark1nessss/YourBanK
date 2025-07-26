@@ -1,7 +1,7 @@
-"use client"
+'use client';
 
-import { motion } from "framer-motion"
-import { CodeBlock } from "@/components/docs/code-block"
+import { motion } from 'framer-motion';
+import { CodeBlock } from '@/components/docs/code-block';
 
 export default function StylingPage() {
   return (
@@ -12,8 +12,12 @@ export default function StylingPage() {
         transition={{ duration: 0.5 }}
         className="space-y-2"
       >
-        <h1 className="font-ibm-plex-serif text-3xl font-bold text-white md:text-5xl">Styling</h1>
-        <p className="text-lg text-gray-400">Learn how to customize the look and feel of YourBanK components.</p>
+        <h1 className="font-ibm-plex-serif text-3xl font-bold text-white md:text-5xl">
+          Styling
+        </h1>
+        <p className="text-lg text-gray-400">
+          Learn how to customize the look and feel of YourBanK components.
+        </p>
       </motion.div>
 
       <motion.div
@@ -22,9 +26,12 @@ export default function StylingPage() {
         transition={{ duration: 0.5, delay: 0.1 }}
         className="space-y-4"
       >
-        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">Theme Configuration</h2>
+        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">
+          Theme Configuration
+        </h2>
         <p className="text-gray-400">
-          YourBanK uses Tailwind CSS with custom theme configuration. Add these values to your tailwind.config.ts:
+          YourBanK uses Tailwind CSS with custom theme configuration. Add these
+          values to your tailwind.config.ts:
         </p>
 
         <CodeBlock
@@ -108,8 +115,12 @@ const config: Config = {
         transition={{ duration: 0.5, delay: 0.2 }}
         className="space-y-4"
       >
-        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">CSS Variables</h2>
-        <p className="text-gray-400">Add these CSS variables to your globals.css:</p>
+        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">
+          CSS Variables
+        </h2>
+        <p className="text-gray-400">
+          Add these CSS variables to your globals.css:
+        </p>
 
         <CodeBlock
           code={`@tailwind base;
@@ -189,8 +200,12 @@ const config: Config = {
         transition={{ duration: 0.5, delay: 0.3 }}
         className="space-y-4"
       >
-        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">Utility Classes</h2>
-        <p className="text-gray-400">Common utility classes used across components:</p>
+        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">
+          Utility Classes
+        </h2>
+        <p className="text-gray-400">
+          Common utility classes used across components:
+        </p>
 
         <CodeBlock
           code={`@layer utilities {
@@ -215,5 +230,5 @@ const config: Config = {
         />
       </motion.div>
     </div>
-  )
+  );
 }

@@ -1,7 +1,7 @@
-"use client"
+'use client';
 
-import { motion } from "framer-motion"
-import { CodeBlock } from "@/components/docs/code-block"
+import { motion } from 'framer-motion';
+import { CodeBlock } from '@/components/docs/code-block';
 
 export default function ConstantsPage() {
   return (
@@ -12,8 +12,12 @@ export default function ConstantsPage() {
         transition={{ duration: 0.5 }}
         className="space-y-2"
       >
-        <h1 className="font-ibm-plex-serif text-3xl font-bold text-white md:text-5xl">Constants.ts</h1>
-        <p className="text-lg text-gray-400">Application-wide constants and configuration values.</p>
+        <h1 className="font-ibm-plex-serif text-3xl font-bold text-white md:text-5xl">
+          Constants.ts
+        </h1>
+        <p className="text-lg text-gray-400">
+          Application-wide constants and configuration values.
+        </p>
       </motion.div>
 
       <motion.div
@@ -22,10 +26,13 @@ export default function ConstantsPage() {
         transition={{ duration: 0.5, delay: 0.1 }}
         className="space-y-4 w-full overflow-hidden"
       >
-        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">Configuration</h2>
+        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">
+          Configuration
+        </h2>
         <p className="text-gray-400">
-          The constants file contains shared values used throughout the application, including API endpoints, navigation
-          items, and configuration settings.
+          The constants file contains shared values used throughout the
+          application, including API endpoints, navigation items, and
+          configuration settings.
         </p>
 
         <CodeBlock
@@ -79,8 +86,12 @@ export const TRANSACTION_CATEGORIES = [
         transition={{ duration: 0.5, delay: 0.2 }}
         className="space-y-4"
       >
-        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">Usage</h2>
-        <p className="text-gray-400">Import and use constants in your components:</p>
+        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">
+          Usage
+        </h2>
+        <p className="text-gray-400">
+          Import and use constants in your components:
+        </p>
 
         <CodeBlock
           code={`import { API_ENDPOINTS, CHART_COLORS } from '@/constants'
@@ -106,7 +117,9 @@ const chartConfig = {
         transition={{ duration: 0.5, delay: 0.3 }}
         className="space-y-4"
       >
-        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">Benefits</h2>
+        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">
+          Benefits
+        </h2>
         <ul className="list-disc space-y-2 pl-6 text-gray-400">
           <li>Centralized configuration management</li>
           <li>Type safety with TypeScript</li>
@@ -116,5 +129,5 @@ const chartConfig = {
         </ul>
       </motion.div>
     </div>
-  )
+  );
 }

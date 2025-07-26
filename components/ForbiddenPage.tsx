@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 import { motion } from 'framer-motion';
@@ -12,20 +12,20 @@ const ForbiddenPage = () => {
     <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen bg-gradient-to-b from-white to-yellow-50 p-4 lg:p-16 gap-y-10 gap-x-10 lg:gap-x-40">
       <motion.div
         className="w-4/5 md:w-3/5 lg:w-1/2 flex items-center justify-center mx-auto"
-        animate={{ 
-          y: [0, -10, 10, 0], 
+        animate={{
+          y: [0, -10, 10, 0],
           rotate: [0, -1, 1, 0],
-          scale: [1, 1.02, 0.98, 1]
+          scale: [1, 1.02, 0.98, 1],
         }}
-        transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+        transition={{ repeat: Infinity, duration: 6, ease: 'easeInOut' }}
       >
-        <Image 
+        <Image
           src="/icons/403 Error Forbidden-pana.svg"
           width={400}
           height={400}
           alt="Locked door illustration representing forbidden access"
           className="w-full h-auto max-w-sm md:max-w-md lg:max-w-lg"
-        /> 
+        />
       </motion.div>
       <div className="w-4/5 md:w-3/5 lg:w-1/2 mt-10 lg:mt-0 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6 lg:space-y-8">
         <motion.h1
@@ -50,7 +50,9 @@ const ForbiddenPage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 1 }}
         >
-          Sorry, you don&apos;t have permission to access this page. If you believe this is an error, please contact your administrator or try logging in with different credentials.
+          Sorry, you don&apos;t have permission to access this page. If you
+          believe this is an error, please contact your administrator or try
+          logging in with different credentials.
         </motion.p>
         <motion.div
           className="flex flex-col sm:flex-row gap-4 mt-6"
@@ -65,9 +67,7 @@ const ForbiddenPage = () => {
             </Button>
           </Link>
           <Link href="/sign-in" passHref>
-            <Button 
-              className="px-6 py-3 bg-yellow-500 text-white rounded-lg shadow-lg hover:bg-yellow-600 transition-all flex items-center gap-2"
-            >
+            <Button className="px-6 py-3 bg-yellow-500 text-white rounded-lg shadow-lg hover:bg-yellow-600 transition-all flex items-center gap-2">
               <LogIn size={20} />
               Login
             </Button>

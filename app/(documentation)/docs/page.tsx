@@ -1,36 +1,38 @@
-"use client"
+'use client';
 
-import Link from "next/link"
-import { motion } from "framer-motion"
-import { ArrowRight, Book, Code2, Lightbulb, Puzzle, Zap } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button';
+import { motion } from 'framer-motion';
+import { ArrowRight, Book, Code2, Lightbulb, Puzzle, Zap } from 'lucide-react';
+import Link from 'next/link';
 
 const features = [
   {
-    title: "Components",
-    description: "Pre-built components that you can copy and paste into your apps.",
+    title: 'Components',
+    description:
+      'Pre-built components that you can copy and paste into your apps.',
     icon: Puzzle,
-    href: "/docs/components",
+    href: '/docs/components',
   },
   {
-    title: "Quick Start",
+    title: 'Quick Start',
     description: "Learn how to get started with YourBanK's API and components.",
     icon: Zap,
-    href: "/docs/quick-start",
+    href: '/docs/quick-start',
   },
   {
-    title: "API Reference",
-    description: "Detailed API documentation for all YourBanK features.",
+    title: 'API Reference',
+    description: 'Detailed API documentation for all YourBanK features.',
     icon: Code2,
-    href: "/docs/api",
+    href: '/docs/api',
   },
   {
-    title: "Guides",
-    description: "Step-by-step guides for common banking integration scenarios.",
+    title: 'Guides',
+    description:
+      'Step-by-step guides for common banking integration scenarios.',
     icon: Book,
-    href: "/docs/guides",
+    href: '/docs/guides',
   },
-]
+];
 
 export default function Documentation() {
   return (
@@ -42,12 +44,15 @@ export default function Documentation() {
           transition={{ duration: 0.5 }}
           className="flex flex-col items-start gap-4"
         >
-          <span className="rounded-lg bg-[#39A36A]/10 px-4 py-2 text-sm text-[#39A36A]">Documentation</span>
+          <span className="rounded-lg bg-[#39A36A]/10 px-4 py-2 text-sm text-[#39A36A]">
+            Documentation
+          </span>
           <h1 className="font-ibm-plex-serif text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
             Build with YourBanK
           </h1>
           <p className="max-w-[700px] text-lg text-gray-400 sm:text-xl">
-            Explore our guides and examples to integrate YourBanK into your applications.
+            Explore our guides and examples to integrate YourBanK into your
+            applications.
           </p>
         </motion.div>
 
@@ -64,7 +69,11 @@ export default function Documentation() {
             </Button>
           </Link>
           <Link href="/docs/components">
-            <Button variant="outline" size="lg" className="text-white hover:bg-white/10">
+            <Button
+              variant="outline"
+              size="lg"
+              className="text-white hover:bg-white/10"
+            >
               Browse Components
             </Button>
           </Link>
@@ -84,7 +93,9 @@ export default function Documentation() {
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-[#39A36A]/10">
                   <feature.icon className="h-6 w-6 text-[#39A36A]" />
                 </div>
-                <h3 className="mb-2 text-xl font-semibold text-white">{feature.title}</h3>
+                <h3 className="mb-2 text-xl font-semibold text-white">
+                  {feature.title}
+                </h3>
                 <p className="text-gray-400">{feature.description}</p>
                 <motion.div
                   className="absolute inset-0 -z-10 bg-gradient-to-r from-[#39A36A]/10 to-[#2970FF]/10 opacity-0 transition-opacity group-hover:opacity-100"
@@ -100,8 +111,12 @@ export default function Documentation() {
 
       <section className="mx-auto flex w-full max-w-[980px] flex-col gap-8 py-12">
         <div className="flex flex-col gap-4">
-          <h2 className="font-ibm-plex-serif text-3xl font-bold text-white">Latest Updates</h2>
-          <p className="text-gray-400">Stay up to date with the latest changes and improvements.</p>
+          <h2 className="font-ibm-plex-serif text-3xl font-bold text-white">
+            Latest Updates
+          </h2>
+          <p className="text-gray-400">
+            Stay up to date with the latest changes and improvements.
+          </p>
         </div>
 
         <motion.div
@@ -112,27 +127,33 @@ export default function Documentation() {
         >
           {[
             {
-              title: "Multi-Currency Support",
-              description: "New features for handling multiple currencies in your applications.",
-              date: "March 2024",
-              type: "Feature",
+              title: 'Multi-Currency Support',
+              description:
+                'New features for handling multiple currencies in your applications.',
+              date: 'March 2024',
+              type: 'Feature',
             },
             {
-              title: "Enhanced Security",
-              description: "Improved authentication and authorization mechanisms.",
-              date: "February 2024",
-              type: "Update",
+              title: 'Enhanced Security',
+              description:
+                'Improved authentication and authorization mechanisms.',
+              date: 'February 2024',
+              type: 'Update',
             },
-          ].map((update, index) => (
+          ].map(update => (
             <div
               key={update.title}
               className="group relative overflow-hidden rounded-lg border border-gray-800 bg-gray-900/50 p-6 transition-colors hover:bg-gray-800/50"
             >
               <div className="mb-4 flex items-center gap-4">
-                <span className="rounded-full bg-[#39A36A]/10 px-3 py-1 text-sm text-[#39A36A]">{update.type}</span>
+                <span className="rounded-full bg-[#39A36A]/10 px-3 py-1 text-sm text-[#39A36A]">
+                  {update.type}
+                </span>
                 <span className="text-sm text-gray-500">{update.date}</span>
               </div>
-              <h3 className="mb-2 text-lg font-semibold text-white">{update.title}</h3>
+              <h3 className="mb-2 text-lg font-semibold text-white">
+                {update.title}
+              </h3>
               <p className="text-gray-400">{update.description}</p>
             </div>
           ))}
@@ -149,10 +170,12 @@ export default function Documentation() {
           <div className="rounded-full bg-[#39A36A]/10 p-3">
             <Lightbulb className="h-6 w-6 text-[#39A36A]" />
           </div>
-          <h3 className="font-ibm-plex-serif text-2xl font-bold text-white">Need Help?</h3>
+          <h3 className="font-ibm-plex-serif text-2xl font-bold text-white">
+            Need Help?
+          </h3>
           <p className="max-w-[500px] text-gray-400">
-            Can&apos;t find what you&apos;re looking for? Our support team is here to help you integrate YourBanK into your
-            applications.
+            Can&apos;t find what you&apos;re looking for? Our support team is
+            here to help you integrate YourBanK into your applications.
           </p>
           <Button variant="outline" className="text-white hover:bg-white/10">
             Contact Support
@@ -160,5 +183,5 @@ export default function Documentation() {
         </motion.div>
       </section>
     </div>
-  )
+  );
 }

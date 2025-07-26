@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { useSearchParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import Image from 'next/image';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 import {
   Select,
@@ -11,8 +11,8 @@ import {
   SelectItem,
   SelectLabel,
   SelectTrigger,
-} from "@/components/ui/select";
-import { formUrlQuery, formatAmount } from "@/lib/utils";
+} from '@/components/ui/select';
+import { formUrlQuery, formatAmount } from '@/lib/utils';
 
 export const BankDropdown = ({
   accounts = [],
@@ -24,25 +24,25 @@ export const BankDropdown = ({
   const [selected, setSeclected] = useState(accounts[0]);
 
   const handleBankChange = (id: string) => {
-    const account = accounts.find((account) => account.appwriteItemId === id)!;
+    const account = accounts.find(account => account.appwriteItemId === id)!;
 
     setSeclected(account);
     const newUrl = formUrlQuery({
       params: searchParams.toString(),
-      key: "id",
+      key: 'id',
       value: id,
     });
     router.push(newUrl, { scroll: false });
 
     if (setValue) {
-      setValue("senderBank", id);
+      setValue('senderBank', id);
     }
   };
 
   return (
     <Select
       defaultValue={selected.id}
-      onValueChange={(value) => handleBankChange(value)}
+      onValueChange={value => handleBankChange(value)}
     >
       <SelectTrigger
         className={`flex w-full bg-white gap-3 md:w-[300px] ${otherStyles}`}

@@ -1,8 +1,8 @@
-"use client"
+'use client';
 
-import { motion } from "framer-motion"
-import { CopyButton } from "@/components/docs/copy-button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { motion } from 'framer-motion';
+import { CopyButton } from '@/components/docs/copy-button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function InstallationPage() {
   return (
@@ -13,8 +13,12 @@ export default function InstallationPage() {
         transition={{ duration: 0.5 }}
         className="space-y-2"
       >
-        <h1 className="font-ibm-plex-serif text-3xl font-bold text-white md:text-5xl">Installation</h1>
-        <p className="text-lg text-gray-400">How to install and set up YourBanK in your project.</p>
+        <h1 className="font-ibm-plex-serif text-3xl font-bold text-white md:text-5xl">
+          Installation
+        </h1>
+        <p className="text-lg text-gray-400">
+          How to install and set up YourBanK in your project.
+        </p>
       </motion.div>
 
       <motion.div
@@ -23,9 +27,12 @@ export default function InstallationPage() {
         transition={{ duration: 0.5, delay: 0.1 }}
         className="space-y-4 w-full overflow-hidden"
       >
-        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">Framework Setup</h2>
+        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">
+          Framework Setup
+        </h2>
         <p className="text-gray-400">
-          YourBanK is built on top of Next.js. Run one of the following commands to create a new Next.js project:
+          YourBanK is built on top of Next.js. Run one of the following commands
+          to create a new Next.js project:
         </p>
 
         <Tabs defaultValue="npm" className="relative mt-6 w-full">
@@ -59,7 +66,10 @@ export default function InstallationPage() {
                   />
                 </div>
                 <pre className="mb-4 mt-6 overflow-x-auto p-4">
-                  <code className="text-white">npx create-next-app@latest my-app --typescript --tailwind --eslint</code>
+                  <code className="text-white">
+                    npx create-next-app@latest my-app --typescript --tailwind
+                    --eslint
+                  </code>
                 </pre>
               </div>
             </TabsContent>
@@ -72,7 +82,9 @@ export default function InstallationPage() {
                   />
                 </div>
                 <pre className="mb-4 mt-6 overflow-x-auto p-4">
-                  <code className="text-white">pnpm create next-app my-app --typescript --tailwind --eslint</code>
+                  <code className="text-white">
+                    pnpm create next-app my-app --typescript --tailwind --eslint
+                  </code>
                 </pre>
               </div>
             </TabsContent>
@@ -85,7 +97,9 @@ export default function InstallationPage() {
                   />
                 </div>
                 <pre className="mb-4 mt-6 overflow-x-auto p-4">
-                  <code className="text-white">yarn create next-app my-app --typescript --tailwind --eslint</code>
+                  <code className="text-white">
+                    yarn create next-app my-app --typescript --tailwind --eslint
+                  </code>
                 </pre>
               </div>
             </TabsContent>
@@ -99,7 +113,9 @@ export default function InstallationPage() {
         transition={{ duration: 0.5, delay: 0.2 }}
         className="space-y-4"
       >
-        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">Install YourBanK</h2>
+        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">
+          Install YourBanK
+        </h2>
         <p className="text-gray-400">Install YourBanK and its dependencies:</p>
 
         <Tabs defaultValue="npm" className="relative mt-6 w-full">
@@ -144,18 +160,22 @@ tailwind-merge@^2.3.0 tailwindcss-animate@^1.0.7 zod@^3.23.4 "
                   />
                 </div>
                 <pre className="mb-4 mt-6 overflow-x-auto p-4">
-                  <code className="text-white">npm install @hookform/resolvers@^3.3.4 
-@radix-ui/react-dialog@^1.0.5  @radix-ui/react-label@^2.0.2 
-@radix-ui/react-navigation-menu@^1.2.1 
-@radix-ui/react-progress@^1.1.0  @radix-ui/react-select@^2.0.0 
-@radix-ui/react-slot@^1.0.2  @radix-ui/react-tabs@^1.0.4 
-@sentry/nextjs@^8.42.0  chart.js@^4.4.2 
-class-variance-authority@^0.7.0  clsx@^2.1.1  dwolla-v2@^3.4.0 
-framer-motion@^11.14.4  jsonwebtoken@^9.0.2  lucide-react@^0.374.0 
-next@14.2.3 node-appwrite@^12.0.1 plaid@^23.0.0 query-string@^9.0.0 
-react@^18 react-chartjs-2@^5.2.0 react-countup@^6.5.3 react-dom@^18 
-react-hook-form@^7.51.3  react-plaid-link@^3.5.1 
-tailwind-merge@^2.3.0 tailwindcss-animate@^1.0.7 zod@^3.23.4 </code>
+                  <code className="text-white">
+                    npm install @hookform/resolvers@^3.3.4
+                    @radix-ui/react-dialog@^1.0.5 @radix-ui/react-label@^2.0.2
+                    @radix-ui/react-navigation-menu@^1.2.1
+                    @radix-ui/react-progress@^1.1.0
+                    @radix-ui/react-select@^2.0.0 @radix-ui/react-slot@^1.0.2
+                    @radix-ui/react-tabs@^1.0.4 @sentry/nextjs@^8.42.0
+                    chart.js@^4.4.2 class-variance-authority@^0.7.0 clsx@^2.1.1
+                    dwolla-v2@^3.4.0 framer-motion@^11.14.4 jsonwebtoken@^9.0.2
+                    lucide-react@^0.374.0 next@14.2.3 node-appwrite@^12.0.1
+                    plaid@^23.0.0 query-string@^9.0.0 react@^18
+                    react-chartjs-2@^5.2.0 react-countup@^6.5.3 react-dom@^18
+                    react-hook-form@^7.51.3 react-plaid-link@^3.5.1
+                    tailwind-merge@^2.3.0 tailwindcss-animate@^1.0.7
+                    zod@^3.23.4{' '}
+                  </code>
                 </pre>
               </div>
             </TabsContent>
@@ -179,18 +199,22 @@ tailwind-merge@^2.3.0 tailwindcss-animate@^1.0.7 zod@^3.23.4"
                   />
                 </div>
                 <pre className="mb-4 mt-6 overflow-x-auto p-4">
-                  <code className="text-white">pnpm add @hookform/resolvers@^3.3.4 
-@radix-ui/react-dialog@^1.0.5  @radix-ui/react-label@^2.0.2 
-@radix-ui/react-navigation-menu@^1.2.1 
-@radix-ui/react-progress@^1.1.0  @radix-ui/react-select@^2.0.0 
-@radix-ui/react-slot@^1.0.2  @radix-ui/react-tabs@^1.0.4 
-@sentry/nextjs@^8.42.0  chart.js@^4.4.2 
-class-variance-authority@^0.7.0  clsx@^2.1.1  dwolla-v2@^3.4.0 
-framer-motion@^11.14.4  jsonwebtoken@^9.0.2  lucide-react@^0.374.0 
-next@14.2.3 node-appwrite@^12.0.1 plaid@^23.0.0 query-string@^9.0.0 
-react@^18 react-chartjs-2@^5.2.0 react-countup@^6.5.3 react-dom@^18 
-react-hook-form@^7.51.3  react-plaid-link@^3.5.1 
-tailwind-merge@^2.3.0 tailwindcss-animate@^1.0.7 zod@^3.23.4 </code>
+                  <code className="text-white">
+                    pnpm add @hookform/resolvers@^3.3.4
+                    @radix-ui/react-dialog@^1.0.5 @radix-ui/react-label@^2.0.2
+                    @radix-ui/react-navigation-menu@^1.2.1
+                    @radix-ui/react-progress@^1.1.0
+                    @radix-ui/react-select@^2.0.0 @radix-ui/react-slot@^1.0.2
+                    @radix-ui/react-tabs@^1.0.4 @sentry/nextjs@^8.42.0
+                    chart.js@^4.4.2 class-variance-authority@^0.7.0 clsx@^2.1.1
+                    dwolla-v2@^3.4.0 framer-motion@^11.14.4 jsonwebtoken@^9.0.2
+                    lucide-react@^0.374.0 next@14.2.3 node-appwrite@^12.0.1
+                    plaid@^23.0.0 query-string@^9.0.0 react@^18
+                    react-chartjs-2@^5.2.0 react-countup@^6.5.3 react-dom@^18
+                    react-hook-form@^7.51.3 react-plaid-link@^3.5.1
+                    tailwind-merge@^2.3.0 tailwindcss-animate@^1.0.7
+                    zod@^3.23.4{' '}
+                  </code>
                 </pre>
               </div>
             </TabsContent>
@@ -211,18 +235,22 @@ react-hook-form@^7.51.3  react-plaid-link@^3.5.1 tailwind-merge@^2.3.0 tailwindc
                   />
                 </div>
                 <pre className="mb-4 mt-6 overflow-x-auto p-4">
-                  <code className="text-white">yarn add @hookform/resolvers@^3.3.4 
-@radix-ui/react-dialog@^1.0.5  @radix-ui/react-label@^2.0.2 
-@radix-ui/react-navigation-menu@^1.2.1 
-@radix-ui/react-progress@^1.1.0  @radix-ui/react-select@^2.0.0 
-@radix-ui/react-slot@^1.0.2  @radix-ui/react-tabs@^1.0.4 
-@sentry/nextjs@^8.42.0  chart.js@^4.4.2 
-class-variance-authority@^0.7.0  clsx@^2.1.1  dwolla-v2@^3.4.0 
-framer-motion@^11.14.4  jsonwebtoken@^9.0.2  lucide-react@^0.374.0 
-next@14.2.3 node-appwrite@^12.0.1 plaid@^23.0.0 query-string@^9.0.0 
-react@^18 react-chartjs-2@^5.2.0 react-countup@^6.5.3 react-dom@^18 
-react-hook-form@^7.51.3  react-plaid-link@^3.5.1 
-tailwind-merge@^2.3.0 tailwindcss-animate@^1.0.7 zod@^3.23.4 </code>
+                  <code className="text-white">
+                    yarn add @hookform/resolvers@^3.3.4
+                    @radix-ui/react-dialog@^1.0.5 @radix-ui/react-label@^2.0.2
+                    @radix-ui/react-navigation-menu@^1.2.1
+                    @radix-ui/react-progress@^1.1.0
+                    @radix-ui/react-select@^2.0.0 @radix-ui/react-slot@^1.0.2
+                    @radix-ui/react-tabs@^1.0.4 @sentry/nextjs@^8.42.0
+                    chart.js@^4.4.2 class-variance-authority@^0.7.0 clsx@^2.1.1
+                    dwolla-v2@^3.4.0 framer-motion@^11.14.4 jsonwebtoken@^9.0.2
+                    lucide-react@^0.374.0 next@14.2.3 node-appwrite@^12.0.1
+                    plaid@^23.0.0 query-string@^9.0.0 react@^18
+                    react-chartjs-2@^5.2.0 react-countup@^6.5.3 react-dom@^18
+                    react-hook-form@^7.51.3 react-plaid-link@^3.5.1
+                    tailwind-merge@^2.3.0 tailwindcss-animate@^1.0.7
+                    zod@^3.23.4{' '}
+                  </code>
                 </pre>
               </div>
             </TabsContent>
@@ -236,10 +264,13 @@ tailwind-merge@^2.3.0 tailwindcss-animate@^1.0.7 zod@^3.23.4 </code>
         transition={{ duration: 0.5, delay: 0.3 }}
         className="space-y-4"
       >
-        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">Environment Setup</h2>
+        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">
+          Environment Setup
+        </h2>
         <p className="text-gray-400">
-          Create a <code className="rounded bg-gray-800 px-1.5 py-0.5">.env.local</code> file in your project root and
-          add your API keys:
+          Create a{' '}
+          <code className="rounded bg-gray-800 px-1.5 py-0.5">.env.local</code>{' '}
+          file in your project root and add your API keys:
         </p>
         <div className="relative rounded-lg border border-gray-800 bg-zinc-950 [background:radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-zinc-950 via-zinc-950 to-zinc-950/90">
           <div className="absolute right-4 top-4 z-20">
@@ -310,12 +341,15 @@ JWT_SECRET=your_jwt_secret_here`}</code>
         transition={{ duration: 0.5, delay: 0.4 }}
         className="space-y-4"
       >
-        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">Next Steps</h2>
+        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">
+          Next Steps
+        </h2>
         <p className="text-gray-400">
-          Now that you have installed YourBanK, you can start using the components in your application. Check out the
-          components section to learn more about available components and their usage.
+          Now that you have installed YourBanK, you can start using the
+          components in your application. Check out the components section to
+          learn more about available components and their usage.
         </p>
       </motion.div>
     </div>
-  )
+  );
 }

@@ -1,7 +1,7 @@
-"use client"
+'use client';
 
-import { motion } from "framer-motion"
-import { CodeBlock } from "@/components/docs/code-block"
+import { motion } from 'framer-motion';
+import { CodeBlock } from '@/components/docs/code-block';
 
 export default function TypesPage() {
   return (
@@ -12,8 +12,12 @@ export default function TypesPage() {
         transition={{ duration: 0.5 }}
         className="space-y-2"
       >
-        <h1 className="font-ibm-plex-serif text-3xl font-bold text-white md:text-5xl">Types</h1>
-        <p className="text-lg text-gray-400">TypeScript types and interfaces used throughout the YourBanK platform.</p>
+        <h1 className="font-ibm-plex-serif text-3xl font-bold text-white md:text-5xl">
+          Types
+        </h1>
+        <p className="text-lg text-gray-400">
+          TypeScript types and interfaces used throughout the YourBanK platform.
+        </p>
       </motion.div>
 
       <motion.div
@@ -22,8 +26,12 @@ export default function TypesPage() {
         transition={{ duration: 0.5, delay: 0.1 }}
         className="space-y-4"
       >
-        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">Bank Types</h2>
-        <p className="text-gray-400">Core types for bank accounts and transactions:</p>
+        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">
+          Bank Types
+        </h2>
+        <p className="text-gray-400">
+          Core types for bank accounts and transactions:
+        </p>
 
         <CodeBlock
           code={`// Bank Account Types
@@ -91,8 +99,12 @@ export type TransactionType =
         transition={{ duration: 0.5, delay: 0.2 }}
         className="space-y-4"
       >
-        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">User Types</h2>
-        <p className="text-gray-400">Types for user profiles and authentication:</p>
+        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">
+          User Types
+        </h2>
+        <p className="text-gray-400">
+          Types for user profiles and authentication:
+        </p>
 
         <CodeBlock
           code={`export interface User {
@@ -128,8 +140,12 @@ export interface NotificationSettings {
         transition={{ duration: 0.5, delay: 0.3 }}
         className="space-y-4"
       >
-        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">Component Props</h2>
-        <p className="text-gray-400">Types for component props and configurations:</p>
+        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">
+          Component Props
+        </h2>
+        <p className="text-gray-400">
+          Types for component props and configurations:
+        </p>
 
         <CodeBlock
           code={`// AnimatedCounter Props
@@ -166,8 +182,12 @@ export interface TransactionTableProps {
         transition={{ duration: 0.5, delay: 0.4 }}
         className="space-y-4"
       >
-        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">API Response Types</h2>
-        <p className="text-gray-400">Types for API responses and error handling:</p>
+        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">
+          API Response Types
+        </h2>
+        <p className="text-gray-400">
+          Types for API responses and error handling:
+        </p>
 
         <CodeBlock
           code={`export interface ApiResponse<T> {
@@ -193,5 +213,5 @@ export interface PaginatedResponse<T> {
         />
       </motion.div>
     </div>
-  )
+  );
 }

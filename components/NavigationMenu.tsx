@@ -1,12 +1,20 @@
-"use client"
+'use client';
 
-import * as React from "react"
-import Link from "next/link"
-import Image from "next/image"
-import { motion } from "framer-motion"
-import { Menu, CreditCard, BarChart3, Shield, Wallet, Building2, Users, Briefcase, X, Book } from "lucide-react"
+import { motion } from 'framer-motion';
+import {
+  BarChart3,
+  Book,
+  CreditCard,
+  Menu,
+  Shield,
+  Wallet,
+  X,
+} from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import * as React from 'react';
 
-import { cn } from "@/lib/utils"
+import { Button } from '@/components/ui/button';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -15,43 +23,44 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu"
-import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+} from '@/components/ui/navigation-menu';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { cn } from '@/lib/utils';
 
 const features = [
   {
-    title: "Bank Integration",
-    description: "Connect and manage your US bank accounts securely.",
-    href: "/#personal-banking",
+    title: 'Bank Integration',
+    description: 'Connect and manage your US bank accounts securely.',
+    href: '/#personal-banking',
     icon: Wallet,
   },
   {
-    title: "Card Management",
-    description: "Create and manage your virtual and physical cards seamlessly.",
-    href: "/#business-banking",
+    title: 'Card Management',
+    description:
+      'Create and manage your virtual and physical cards seamlessly.',
+    href: '/#business-banking',
     icon: CreditCard,
   },
   {
-    title: "Analytics Dashboard",
-    description: "Track your spending and monitor your financial health.",
-    href: "/#enterprise-solutions",
+    title: 'Analytics Dashboard',
+    description: 'Track your spending and monitor your financial health.',
+    href: '/#enterprise-solutions',
     icon: BarChart3,
   },
   {
-    title: "Security Center",
-    description: "Advanced security features to protect your finances.",
-    href: "/#integrations",
+    title: 'Security Center',
+    description: 'Advanced security features to protect your finances.',
+    href: '/#integrations',
     icon: Shield,
   },
-]
+];
 
-interface ListItemProps extends React.ComponentPropsWithoutRef<"a"> {
+interface ListItemProps extends React.ComponentPropsWithoutRef<'a'> {
   title: string;
   icon: React.ComponentType<{ className?: string }>;
 }
 
-const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
+const ListItem = React.forwardRef<React.ElementRef<'a'>, ListItemProps>(
   ({ className, title, children, icon: Icon, ...props }, ref) => {
     return (
       <li>
@@ -59,8 +68,8 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
           <a
             ref={ref}
             className={cn(
-              "flex select-none items-center gap-4 rounded-lg p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-800/50",
-              className,
+              'flex select-none items-center gap-4 rounded-lg p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-800/50',
+              className
             )}
             {...props}
           >
@@ -69,18 +78,20 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, ListItemProps>(
             </div>
             <div>
               <div className="text-sm font-medium text-white">{title}</div>
-              <p className="line-clamp-2 text-sm leading-snug text-gray-400">{children}</p>
+              <p className="line-clamp-2 text-sm leading-snug text-gray-400">
+                {children}
+              </p>
             </div>
           </a>
         </NavigationMenuLink>
       </li>
-    )
-  },
-)
-ListItem.displayName = "ListItem"
+    );
+  }
+);
+ListItem.displayName = 'ListItem';
 
 export default function NavigationMenuDemo() {
-  const [isOpen, setIsOpen] = React.useState(false)
+  const [isOpen, setIsOpen] = React.useState(false);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-gray-800 bg-[#1a1f2d]">
@@ -88,7 +99,12 @@ export default function NavigationMenuDemo() {
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center gap-8">
             <Link href="/" className="flex items-center gap-2">
-              <Image src="/icons/logo.svg" width={32} height={32} alt="YourBanK logo" />
+              <Image
+                src="/icons/logo.svg"
+                width={32}
+                height={32}
+                alt="YourBanK logo"
+              />
               <span className="font-ibm-plex-serif text-xl font-bold text-white">
                 Your<span className="text-[#39A36A]">BanK</span>
               </span>
@@ -108,8 +124,13 @@ export default function NavigationMenuDemo() {
                       className="w-[600px] rounded-xl border border-gray-800 bg-[#1a1f2d]/95 p-4 backdrop-blur-sm"
                     >
                       <ul className="grid gap-3 md:grid-cols-2">
-                        {features.map((feature) => (
-                          <ListItem key={feature.title} title={feature.title} href={feature.href} icon={feature.icon}>
+                        {features.map(feature => (
+                          <ListItem
+                            key={feature.title}
+                            title={feature.title}
+                            href={feature.href}
+                            icon={feature.icon}
+                          >
                             {feature.description}
                           </ListItem>
                         ))}
@@ -122,7 +143,7 @@ export default function NavigationMenuDemo() {
                     <NavigationMenuLink
                       className={cn(
                         navigationMenuTriggerStyle(),
-                        "bg-transparent text-white hover:bg-gray-800 hover:text-white",
+                        'bg-transparent text-white hover:bg-gray-800 hover:text-white'
                       )}
                     >
                       <Book className="mr-2 h-4 w-4" />
@@ -137,18 +158,28 @@ export default function NavigationMenuDemo() {
           <div className="flex items-center gap-4">
             <div className="hidden lg:flex lg:items-center lg:gap-4">
               <Link href="/sign-in">
-                <Button variant="ghost" className="text-white hover:bg-gray-800 hover:text-white">
+                <Button
+                  variant="ghost"
+                  className="text-white hover:bg-gray-800 hover:text-white"
+                >
                   Sign In
                 </Button>
               </Link>
               <Link href="/sign-up">
-                <Button className="bg-[#39A36A] hover:bg-[#2E8754]">Get Started</Button>
+                <Button className="bg-[#39A36A] hover:bg-[#2E8754]">
+                  Get Started
+                </Button>
               </Link>
             </div>
 
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setIsOpen(true)}>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="lg:hidden"
+                  onClick={() => setIsOpen(true)}
+                >
                   <Menu className="h-6 w-6 text-white" />
                   <span className="sr-only">Toggle menu</span>
                 </Button>
@@ -166,7 +197,12 @@ export default function NavigationMenuDemo() {
                 >
                   <div className="flex items-center justify-between border-b border-gray-800 px-6 py-4">
                     <Link href="/" className="flex items-center gap-2">
-                      <Image src="/icons/logo.svg" width={24} height={24} alt="YourBanK logo" />
+                      <Image
+                        src="/icons/logo.svg"
+                        width={24}
+                        height={24}
+                        alt="YourBanK logo"
+                      />
                       <span className="font-ibm-plex-serif text-lg font-bold text-white">
                         Your<span className="text-[#39A36A]">BanK</span>
                       </span>
@@ -186,9 +222,11 @@ export default function NavigationMenuDemo() {
 
                   <div className="flex-1 space-y-6 overflow-auto py-6">
                     <div className="px-6">
-                      <div className="mb-4 text-xs font-semibold uppercase tracking-wider text-gray-400">Features</div>
+                      <div className="mb-4 text-xs font-semibold uppercase tracking-wider text-gray-400">
+                        Features
+                      </div>
                       <ul className="grid gap-3">
-                        {features.map((feature) => (
+                        {features.map(feature => (
                           <li key={feature.title}>
                             <Link
                               href={feature.href}
@@ -197,7 +235,9 @@ export default function NavigationMenuDemo() {
                               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-800">
                                 <feature.icon className="h-4 w-4 text-green-500" />
                               </div>
-                              <div className="text-sm font-medium">{feature.title}</div>
+                              <div className="text-sm font-medium">
+                                {feature.title}
+                              </div>
                             </Link>
                           </li>
                         ))}
@@ -205,7 +245,9 @@ export default function NavigationMenuDemo() {
                     </div>
 
                     <div className="px-6">
-                    <div className="mb-4 text-xs font-semibold uppercase tracking-wider text-gray-400">Documentation</div>
+                      <div className="mb-4 text-xs font-semibold uppercase tracking-wider text-gray-400">
+                        Documentation
+                      </div>
                       <Link
                         href="/docs"
                         className="flex items-center gap-3 rounded-lg p-3 text-white transition-colors hover:bg-gray-800"
@@ -229,7 +271,9 @@ export default function NavigationMenuDemo() {
                         </Button>
                       </Link>
                       <Link href="/sign-up">
-                        <Button className="w-full bg-[#39A36A] hover:bg-[#2E8754]">Get Started</Button>
+                        <Button className="w-full bg-[#39A36A] hover:bg-[#2E8754]">
+                          Get Started
+                        </Button>
                       </Link>
                     </div>
                   </div>
@@ -240,5 +284,5 @@ export default function NavigationMenuDemo() {
         </div>
       </div>
     </header>
-  )
+  );
 }

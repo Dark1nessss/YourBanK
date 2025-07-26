@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 import { motion } from 'framer-motion';
@@ -16,21 +16,21 @@ const NotFound = () => {
     <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen bg-gradient-to-b from-white to-blue-50 p-4 lg:p-16 gap-y-10 gap-x-10 lg:gap-x-40">
       <motion.div
         className="w-4/5 md:w-3/5 lg:w-1/2 flex items-center justify-center mx-auto"
-        animate={{ 
-          x: [0, 10, -10, 0], 
-          y: [0, -5, 5, 0], 
+        animate={{
+          x: [0, 10, -10, 0],
+          y: [0, -5, 5, 0],
           rotate: [0, 2, -2, 0],
-          scale: [1, 1.05, 0.95, 1]
+          scale: [1, 1.05, 0.95, 1],
         }}
-        transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+        transition={{ repeat: Infinity, duration: 6, ease: 'easeInOut' }}
       >
-        <Image 
+        <Image
           src="/icons/404-error-lost-in-space-animate.svg"
           width={400}
           height={400}
           alt="Astronaut floating in space, representing a 404 error"
           className="w-full h-auto max-w-sm md:max-w-md lg:max-w-lg"
-        /> 
+        />
       </motion.div>
       <div className="w-4/5 md:w-3/5 lg:w-1/2 mt-10 lg:mt-0 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6 lg:space-y-8">
         <motion.h1
@@ -69,7 +69,7 @@ const NotFound = () => {
               Return Home
             </Button>
           </Link>
-          <Button 
+          <Button
             onClick={refreshPage}
             className="px-6 py-3 bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 transition-all flex items-center gap-2"
           >

@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
 
-import { createTransfer } from "@/lib/actions/dwolla.actions";
-import { createTransaction } from "@/lib/actions/transaction.actions";
-import { getBank, getBankByAccountId } from "@/lib/actions/user.actions";
-import { decryptId } from "@/lib/utils";
+import { createTransfer } from '@/lib/actions/dwolla.actions';
+import { createTransaction } from '@/lib/actions/transaction.actions';
+import { getBank, getBankByAccountId } from '@/lib/actions/user.actions';
+import { decryptId } from '@/lib/utils';
 
-import { BankDropdown } from "./BankDropdown";
-import { Button } from "./ui/button";
+import { BankDropdown } from './BankDropdown';
+import { Button } from './ui/button';
 import {
   Form,
   FormControl,
@@ -22,16 +22,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/form";
-import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
+} from './ui/form';
+import { Input } from './ui/input';
+import { Textarea } from './ui/textarea';
 
 const formSchema = z.object({
-  email: z.string().email("Invalid email address"),
-  name: z.string().min(4, "Transfer note is too short"),
-  amount: z.string().min(4, "Amount is too short"),
-  senderBank: z.string().min(4, "Please select a valid bank account"),
-  sharableId: z.string().min(8, "Please select a valid sharable Id"),
+  email: z.string().email('Invalid email address'),
+  name: z.string().min(4, 'Transfer note is too short'),
+  amount: z.string().min(4, 'Amount is too short'),
+  senderBank: z.string().min(4, 'Please select a valid bank account'),
+  sharableId: z.string().min(8, 'Please select a valid sharable Id'),
 });
 
 const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
@@ -41,11 +41,11 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      email: "",
-      amount: "",
-      senderBank: "",
-      sharableId: "",
+      name: '',
+      email: '',
+      amount: '',
+      senderBank: '',
+      sharableId: '',
     },
   });
 
@@ -83,11 +83,11 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
 
         if (newTransaction) {
           form.reset();
-          router.push("/dashboard");
+          router.push('/dashboard');
         }
       }
     } catch (error) {
-      console.error("Submitting create transfer request failed: ", error);
+      console.error('Submitting create transfer request failed: ', error);
     }
 
     setIsLoading(false);
@@ -243,7 +243,7 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
                 <Loader2 size={20} className="animate-spin" /> &nbsp; Sending...
               </>
             ) : (
-              "Transfer Funds"
+              'Transfer Funds'
             )}
           </Button>
         </div>

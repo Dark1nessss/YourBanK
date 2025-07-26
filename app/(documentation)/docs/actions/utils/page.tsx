@@ -1,8 +1,8 @@
-"use client"
+'use client';
 
-import { motion } from "framer-motion"
-import { CodeBlock } from "@/components/docs/code-block"
-import { Card } from "@/components/ui/card"
+import { motion } from 'framer-motion';
+import { CodeBlock } from '@/components/docs/code-block';
+import { Card } from '@/components/ui/card';
 
 export default function UtilsPage() {
   return (
@@ -13,8 +13,12 @@ export default function UtilsPage() {
         transition={{ duration: 0.5 }}
         className="space-y-2"
       >
-        <h1 className="font-ibm-plex-serif text-3xl font-bold text-white md:text-5xl">Utils</h1>
-        <p className="text-lg text-gray-400">Utility functions for common operations and data formatting.</p>
+        <h1 className="font-ibm-plex-serif text-3xl font-bold text-white md:text-5xl">
+          Utils
+        </h1>
+        <p className="text-lg text-gray-400">
+          Utility functions for common operations and data formatting.
+        </p>
       </motion.div>
 
       <motion.div
@@ -23,7 +27,9 @@ export default function UtilsPage() {
         transition={{ duration: 0.5, delay: 0.1 }}
         className="space-y-4"
       >
-        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">Date Formatting</h2>
+        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">
+          Date Formatting
+        </h2>
         <Card className="p-6 bg-gray-900/50 border-gray-800">
           <p className="text-gray-400 mb-4">Format dates in various styles.</p>
           <CodeBlock
@@ -44,7 +50,9 @@ export default function UtilsPage() {
         transition={{ duration: 0.5, delay: 0.2 }}
         className="space-y-4"
       >
-        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">Currency Formatting</h2>
+        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">
+          Currency Formatting
+        </h2>
         <Card className="p-6 bg-gray-900/50 border-gray-800">
           <p className="text-gray-400 mb-4">Format numbers as currency.</p>
           <CodeBlock
@@ -63,9 +71,13 @@ const amount2 = formatAmount(1000000)
         transition={{ duration: 0.5, delay: 0.3 }}
         className="space-y-4"
       >
-        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">Data Processing</h2>
+        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">
+          Data Processing
+        </h2>
         <Card className="p-6 bg-gray-900/50 border-gray-800">
-          <p className="text-gray-400 mb-4">Functions for processing and transforming data.</p>
+          <p className="text-gray-400 mb-4">
+            Functions for processing and transforming data.
+          </p>
           <CodeBlock
             code={`// Parse and stringify objects
 const parsed = parseStringify(value)
@@ -91,9 +103,13 @@ const decrypted = decryptId(encrypted)`}
         transition={{ duration: 0.5, delay: 0.4 }}
         className="space-y-4"
       >
-        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">URL Handling</h2>
+        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">
+          URL Handling
+        </h2>
         <Card className="p-6 bg-gray-900/50 border-gray-800">
-          <p className="text-gray-400 mb-4">URL manipulation and query parameter handling.</p>
+          <p className="text-gray-400 mb-4">
+            URL manipulation and query parameter handling.
+          </p>
           <CodeBlock
             code={`// Update URL query parameters
 const newUrl = formUrlQuery({
@@ -115,29 +131,42 @@ const customerId = extractCustomerIdFromUrl("https://api.example.com/customers/1
         transition={{ duration: 0.5, delay: 0.5 }}
         className="space-y-4"
       >
-        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">Features</h2>
+        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">
+          Features
+        </h2>
         <div className="grid gap-4">
           <Card className="p-4 bg-gray-900/50 border-gray-800">
             <h3 className="font-semibold text-white mb-2">Type Safety</h3>
-            <p className="text-gray-400">Full TypeScript support with proper type definitions.</p>
+            <p className="text-gray-400">
+              Full TypeScript support with proper type definitions.
+            </p>
           </Card>
 
           <Card className="p-4 bg-gray-900/50 border-gray-800">
-            <h3 className="font-semibold text-white mb-2">Internationalization</h3>
-            <p className="text-gray-400">Uses Intl API for consistent formatting across locales.</p>
+            <h3 className="font-semibold text-white mb-2">
+              Internationalization
+            </h3>
+            <p className="text-gray-400">
+              Uses Intl API for consistent formatting across locales.
+            </p>
           </Card>
 
           <Card className="p-4 bg-gray-900/50 border-gray-800">
             <h3 className="font-semibold text-white mb-2">Data Processing</h3>
-            <p className="text-gray-400">Efficient utilities for processing and transforming data structures.</p>
+            <p className="text-gray-400">
+              Efficient utilities for processing and transforming data
+              structures.
+            </p>
           </Card>
 
           <Card className="p-4 bg-gray-900/50 border-gray-800">
             <h3 className="font-semibold text-white mb-2">URL Manipulation</h3>
-            <p className="text-gray-400">Comprehensive URL and query parameter handling functions.</p>
+            <p className="text-gray-400">
+              Comprehensive URL and query parameter handling functions.
+            </p>
           </Card>
         </div>
       </motion.div>
     </div>
-  )
+  );
 }

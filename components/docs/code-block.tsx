@@ -1,15 +1,19 @@
-"use client"
-import { CopyButton } from "@/components/docs/copy-button"
+'use client';
+import { CopyButton } from '@/components/docs/copy-button';
 
 interface CodeBlockProps {
-  code: string
-  language?: string
-  showLineNumbers?: boolean
+  code: string;
+  language?: string;
+  showLineNumbers?: boolean;
 }
 
-export function CodeBlock({ code, language = "typescript", showLineNumbers = false }: CodeBlockProps) {
-  const lines = code.split("\n")
-  const maxLineNumberWidth = lines.length.toString().length
+export function CodeBlock({
+  code,
+  language = 'typescript',
+  showLineNumbers = false,
+}: CodeBlockProps) {
+  const lines = code.split('\n');
+  const maxLineNumberWidth = lines.length.toString().length;
 
   return (
     <div className="relative w-full max-w-[calc(100vw-2rem)] md:max-w-full rounded-lg border border-[#1E1E1E] bg-[#1E1E1E]">
@@ -27,7 +31,10 @@ export function CodeBlock({ code, language = "typescript", showLineNumbers = fal
             >
               <div className="py-4 px-4">
                 {lines.map((_, i) => (
-                  <div key={i} className="text-[#858585] text-right leading-6 text-sm tabular-nums">
+                  <div
+                    key={i}
+                    className="text-[#858585] text-right leading-6 text-sm tabular-nums"
+                  >
                     {i + 1}
                   </div>
                 ))}
@@ -42,5 +49,5 @@ export function CodeBlock({ code, language = "typescript", showLineNumbers = fal
         </div>
       </div>
     </div>
-  )
+  );
 }

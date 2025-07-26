@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 import { motion } from 'framer-motion';
@@ -12,20 +12,20 @@ const Error = ({ error, reset }: { error: Error; reset: () => void }) => {
     <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen bg-gradient-to-b from-white to-pink-25 p-4 lg:p-16 gap-y-10 gap-x-10 lg:gap-x-40">
       <motion.div
         className="w-4/5 md:w-3/5 lg:w-1/2 flex items-center justify-center mx-auto"
-        animate={{ 
+        animate={{
           y: [0, -10, 10, 0],
           rotate: [0, -1, 1, 0],
-          scale: [1, 1.02, 0.98, 1]
+          scale: [1, 1.02, 0.98, 1],
         }}
-        transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+        transition={{ repeat: Infinity, duration: 6, ease: 'easeInOut' }}
       >
-        <Image 
+        <Image
           src="/icons/500-internal-server-error-animate.svg"
           width={400}
           height={400}
           alt="Server with warning signs, representing a 500 internal server error"
           className="w-full h-auto max-w-sm md:max-w-md lg:max-w-lg"
-        /> 
+        />
       </motion.div>
       <div className="w-4/5 md:w-3/5 lg:w-1/2 mt-10 lg:mt-0 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6 lg:space-y-8">
         <motion.h1
@@ -50,7 +50,8 @@ const Error = ({ error, reset }: { error: Error; reset: () => void }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 1 }}
         >
-          Don&apos;t worry, it&apos;s not you – it&apos;s us. We&apos;re working on fixing this issue.
+          Don&apos;t worry, it&apos;s not you – it&apos;s us. We&apos;re working
+          on fixing this issue.
         </motion.p>
         <motion.div
           className="flex flex-col sm:flex-row gap-4 mt-6"
@@ -64,7 +65,7 @@ const Error = ({ error, reset }: { error: Error; reset: () => void }) => {
               Return Home
             </Button>
           </Link>
-          <Button 
+          <Button
             onClick={() => reset()}
             className="px-6 py-3 bg-pink-600 text-white rounded-lg shadow-lg hover:bg-pink-700 transition-all flex items-center gap-2"
           >

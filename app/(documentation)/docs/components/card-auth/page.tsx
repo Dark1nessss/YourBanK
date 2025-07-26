@@ -1,9 +1,9 @@
-"use client"
+'use client';
 
-import { motion } from "framer-motion"
-import { CodeBlock } from "@/components/docs/code-block"
-import { Card } from "@/components/ui/card"
-import CardAuth from "@/components/CardAuth"
+import { motion } from 'framer-motion';
+import { CodeBlock } from '@/components/docs/code-block';
+import { Card } from '@/components/ui/card';
+import CardAuth from '@/components/CardAuth';
 
 export default function CardAuthPage() {
   return (
@@ -14,8 +14,12 @@ export default function CardAuthPage() {
         transition={{ duration: 0.5 }}
         className="space-y-2"
       >
-        <h1 className="font-ibm-plex-serif text-3xl font-bold text-white md:text-5xl">CardAuth</h1>
-        <p className="text-lg text-gray-400">A component of a bank card whit aniamtions.</p>
+        <h1 className="font-ibm-plex-serif text-3xl font-bold text-white md:text-5xl">
+          CardAuth
+        </h1>
+        <p className="text-lg text-gray-400">
+          A component of a bank card whit aniamtions.
+        </p>
       </motion.div>
 
       <motion.div
@@ -24,10 +28,12 @@ export default function CardAuthPage() {
         transition={{ duration: 0.5, delay: 0.1 }}
         className="space-y-4"
       >
-        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">Usage</h2>
+        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">
+          Usage
+        </h2>
         <Card className="p-6 bg-gray-900/50 border-gray-800">
           <div className="max-w-md mx-auto">
-            <CardAuth/>
+            <CardAuth />
           </div>
         </Card>
 
@@ -117,5 +123,5 @@ export default CardAuth;`}
         />
       </motion.div>
     </div>
-  )
+  );
 }

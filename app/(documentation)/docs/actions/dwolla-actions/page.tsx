@@ -1,8 +1,8 @@
-"use client"
+'use client';
 
-import { motion } from "framer-motion"
-import { CodeBlock } from "@/components/docs/code-block"
-import { Card } from "@/components/ui/card"
+import { motion } from 'framer-motion';
+import { CodeBlock } from '@/components/docs/code-block';
+import { Card } from '@/components/ui/card';
 
 export default function DwollaActionsPage() {
   return (
@@ -13,8 +13,12 @@ export default function DwollaActionsPage() {
         transition={{ duration: 0.5 }}
         className="space-y-2"
       >
-        <h1 className="font-ibm-plex-serif text-3xl font-bold text-white md:text-5xl">Dwolla Actions</h1>
-        <p className="text-lg text-gray-400">Server actions for Dwolla payment processing integration.</p>
+        <h1 className="font-ibm-plex-serif text-3xl font-bold text-white md:text-5xl">
+          Dwolla Actions
+        </h1>
+        <p className="text-lg text-gray-400">
+          Server actions for Dwolla payment processing integration.
+        </p>
       </motion.div>
 
       <motion.div
@@ -23,9 +27,13 @@ export default function DwollaActionsPage() {
         transition={{ duration: 0.5, delay: 0.1 }}
         className="space-y-4"
       >
-        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">createFundingSource</h2>
+        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">
+          createFundingSource
+        </h2>
         <Card className="p-6 bg-gray-900/50 border-gray-800">
-          <p className="text-gray-400 mb-4">Creates a Dwolla funding source using a Plaid processor token.</p>
+          <p className="text-gray-400 mb-4">
+            Creates a Dwolla funding source using a Plaid processor token.
+          </p>
           <CodeBlock
             code={`const fundingSourceUrl = await createFundingSource({
   customerId: "customer_123",
@@ -42,9 +50,13 @@ export default function DwollaActionsPage() {
         transition={{ duration: 0.5, delay: 0.2 }}
         className="space-y-4"
       >
-        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">createTransfer</h2>
+        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">
+          createTransfer
+        </h2>
         <Card className="p-6 bg-gray-900/50 border-gray-800">
-          <p className="text-gray-400 mb-4">Initiates a transfer between two funding sources.</p>
+          <p className="text-gray-400 mb-4">
+            Initiates a transfer between two funding sources.
+          </p>
           <CodeBlock
             code={`const transferUrl = await createTransfer({
   sourceFundingSourceUrl: "source_url",
@@ -61,7 +73,9 @@ export default function DwollaActionsPage() {
         transition={{ duration: 0.5, delay: 0.3 }}
         className="space-y-4"
       >
-        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">Type Definitions</h2>
+        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">
+          Type Definitions
+        </h2>
         <Card className="p-6 bg-gray-900/50 border-gray-800">
           <CodeBlock
             code={`interface CreateFundingSourceOptions {
@@ -86,5 +100,5 @@ interface AddFundingSourceParams {
         </Card>
       </motion.div>
     </div>
-  )
+  );
 }

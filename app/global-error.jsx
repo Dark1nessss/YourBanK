@@ -1,11 +1,9 @@
-"use client";
+'use client';
 
-import * as Sentry from "@sentry/nextjs";
-import Error from "next/error";
-import { useEffect } from "react";
-import ForbiddenPage from "@/components/ForbiddenPage";
-
-
+import * as Sentry from '@sentry/nextjs';
+import Error from 'next/error';
+import { useEffect } from 'react';
+import ForbiddenPage from '@/components/ForbiddenPage';
 
 export default function GlobalError({ error }) {
   useEffect(() => {

@@ -1,160 +1,160 @@
-import type React from "react"
-import type { Metadata } from "next"
-import { DocsSidebarNav } from "@/components/docs/sidebar-nav"
-import { NavDocs } from "@/components/docs/nav-docs"
+import type React from 'react';
+import type { Metadata } from 'next';
+import { DocsSidebarNav } from '@/components/docs/sidebar-nav';
+import { NavDocs } from '@/components/docs/nav-docs';
 
 export const metadata: Metadata = {
-  title: "Documentation | YourBanK",
-  description: "Learn how to integrate and build with YourBanK",
-}
+  title: 'Documentation | YourBanK',
+  description: 'Learn how to integrate and build with YourBanK',
+};
 
 const sidebarNavItems = [
   {
-    title: "Overview",
+    title: 'Overview',
     items: [
       {
-        title: "Home",
-        href: "/docs",
+        title: 'Home',
+        href: '/docs',
       },
     ],
   },
   {
-    title: "Getting Started",
+    title: 'Getting Started',
     items: [
       {
-        title: "Introduction",
-        href: "/docs/introduction",
+        title: 'Introduction',
+        href: '/docs/introduction',
       },
       {
-        title: "Installation",
-        href: "/docs/installation",
+        title: 'Installation',
+        href: '/docs/installation',
       },
       {
-        title: "Components.json",
-        href: "/docs/components-json",
+        title: 'Components.json',
+        href: '/docs/components-json',
       },
       {
-        title: "Constants.ts",
-        href: "/docs/constants",
+        title: 'Constants.ts',
+        href: '/docs/constants',
       },
       {
-        title: "Types.ts",
-        href: "/docs/types",
+        title: 'Types.ts',
+        href: '/docs/types',
       },
       {
-        title: "Styling",
-        href: "/docs/styling",
+        title: 'Styling',
+        href: '/docs/styling',
       },
     ],
   },
   {
-    title: "Components",
+    title: 'Components',
     items: [
       {
-        title: "AnimatedCounter",
-        href: "/docs/components/animated-counter",
+        title: 'AnimatedCounter',
+        href: '/docs/components/animated-counter',
       },
       {
-        title: "AuthForm",
-        href: "/docs/components/auth-form",
+        title: 'AuthForm',
+        href: '/docs/components/auth-form',
       },
       {
-        title: "BankCard",
-        href: "/docs/components/bank-card",
+        title: 'BankCard',
+        href: '/docs/components/bank-card',
       },
       {
-        title: "BankTabItem",
-        href: "/docs/components/bank-tab-item",
+        title: 'BankTabItem',
+        href: '/docs/components/bank-tab-item',
       },
       {
-        title: "CardAuth",
-        href: "/docs/components/card-auth",
+        title: 'CardAuth',
+        href: '/docs/components/card-auth',
       },
       {
-        title: "Category",
-        href: "/docs/components/category",
+        title: 'Category',
+        href: '/docs/components/category',
       },
       {
-        title: "Copy",
-        href: "/docs/components/copy",
+        title: 'Copy',
+        href: '/docs/components/copy',
       },
       {
-        title: "DoughnutChart",
-        href: "/docs/components/doughnut-chart",
+        title: 'DoughnutChart',
+        href: '/docs/components/doughnut-chart',
       },
       {
-        title: "Sidebar",
-        href: "/docs/components/sidebar",
+        title: 'Sidebar',
+        href: '/docs/components/sidebar',
       },
       {
-        title: "RightSidebar",
-        href: "/docs/components/right-sidebar",
+        title: 'RightSidebar',
+        href: '/docs/components/right-sidebar',
       },
       {
-        title: "Footer",
-        href: "/docs/components/footer",
+        title: 'Footer',
+        href: '/docs/components/footer',
       },
       {
-        title: "RecentTransactions",
-        href: "/docs/components/recent-transactions",
+        title: 'RecentTransactions',
+        href: '/docs/components/recent-transactions',
       },
       {
-        title: "TransactionTable",
-        href: "/docs/components/transaction-table",
+        title: 'TransactionTable',
+        href: '/docs/components/transaction-table',
       },
       {
-        title: "Pagination",
-        href: "/docs/components/pagination",
+        title: 'Pagination',
+        href: '/docs/components/pagination',
       },
       {
-        title: "PaymentTransferForm",
-        href: "/docs/components/payment-transfer-form",
+        title: 'PaymentTransferForm',
+        href: '/docs/components/payment-transfer-form',
       },
       {
-        title: "PlaidLink",
-        href: "/docs/components/plaid-link",
+        title: 'PlaidLink',
+        href: '/docs/components/plaid-link',
       },
     ],
   },
   {
-    title: "Actions",
+    title: 'Actions',
     items: [
       {
-        title: "Bank Actions",
-        href: "/docs/actions/bank-actions",
+        title: 'Bank Actions',
+        href: '/docs/actions/bank-actions',
       },
       {
-        title: "Dwolla Actions",
-        href: "/docs/actions/dwolla-actions",
+        title: 'Dwolla Actions',
+        href: '/docs/actions/dwolla-actions',
       },
       {
-        title: "Transaction Actions",
-        href: "/docs/actions/transactions",
+        title: 'Transaction Actions',
+        href: '/docs/actions/transactions',
       },
       {
-        title: "User Actions",
-        href: "/docs/actions/user-actions",
+        title: 'User Actions',
+        href: '/docs/actions/user-actions',
       },
       {
-        title: "Appwrite",
-        href: "/docs/actions/appwrite",
+        title: 'Appwrite',
+        href: '/docs/actions/appwrite',
       },
       {
-        title: "Plaid",
-        href: "/docs/actions/plaid",
+        title: 'Plaid',
+        href: '/docs/actions/plaid',
       },
       {
-        title: "Utils",
-        href: "/docs/actions/utils",
+        title: 'Utils',
+        href: '/docs/actions/utils',
       },
     ],
   },
-]
+];
 
 export default function DocumentationLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <div className="flex min-h-screen w-full flex-col bg-[#1a1f2d]">
@@ -168,9 +168,11 @@ export default function DocumentationLayout({
           <div className="absolute top-0 right-0 h-full w-[1px] bg-gray-800" />
         </aside>
         <main className="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_200px]">
-          <div className="mx-auto w-full min-w-0 max-w-[800px] px-4 md:px-6">{children}</div>
+          <div className="mx-auto w-full min-w-0 max-w-[800px] px-4 md:px-6">
+            {children}
+          </div>
         </main>
       </div>
     </div>
-  )
+  );
 }

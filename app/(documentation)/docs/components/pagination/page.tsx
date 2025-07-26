@@ -1,9 +1,9 @@
-"use client"
+'use client';
 
-import { motion } from "framer-motion"
-import { CodeBlock } from "@/components/docs/code-block"
-import { Card } from "@/components/ui/card"
-import { Pagination } from "@/components/Pagination"
+import { motion } from 'framer-motion';
+import { CodeBlock } from '@/components/docs/code-block';
+import { Card } from '@/components/ui/card';
+import { Pagination } from '@/components/Pagination';
 
 export default function PaginationPage() {
   return (
@@ -14,8 +14,12 @@ export default function PaginationPage() {
         transition={{ duration: 0.5 }}
         className="space-y-2"
       >
-        <h1 className="font-ibm-plex-serif text-3xl font-bold text-white md:text-5xl">Pagination</h1>
-        <p className="text-lg text-gray-400">Navigation component for paginated content with URL integration.</p>
+        <h1 className="font-ibm-plex-serif text-3xl font-bold text-white md:text-5xl">
+          Pagination
+        </h1>
+        <p className="text-lg text-gray-400">
+          Navigation component for paginated content with URL integration.
+        </p>
       </motion.div>
 
       <motion.div
@@ -24,7 +28,9 @@ export default function PaginationPage() {
         transition={{ duration: 0.5, delay: 0.1 }}
         className="space-y-4"
       >
-        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">Usage</h2>
+        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">
+          Usage
+        </h2>
         <Card className="p-6 bg-white border-gray-800">
           <Pagination page={1} totalPages={5} />
         </Card>
@@ -50,7 +56,9 @@ export default function PaginatedContent() {
         transition={{ duration: 0.5, delay: 0.2 }}
         className="space-y-4"
       >
-        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">Props</h2>
+        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">
+          Props
+        </h2>
         <div className="grid gap-4">
           <Card className="p-4 bg-gray-900/50 border-gray-800">
             <h3 className="font-semibold text-white mb-2">page</h3>
@@ -72,26 +80,34 @@ export default function PaginatedContent() {
         transition={{ duration: 0.5, delay: 0.3 }}
         className="space-y-4"
       >
-        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">Features</h2>
+        <h2 className="font-ibm-plex-serif text-2xl font-bold text-white">
+          Features
+        </h2>
         <div className="grid gap-4">
           <Card className="p-4 bg-gray-900/50 border-gray-800">
             <h3 className="font-semibold text-white mb-2">URL Integration</h3>
             <p className="text-gray-400">
-              Automatically updates the URL with the current page number using search params.
+              Automatically updates the URL with the current page number using
+              search params.
             </p>
           </Card>
 
           <Card className="p-4 bg-gray-900/50 border-gray-800">
             <h3 className="font-semibold text-white mb-2">Boundary Handling</h3>
-            <p className="text-gray-400">Disables navigation buttons when at the first or last page.</p>
+            <p className="text-gray-400">
+              Disables navigation buttons when at the first or last page.
+            </p>
           </Card>
 
           <Card className="p-4 bg-gray-900/50 border-gray-800">
             <h3 className="font-semibold text-white mb-2">Client Navigation</h3>
-            <p className="text-gray-400">Uses client-side navigation to update content without full page reloads.</p>
+            <p className="text-gray-400">
+              Uses client-side navigation to update content without full page
+              reloads.
+            </p>
           </Card>
         </div>
       </motion.div>
     </div>
-  )
+  );
 }
