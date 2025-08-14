@@ -29,7 +29,7 @@
 ### **2. Mobile Docs Navigation Bug** ⭐⭐
 
 - [ ] **Fix Mobile Docs Crash**
-  - Debug and fix `components/docs/nav-docs.tsx` mobile issues
+  - Debug and fix `components/docs/nav-docs.tsx` mobile issues `in Introduction Page`
   - Implement responsive slide-out drawer navigation
   - Add proper mobile breakpoints and touch interactions
   - Test across various mobile devices and screen sizes

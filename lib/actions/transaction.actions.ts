@@ -1,34 +1,40 @@
 'use server';
 
-import { ID, Query } from 'node-appwrite';
-import { createAdminClient } from '../appwrite';
+import { connectToDatabase, getTransactionsCollection } from '../mongodb';
 import { parseStringify } from '../utils';
-
-const {
-  APPWRITE_DATABASE_ID: DATABASE_ID,
-  APPWRITE_TRANSACTION_COLLECTION_ID: TRANSACTION_COLLECTION_ID,
-} = process.env;
 
 export const createTransaction = async (
   transaction: CreateTransactionProps
 ) => {
   try {
-    const { database } = await createAdminClient();
+    await connectToDatabase();
+    const transactionsCollection = getTransactionsCollection();
 
-    const newTransaction = await database.createDocument(
-      DATABASE_ID!,
-      TRANSACTION_COLLECTION_ID!,
-      ID.unique(),
-      {
-        channel: 'online',
-        category: 'Transfer',
-        ...transaction,
-      }
-    );
+    const newTransaction = {
+      channel: 'online',
+      category: ['Transfer'],
+      paymentChannel: 'online',
+      subcategory: ['default'],
+      type: 'debit',
+      image: undefined,
+      date: new Date(),
+      userId: transaction.senderId,
+      bankId: transaction.senderBankId,
+      accountId: transaction.senderBankId,
+      ...transaction,
+      amount: parseFloat(transaction.amount),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
 
-    return parseStringify(newTransaction);
+    const result = await transactionsCollection.insertOne(newTransaction);
+    const createdTransaction = await transactionsCollection.findOne({
+      _id: result.insertedId,
+    });
+
+    return parseStringify(createdTransaction);
   } catch (error) {
-    console.log(error);
+    throw new Error(`Failed to create transaction: ${error}`);
   }
 };
 
@@ -36,30 +42,23 @@ export const getTransactionsByBankId = async ({
   bankId,
 }: getTransactionsByBankIdProps) => {
   try {
-    const { database } = await createAdminClient();
+    await connectToDatabase();
+    const transactionsCollection = getTransactionsCollection();
 
-    const senderTransactions = await database.listDocuments(
-      DATABASE_ID!,
-      TRANSACTION_COLLECTION_ID!,
-      [Query.equal('senderBankId', bankId)]
-    );
-
-    const receiverTransactions = await database.listDocuments(
-      DATABASE_ID!,
-      TRANSACTION_COLLECTION_ID!,
-      [Query.equal('receiverBankId', bankId)]
-    );
+    const senderTransactions = await transactionsCollection
+      .find({ senderBankId: bankId })
+      .toArray();
+    const receiverTransactions = await transactionsCollection
+      .find({ receiverBankId: bankId })
+      .toArray();
 
     const transactions = {
-      total: senderTransactions.total + receiverTransactions.total,
-      documents: [
-        ...senderTransactions.documents,
-        ...receiverTransactions.documents,
-      ],
+      total: senderTransactions.length + receiverTransactions.length,
+      documents: [...senderTransactions, ...receiverTransactions],
     };
 
     return parseStringify(transactions);
   } catch (error) {
-    console.log(error);
+    throw new Error(`Failed to get transactions: ${error}`);
   }
 };

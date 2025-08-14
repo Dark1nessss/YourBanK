@@ -1,37 +1,6 @@
 'use client';
 
-import Image from 'next/image';
-import Link from 'next/link';
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useSpring,
-  useInView,
-} from 'framer-motion';
-import {
-  ArrowRight,
-  Shield,
-  CreditCard,
-  Globe,
-  Zap,
-  PiggyBank,
-  Bell,
-  ChevronRight,
-  ArrowUpRight,
-  CheckCircle,
-  DollarSign,
-  Building2,
-  Wallet,
-  Lock,
-  Smartphone,
-  Gift,
-  TrendingUp,
-} from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import BankCard from './BankCard';
-import { useRef } from 'react';
 import {
   Table,
   TableBody,
@@ -40,8 +9,38 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import React from 'react';
 import { demoCards } from '@/constants';
+import { cn } from '@/lib/utils';
+import {
+  motion,
+  useInView,
+  useScroll,
+  useSpring,
+  useTransform,
+} from 'framer-motion';
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Bell,
+  Building2,
+  CheckCircle,
+  ChevronRight,
+  CreditCard,
+  DollarSign,
+  Gift,
+  Globe,
+  Lock,
+  PiggyBank,
+  Shield,
+  Smartphone,
+  TrendingUp,
+  Wallet,
+  Zap,
+} from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRef } from 'react';
+import BankCard from './BankCard';
 
 const features = [
   {
@@ -155,54 +154,28 @@ const integrationLogos = [
 ];
 
 const FloatingParticles = () => {
-  const [dimensions, setDimensions] = React.useState({
-    width: 1000,
-    height: 800,
-  });
-
-  React.useEffect(() => {
-    setDimensions({
-      width: window.innerWidth,
-      height: window.innerHeight,
-    });
-
-    const handleResize = () => {
-      setDimensions({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
   return (
     <div className="absolute inset-0 overflow-hidden">
       {[...Array(20)].map((_, i) => (
         <motion.div
           key={i}
           className="absolute h-1 w-1 rounded-full bg-white/10"
+          initial={{
+            x: Math.random() * 1000,
+            y: Math.random() * 800,
+            scale: 1,
+            opacity: 0.2,
+          }}
           animate={{
-            x: [
-              Math.random() * dimensions.width,
-              Math.random() * dimensions.width,
-            ],
-            y: [
-              Math.random() * dimensions.height,
-              Math.random() * dimensions.height,
-            ],
+            x: [Math.random() * 1000, Math.random() * 1000],
+            y: [Math.random() * 800, Math.random() * 800],
             scale: [1, 1.5, 1],
             opacity: [0.2, 0.5, 0.2],
           }}
           transition={{
             duration: Math.random() * 10 + 20,
-            repeat: Number.POSITIVE_INFINITY,
+            repeat: Infinity,
             ease: 'linear',
-          }}
-          style={{
-            left: Math.random() * 100 + '%',
-            top: Math.random() * 100 + '%',
           }}
         />
       ))}
@@ -212,6 +185,9 @@ const FloatingParticles = () => {
 
 export default function LandingPage() {
   const targetRef = useRef<HTMLDivElement>(null);
+  const featureRef = useRef(null);
+  const isFeatureInView = useInView(featureRef, { once: true });
+
   const { scrollYProgress } = useScroll({
     target: targetRef,
     offset: ['start start', 'end start'],
@@ -224,9 +200,6 @@ export default function LandingPage() {
   const springY = useSpring(y, { stiffness: 100, damping: 30 });
   const springOpacity = useSpring(opacity, { stiffness: 100, damping: 30 });
   const springScale = useSpring(scale, { stiffness: 100, damping: 30 });
-
-  const featureRef = useRef(null);
-  const isFeatureInView = useInView(featureRef, { once: true });
 
   return (
     <div className="landing-page">

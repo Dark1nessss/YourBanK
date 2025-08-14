@@ -25,47 +25,72 @@ declare type LoginUser = {
   password: string;
 };
 
-declare type User = {
-  $id: string;
-  email: string;
-  userId: string;
-  dwollaCustomerUrl: string;
-  dwollaCustomerId: string;
+declare interface User {
+  _id: string;
   firstName: string;
   lastName: string;
-  name: string;
+  email: string;
   address1: string;
   city: string;
   state: string;
   postalCode: string;
   dateOfBirth: string;
   ssn: string;
-};
+  dwollaCustomerId?: string;
+  dwollaCustomerUrl?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
-declare type NewUserParams = {
-  userId: string;
-  email: string;
-  name: string;
-  password: string;
-};
-
-declare type Account = {
+declare interface Account {
   id: string;
   availableBalance: number;
   currentBalance: number;
-  officialName: string;
-  mask: string;
   institutionId: string;
   name: string;
+  officialName: string;
+  mask: string;
   type: string;
   subtype: string;
   appwriteItemId: string;
-  shareableId: string;
-};
+  shareableId?: string;
+}
 
-declare type Transaction = {
+declare interface Bank {
+  _id: string;
+  userId: string;
+  accountId: string;
+  accessToken: string;
+  fundingSourceUrl?: string;
+  shareableId: string;
+  name: string;
+  officialName: string;
+  type: string;
+  subtype: string;
+  mask: string;
+  currentBalance: number;
+  availableBalance: number;
+  institutionId: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+declare interface Transaction {
+  _id: string;
+  userId: string;
+  bankId: string;
+  name: string;
+  amount: number;
+  channel: string;
+  category: string[];
+  senderBankId: string;
+  receiverBankId: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+declare interface PlaidTransaction {
   id: string;
-  $id: string;
   name: string;
   paymentChannel: string;
   type: string;
@@ -74,23 +99,8 @@ declare type Transaction = {
   pending: boolean;
   category: string;
   date: string;
-  image: string;
-  type: string;
-  $createdAt: string;
-  channel: string;
-  senderBankId: string;
-  receiverBankId: string;
-};
-
-declare type Bank = {
-  $id: string;
-  accountId: string;
-  bankId: string;
-  accessToken: string;
-  fundingSourceUrl: string;
-  userId: string;
-  shareableId: string;
-};
+  image?: string;
+}
 
 declare type AccountTypes =
   | 'depository'
@@ -305,26 +315,14 @@ declare interface getUserInfoProps {
 
 declare interface exchangePublicTokenProps {
   publicToken: string;
-  user: User;
+  user: User & { _id: string; dwollaCustomerId: string };
 }
 
 declare interface createBankAccountProps {
-  accessToken: string;
   userId: string;
-  accountId: string;
   bankId: string;
+  accountId: string;
+  accessToken: string;
   fundingSourceUrl: string;
   shareableId: string;
-}
-
-declare interface getBanksProps {
-  userId: string;
-}
-
-declare interface getBankProps {
-  documentId: string;
-}
-
-declare interface getBankByAccountIdProps {
-  accountId: string;
 }

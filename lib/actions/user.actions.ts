@@ -2,10 +2,23 @@
 
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { ObjectId } from 'mongodb';
+import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { connectToDatabase, getUsersCollection } from '../mongodb';
-import { parseStringify } from '../utils';
+import {
+  CountryCode,
+  ProcessorTokenCreateRequestProcessorEnum,
+  Products,
+} from 'plaid';
+import {
+  connectToDatabase,
+  getBanksCollection,
+  getUsersCollection,
+} from '../mongodb';
+import { plaidClient } from '../plaid';
+import { encryptId, parseStringify } from '../utils';
+import { addFundingSource } from './dwolla.actions';
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 
@@ -14,11 +27,84 @@ export const getUserInfo = async ({ userId }: getUserInfoProps) => {
     await connectToDatabase();
     const usersCollection = getUsersCollection();
 
-    const user = await usersCollection.findOne({ _id: userId });
+    const user = await usersCollection.findOne({ _id: new ObjectId(userId) });
 
     return parseStringify(user);
   } catch (error) {
-    console.log(error);
+    throw new Error(`Failed to get user info: ${error}`);
+  }
+};
+
+// Add missing getBanks function
+export const getBanks = async ({ userId }: { userId: string }) => {
+  try {
+    await connectToDatabase();
+    const banksCollection = getBanksCollection();
+
+    const banks = await banksCollection.find({ userId }).toArray();
+
+    return parseStringify(banks);
+  } catch (error) {
+    throw new Error(`Failed to get banks: ${error}`);
+  }
+};
+
+// Add missing getBank function
+export const getBank = async ({ documentId }: { documentId: string }) => {
+  try {
+    await connectToDatabase();
+    const banksCollection = getBanksCollection();
+    const bank = await banksCollection.findOne({
+      _id: new ObjectId(documentId),
+    });
+
+    if (!bank) {
+      throw new Error('Bank not found');
+    }
+
+    return parseStringify(bank);
+  } catch (error) {
+    throw new Error(`Failed to get bank: ${error}`);
+  }
+};
+
+// Add createBankAccount function
+export const createBankAccount = async ({
+  userId,
+  bankId,
+  accountId,
+  accessToken,
+  fundingSourceUrl,
+  shareableId,
+}: createBankAccountProps) => {
+  try {
+    await connectToDatabase();
+    const banksCollection = getBanksCollection();
+
+    const bankAccount = {
+      userId,
+      bankId,
+      accountId,
+      accessToken,
+      fundingSourceUrl,
+      shareableId: shareableId,
+      name: '',
+      officialName: '',
+      type: '',
+      subtype: '',
+      mask: '',
+      currentBalance: 0,
+      availableBalance: 0,
+      institutionId: bankId,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    const result = await banksCollection.insertOne(bankAccount);
+
+    return parseStringify({ bankAccountId: result.insertedId });
+  } catch (error) {
+    throw new Error(`Failed to create bank account: ${error}`);
   }
 };
 
@@ -59,8 +145,7 @@ export const signIn = async ({ email, password }: signInProps) => {
       password: undefined, // Don't return password
     });
   } catch (error) {
-    console.error('Error signing in:', error);
-    throw error;
+    throw new Error(`Sign in failed: ${error}`);
   }
 };
 
@@ -123,8 +208,7 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
       password: undefined, // Don't return password
     });
   } catch (error) {
-    console.error('Error signing up:', error);
-    throw error;
+    throw new Error(`Sign up failed: ${error}`);
   }
 };
 
@@ -141,7 +225,9 @@ export const getLoggedInUser = async () => {
     await connectToDatabase();
     const usersCollection = getUsersCollection();
 
-    const user = await usersCollection.findOne({ _id: decoded.userId });
+    const user = await usersCollection.findOne({
+      _id: new ObjectId(decoded.userId),
+    });
     if (!user) {
       return null;
     }
@@ -151,8 +237,7 @@ export const getLoggedInUser = async () => {
       password: undefined, // Don't return password
     });
   } catch (error) {
-    console.error('Error getting logged in user:', error);
-    return null;
+    throw new Error(`Failed to get logged in user: ${error}`);
   }
 };
 
@@ -161,27 +246,110 @@ export const logoutAccount = async () => {
     cookies().delete('auth-token');
     redirect('/sign-in');
   } catch (error) {
-    console.error('Error logging out:', error);
-    return null;
+    throw new Error(`Logout failed: ${error}`);
   }
 };
 
-export const createLinkToken = async (user: User) => {
+export const createLinkToken = async (user: User & { _id: string }) => {
   try {
     const tokenParams = {
       user: {
-        client_user_id: user._id!,
+        client_user_id: user._id,
       },
       client_name: `${user.firstName} ${user.lastName}`,
-      products: ['auth', 'transactions'],
-      language: 'en',
-      country_codes: ['US'],
+      products: [Products.Auth, Products.Transactions] as Products[],
+      language: 'en' as const,
+      country_codes: [CountryCode.Us] as CountryCode[],
     };
 
     const response = await plaidClient.linkTokenCreate(tokenParams);
     return parseStringify({ linkToken: response.data.link_token });
   } catch (error) {
-    console.error('Error creating link token:', error);
-    throw error;
+    throw new Error(`Failed to create link token: ${error}`);
+  }
+};
+
+export const exchangePublicToken = async ({
+  publicToken,
+  user,
+}: exchangePublicTokenProps) => {
+  try {
+    // Exchange public token for access token and item ID
+    const response = await plaidClient.itemPublicTokenExchange({
+      public_token: publicToken,
+    });
+
+    const accessToken = response.data.access_token;
+    const itemId = response.data.item_id;
+
+    // Get account information from Plaid
+    const accountsResponse = await plaidClient.accountsGet({
+      access_token: accessToken,
+    });
+
+    const accountData = accountsResponse.data.accounts[0];
+
+    // Create a processor token for Dwolla
+    const request = {
+      access_token: accessToken,
+      account_id: accountData.account_id,
+      processor: ProcessorTokenCreateRequestProcessorEnum.Dwolla,
+    };
+
+    const processorTokenResponse =
+      await plaidClient.processorTokenCreate(request);
+    const processorToken = processorTokenResponse.data.processor_token;
+
+    // Create funding source URL using the processor token
+    const fundingSourceUrl = await addFundingSource({
+      dwollaCustomerId: (
+        user as User & { _id: string; dwollaCustomerId: string }
+      ).dwollaCustomerId,
+      processorToken,
+      bankName: accountData.name,
+    });
+
+    // Create bank record if funding source URL is created successfully
+    if (fundingSourceUrl) {
+      await createBankAccount({
+        userId: (user as User & { _id: string })._id,
+        bankId: itemId,
+        accountId: accountData.account_id,
+        accessToken,
+        fundingSourceUrl,
+        shareableId: encryptId(accountData.account_id),
+      });
+
+      // Revalidate the path to reflect the changes
+      revalidatePath('/');
+
+      return parseStringify({
+        publicTokenExchange: 'complete',
+      });
+    }
+  } catch (error) {
+    throw new Error(`An error occurred while exchanging token: ${error}`);
+  }
+};
+
+// Add missing getBankByAccountId function
+export const getBankByAccountId = async ({
+  accountId,
+}: {
+  accountId: string;
+}) => {
+  try {
+    await connectToDatabase();
+    const banksCollection = getBanksCollection();
+
+    const bank = await banksCollection.findOne({ accountId });
+
+    if (!bank) {
+      throw new Error('Bank not found');
+    }
+
+    return parseStringify(bank);
+  } catch (error) {
+    throw new Error(`Failed to get bank by account ID: ${error}`);
   }
 };

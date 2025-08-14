@@ -91,7 +91,7 @@ const ListItem = React.forwardRef<React.ElementRef<'a'>, ListItemProps>(
 ListItem.displayName = 'ListItem';
 
 export default function NavigationMenuDemo() {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [, setIsOpen] = React.useState(false);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-gray-800 bg-[#1a1f2d]">

@@ -1,113 +1,158 @@
-import { Collection, Db, MongoClient } from 'mongodb';
+import { Db, MongoClient } from 'mongodb';
+
+if (!process.env.MONGODB_URI) {
+  throw new Error('Invalid/Missing environment variable: "MONGODB_URI"');
+}
+
+const uri = process.env.MONGODB_URI;
+const options = {
+  maxPoolSize: 10,
+  serverSelectionTimeoutMS: 5000,
+  socketTimeoutMS: 45000,
+  maxIdleTimeMS: 30000,
+};
 
 let client: MongoClient;
-let db: Db;
+let clientPromise: Promise<MongoClient>;
 
-const mongoUri =
-  process.env.MONGODB_URI || 'mongodb://localhost:27017/yourbank';
+if (process.env.NODE_ENV === 'development') {
+  // In development mode, use a global variable so that the value
+  // is preserved across module reloads caused by HMR (Hot Module Replacement).
+  let globalWithMongo = global as typeof globalThis & {
+    _mongoClientPromise?: Promise<MongoClient>;
+  };
+
+  if (!globalWithMongo._mongoClientPromise) {
+    client = new MongoClient(uri, options);
+    globalWithMongo._mongoClientPromise = client.connect();
+  }
+  clientPromise = globalWithMongo._mongoClientPromise;
+} else {
+  // In production mode, it's best to not use a global variable.
+  client = new MongoClient(uri, options);
+  clientPromise = client.connect();
+}
+
+let db: Db;
+const dbName = 'yourbank';
 
 export async function connectToDatabase() {
-  if (!client) {
-    client = new MongoClient(mongoUri);
-    await client.connect();
-    db = client.db('yourbank');
-
-    // Create indexes for performance
-    await createIndexes();
+  try {
+    const client = await clientPromise;
+    if (!db) {
+      db = client.db(dbName);
+      // Create indexes for performance
+      await createIndexes();
+    }
+    return { client, db };
+  } catch (error) {
+    console.error('MongoDB connection error:', error);
+    throw error;
   }
-  return { client, db };
 }
 
 async function createIndexes() {
   try {
-    // User indexes
-    await db.collection('users').createIndex({ email: 1 }, { unique: true });
+    const collections = await db.listCollections().toArray();
+    const existingCollections = collections.map(col => col.name);
 
-    // Bank indexes
-    await db.collection('banks').createIndex({ userId: 1 });
-    await db
-      .collection('banks')
-      .createIndex({ accountId: 1 }, { unique: true });
-    await db.collection('banks').createIndex({ sharableId: 1 });
+    // Check and create users collection indexes
+    if (!existingCollections.includes('users')) {
+      await db.createCollection('users');
+    }
 
-    // Transaction indexes
-    await db.collection('transactions').createIndex({ userId: 1 });
-    await db.collection('transactions').createIndex({ bankId: 1 });
-    await db.collection('transactions').createIndex({ date: -1 });
-    await db.collection('transactions').createIndex({ senderBankId: 1 });
-    await db.collection('transactions').createIndex({ receiverBankId: 1 });
+    const userIndexes = await db.collection('users').listIndexes().toArray();
+    const userIndexNames = userIndexes.map(idx => idx.name);
+
+    if (!userIndexNames.includes('email_1')) {
+      await db.collection('users').createIndex({ email: 1 }, { unique: true });
+    }
+
+    // Check and create banks collection indexes
+    if (!existingCollections.includes('banks')) {
+      await db.createCollection('banks');
+    }
+
+    const bankIndexes = await db.collection('banks').listIndexes().toArray();
+    const bankIndexNames = bankIndexes.map(idx => idx.name);
+
+    if (!bankIndexNames.includes('userId_1')) {
+      await db.collection('banks').createIndex({ userId: 1 });
+    }
+
+    // Check if accountId index exists and what type it is
+    const accountIdIndex = bankIndexes.find(idx => idx.name === 'accountId_1');
+    if (!accountIdIndex) {
+      // Create unique index if it doesn't exist
+      await db
+        .collection('banks')
+        .createIndex({ accountId: 1 }, { unique: true });
+    }
+
+    if (!bankIndexNames.includes('shareableId_1')) {
+      await db.collection('banks').createIndex({ shareableId: 1 });
+    }
+
+    // Check and create transactions collection indexes
+    if (!existingCollections.includes('transactions')) {
+      await db.createCollection('transactions');
+    }
+
+    const transactionIndexes = await db
+      .collection('transactions')
+      .listIndexes()
+      .toArray();
+    const transactionIndexNames = transactionIndexes.map(idx => idx.name);
+
+    if (!transactionIndexNames.includes('userId_1_transactions')) {
+      await db
+        .collection('transactions')
+        .createIndex({ userId: 1 }, { name: 'userId_1_transactions' });
+    }
+
+    if (!transactionIndexNames.includes('bankId_1')) {
+      await db.collection('transactions').createIndex({ bankId: 1 });
+    }
+
+    if (!transactionIndexNames.includes('senderBankId_1')) {
+      await db.collection('transactions').createIndex({ senderBankId: 1 });
+    }
+
+    if (!transactionIndexNames.includes('receiverBankId_1')) {
+      await db.collection('transactions').createIndex({ receiverBankId: 1 });
+    }
+
+    if (!transactionIndexNames.includes('createdAt_-1')) {
+      await db.collection('transactions').createIndex({ createdAt: -1 });
+    }
   } catch (error) {
-    // Indexes might already exist, continue
+    // Log but don't throw - indexes might already exist
+    console.log(
+      'Index creation warning (this is usually safe to ignore):',
+      error instanceof Error ? error.message : String(error)
+    );
   }
 }
 
-// MongoDB Schema definitions
-export interface User {
-  _id?: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  address1: string;
-  city: string;
-  state: string;
-  postalCode: string;
-  dateOfBirth: string;
-  ssn: string;
-  dwollaCustomerId?: string;
-  dwollaCustomerUrl?: string;
-  createdAt: Date;
-  updatedAt: Date;
+export function getUsersCollection() {
+  if (!db) {
+    throw new Error('Database not connected. Call connectToDatabase first.');
+  }
+  return db.collection('users');
 }
 
-export interface Bank {
-  _id?: string;
-  userId: string;
-  accountId: string;
-  accessToken: string;
-  fundingSourceUrl?: string;
-  name: string;
-  officialName: string;
-  type: string;
-  subtype: string;
-  sharableId: string;
-  mask: string;
-  currentBalance: number;
-  availableBalance: number;
-  institutionId: string;
-  createdAt: Date;
-  updatedAt: Date;
+export function getBanksCollection() {
+  if (!db) {
+    throw new Error('Database not connected. Call connectToDatabase first.');
+  }
+  return db.collection('banks');
 }
 
-export interface Transaction {
-  _id?: string;
-  userId: string;
-  bankId: string;
-  accountId: string;
-  amount: number;
-  name: string;
-  paymentChannel: string;
-  category: string[];
-  subcategory: string[];
-  type: string;
-  date: Date;
-  image?: string;
-  senderBankId?: string;
-  receiverBankId?: string;
-  channel: string;
-  createdAt: Date;
-  updatedAt: Date;
+export function getTransactionsCollection() {
+  if (!db) {
+    throw new Error('Database not connected. Call connectToDatabase first.');
+  }
+  return db.collection('transactions');
 }
 
-// Collection helpers
-export function getUsersCollection(): Collection<User> {
-  return db.collection<User>('users');
-}
-
-export function getBanksCollection(): Collection<Bank> {
-  return db.collection<Bank>('banks');
-}
-
-export function getTransactionsCollection(): Collection<Transaction> {
-  return db.collection<Transaction>('transactions');
-}
+export default clientPromise;

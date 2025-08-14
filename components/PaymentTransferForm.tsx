@@ -72,10 +72,10 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
         const transaction = {
           name: data.name,
           amount: data.amount,
-          senderId: senderBank.userId.$id,
-          senderBankId: senderBank.$id,
-          receiverId: receiverBank.userId.$id,
-          receiverBankId: receiverBank.$id,
+          senderId: senderBank.userId,
+          senderBankId: senderBank._id,
+          receiverId: receiverBank.userId,
+          receiverBankId: receiverBank._id,
           email: data.email,
         };
 
@@ -87,7 +87,7 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
         }
       }
     } catch (error) {
-      console.error('Submitting create transfer request failed: ', error);
+      throw new Error(`Submitting create transfer request failed: ${error}`);
     }
 
     setIsLoading(false);

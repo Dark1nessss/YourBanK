@@ -13,23 +13,33 @@ export async function copyToClipboard(value: string) {
   navigator.clipboard.writeText(value);
 }
 
-export function CopyButton({
-  value,
-  className,
-  src,
-  ...props
-}: CopyButtonProps) {
+export function CopyButton({ value, className, ...props }: CopyButtonProps) {
   const [hasCopied, setHasCopied] = React.useState(false);
+  const timeoutRef = React.useRef<NodeJS.Timeout>();
 
-  React.useEffect(() => {
-    if (!hasCopied) return;
+  const handleCopy = React.useCallback(() => {
+    copyToClipboard(value);
+    setHasCopied(true);
 
-    const timeout = setTimeout(() => {
+    // Clear existing timeout
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    // Set new timeout
+    timeoutRef.current = setTimeout(() => {
       setHasCopied(false);
     }, 2000);
+  }, [value]);
 
-    return () => clearTimeout(timeout);
-  }, [hasCopied]);
+  // Cleanup on unmount
+  React.useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <button
@@ -37,10 +47,7 @@ export function CopyButton({
         'relative z-20 inline-flex h-8 w-8 items-center justify-center rounded-md border border-gray-800 bg-zinc-900/90 text-sm font-medium transition-all hover:bg-zinc-800 focus:outline-none',
         className
       )}
-      onClick={() => {
-        copyToClipboard(value);
-        setHasCopied(true);
-      }}
+      onClick={handleCopy}
       {...props}
     >
       <span className="sr-only">Copy</span>

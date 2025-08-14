@@ -1,9 +1,9 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import CardAuth from '@/components/CardAuth';
 import { CodeBlock } from '@/components/docs/code-block';
 import { Card } from '@/components/ui/card';
-import CardAuth from '@/components/CardAuth';
+import { motion } from 'framer-motion';
 
 export default function CardAuthPage() {
   return (

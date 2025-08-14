@@ -1,6 +1,6 @@
 'use client';
-import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { useCallback, useRef, useState } from 'react';
 
 const CardAuth = () => {
   const mockCardNumber = '1234 5678 9123 9876';
@@ -8,36 +8,37 @@ const CardAuth = () => {
   const mockExpirationDate = '12/12';
 
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isMounted, setIsMounted] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    setIsMounted(true);
+  const handleMouseMove = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      if (cardRef.current) {
+        const rect = cardRef.current.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width;
+        const y = (event.clientY - rect.top) / rect.height;
+        setMousePosition({ x, y });
+      }
+    },
+    [cardRef]
+  );
 
-    const handleMouseMove = (event: MouseEvent) => {
-      setMousePosition({ x: event.clientX, y: event.clientY });
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
+  const handleMouseLeave = useCallback(() => {
+    setMousePosition({ x: 0.5, y: 0.5 });
   }, []);
 
-  const rotationX = isMounted
-    ? (mousePosition.y / window.innerHeight - 0.5) * 50
-    : 0;
-  const rotationY = isMounted
-    ? (mousePosition.x / window.innerWidth - 0.5) * -50
-    : 0;
+  const rotationX = (mousePosition.y - 0.5) * 30;
+  const rotationY = (mousePosition.x - 0.5) * -30;
 
   return (
     <div className="flex flex-col justify-center items-center">
       <div
-        className="bank-card"
+        ref={cardRef}
+        className="bank-card transition-transform duration-200 ease-out"
         style={{
-          transform: `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`,
+          transform: `perspective(1000px) rotateX(${rotationX}deg) rotateY(${rotationY}deg)`,
         }}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
       >
         <div className="bank-card_content">
           <Image

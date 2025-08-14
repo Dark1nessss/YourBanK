@@ -4,15 +4,6 @@ const envSchema = z.object({
   // Next.js
   NEXT_PUBLIC_SITE_URL: z.string().url(),
 
-  // Appwrite
-  NEXT_PUBLIC_APPWRITE_ENDPOINT: z.string().url(),
-  NEXT_PUBLIC_APPWRITE_PROJECT: z.string().min(1),
-  APPWRITE_DATABASE_ID: z.string().min(1),
-  APPWRITE_USER_COLLECTION_ID: z.string().min(1),
-  APPWRITE_BANK_COLLECTION_ID: z.string().min(1),
-  APPWRITE_TRANSACTION_COLLECTION_ID: z.string().min(1),
-  NEXT_APPWRITE_KEY: z.string().min(1),
-
   // MongoDB
   MONGODB_URI: z.string().url(),
 

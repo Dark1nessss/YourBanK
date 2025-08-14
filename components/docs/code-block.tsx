@@ -7,11 +7,7 @@ interface CodeBlockProps {
   showLineNumbers?: boolean;
 }
 
-export function CodeBlock({
-  code,
-  language = 'typescript',
-  showLineNumbers = false,
-}: CodeBlockProps) {
+export function CodeBlock({ code, showLineNumbers = false }: CodeBlockProps) {
   const lines = code.split('\n');
   const maxLineNumberWidth = lines.length.toString().length;
 

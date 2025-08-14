@@ -1,7 +1,6 @@
 'use client';
 
-import Link from 'next/link';
-import Image from 'next/image';
+import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 import {
   ArrowRight,
@@ -10,7 +9,8 @@ import {
   RefreshCcw,
   Shield,
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export default function IntroductionPage() {
   const features = [

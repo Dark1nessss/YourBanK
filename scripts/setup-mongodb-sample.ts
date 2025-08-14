@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import 'dotenv/config';
-import { MongoClient } from 'mongodb';
+import { MongoClient, ObjectId } from 'mongodb';
 
 const { MONGODB_URI } = process.env;
 const mongoClient = new MongoClient(MONGODB_URI!);
@@ -29,7 +29,7 @@ export async function setupSampleData() {
       await banksCollection.dropIndexes();
       await transactionsCollection.dropIndexes();
     } catch (error) {
-      console.log('⚠️  Some indexes may not exist, continuing...');
+      console.log('⚠️  Some indexes may not exist, continuing...', error);
     }
 
     // Create indexes
@@ -45,7 +45,7 @@ export async function setupSampleData() {
     console.log('👤 Creating sample user...');
     const hashedPassword = await bcrypt.hash('password123', 12);
     const sampleUser = {
-      _id: 'user_001',
+      _id: new ObjectId(),
       firstName: 'John',
       lastName: 'Doe',
       email: 'john.doe@example.com',
@@ -69,8 +69,8 @@ export async function setupSampleData() {
     // Sample bank account
     console.log('🏦 Creating sample bank account...');
     const sampleBank = {
-      _id: 'bank_001',
-      userId: 'user_001',
+      _id: new ObjectId(),
+      userId: sampleUser._id.toString(),
       accountId: 'account_001',
       accessToken: 'sample_access_token',
       fundingSourceUrl:
@@ -95,9 +95,9 @@ export async function setupSampleData() {
     console.log('💳 Creating sample transactions...');
     const sampleTransactions = [
       {
-        _id: 'trans_001',
-        userId: 'user_001',
-        bankId: 'bank_001',
+        _id: new ObjectId(),
+        userId: sampleUser._id.toString(),
+        bankId: sampleBank._id.toString(),
         accountId: 'account_001',
         amount: -85.5,
         name: 'Starbucks Coffee',
@@ -112,9 +112,9 @@ export async function setupSampleData() {
         updatedAt: new Date(),
       },
       {
-        _id: 'trans_002',
-        userId: 'user_001',
-        bankId: 'bank_001',
+        _id: new ObjectId(),
+        userId: sampleUser._id.toString(),
+        bankId: sampleBank._id.toString(),
         accountId: 'account_001',
         amount: 2000.0,
         name: 'Salary Deposit',
@@ -129,9 +129,9 @@ export async function setupSampleData() {
         updatedAt: new Date(),
       },
       {
-        _id: 'trans_003',
-        userId: 'user_001',
-        bankId: 'bank_001',
+        _id: new ObjectId(),
+        userId: sampleUser._id.toString(),
+        bankId: sampleBank._id.toString(),
         accountId: 'account_001',
         amount: -120.0,
         name: 'Electric Bill',
