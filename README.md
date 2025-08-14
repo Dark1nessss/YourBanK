@@ -1,6 +1,9 @@
 # YourBanK 🏦
 
-A modern, secure banking application built with Next.js, TypeScript, and React that provides comprehensive financial management capabilities including user authentication, bank account integration, transaction management, and payment transfers.
+A modern, secure banking application built with Next.js, TypeScript, and React
+that provides comprehensive financial management capabilities including user
+authentication, bank account integration, transaction management, and payment
+transfers.
 
 ## 🚀 Features
 
@@ -32,12 +35,14 @@ A modern, secure banking application built with Next.js, TypeScript, and React t
 ## 🔧 Installation
 
 1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/Dark1nessss/YourBanK.git
    cd YourBanK
    ```
 
 2. **Install dependencies:**
+
    ```bash
    npm install
    # or
@@ -47,6 +52,7 @@ A modern, secure banking application built with Next.js, TypeScript, and React t
    ```
 
 3. **Set up environment variables:**
+
    ```bash
    cp .env.example .env.local
    nano .env.local
@@ -55,11 +61,13 @@ A modern, secure banking application built with Next.js, TypeScript, and React t
 4. **Configure your API credentials and database connections**
 
 5. **Start the development server:**
+
    ```bash
    npm run dev
    ```
 
-6. **Open [http://localhost:3000](http://localhost:3000) to view the application**
+6. **Open [http://localhost:3000](http://localhost:3000) to view the
+   application**
 
 ## ⚙️ Environment Configuration
 
@@ -94,14 +102,19 @@ JWT_SECRET=your_jwt_secret
 
 ## 🤖 GitHub Copilot Integration
 
-This project includes comprehensive GitHub Copilot instructions to assist with AI-powered development:
+This project includes comprehensive GitHub Copilot instructions to assist with
+AI-powered development:
 
-- **`.github/copilot-instructions.md`**: Detailed project context, architecture patterns, and development guidelines
-- **`.copilotignore`**: Excludes build artifacts, dependencies, and other files that don't need AI context
+- **`.github/copilot-instructions.md`**: Detailed project context, architecture
+  patterns, and development guidelines
+- **`.copilotignore`**: Excludes build artifacts, dependencies, and other files
+  that don't need AI context
 - **Issue Templates**: Structured templates for bug reports and feature requests
-- **PR Template**: Comprehensive pull request template with security and banking compliance checklists
+- **PR Template**: Comprehensive pull request template with security and banking
+  compliance checklists
 
 The Copilot instructions include information about:
+
 - Banking integration patterns (Plaid, Dwolla, Appwrite)
 - TypeScript and Next.js development standards
 - Security considerations for financial applications
@@ -143,6 +156,7 @@ npm run setup-mongo        # Setup MongoDB sample data
 ## 🔒 Security
 
 This application implements enterprise-grade security practices:
+
 - No hardcoded secrets or API keys
 - Environment variable validation
 - Secure JWT token handling
@@ -160,11 +174,13 @@ This application implements enterprise-grade security practices:
 6. Push to the branch (`git push origin feature/amazing-feature`)
 7. Open a Pull Request
 
-Please refer to the issue templates and PR template for structured contributions.
+Please refer to the issue templates and PR template for structured
+contributions.
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
+for details.
 
 ## 🔗 Learn More
 
@@ -175,4 +191,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Note**: This is a banking application that handles sensitive financial data. Always follow banking industry security standards and compliance requirements when contributing to this project.
+**Note**: This is a banking application that handles sensitive financial data.
+Always follow banking industry security standards and compliance requirements
+when contributing to this project.
