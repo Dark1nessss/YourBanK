@@ -1,6 +1,7 @@
 import 'dotenv/config';
-import { MongoClient } from 'mongodb';
-import { Client, Databases } from 'node-appwrite';
+import { Client, Databases, type Models } from 'node-appwrite';
+import { Bank, Transaction, User } from '../lib/models';
+import { connectToDatabase } from '../lib/mongoose';
 
 const {
   NEXT_PUBLIC_APPWRITE_ENDPOINT,
@@ -10,8 +11,56 @@ const {
   APPWRITE_USER_COLLECTION_ID,
   APPWRITE_BANK_COLLECTION_ID,
   APPWRITE_TRANSACTION_COLLECTION_ID,
-  MONGODB_URI,
 } = process.env;
+
+// Define Appwrite document interfaces
+interface AppwriteUser extends Models.Document {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  address1: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  dateOfBirth: string;
+  ssn: string;
+  dwollaCustomerId?: string;
+  dwollaCustomerUrl?: string;
+}
+
+interface AppwriteBank extends Models.Document {
+  userId: string;
+  accountId: string;
+  accessToken: string;
+  fundingSourceUrl?: string;
+  name: string;
+  officialName: string;
+  type: string;
+  subtype: string;
+  shareableId: string;
+  mask: string;
+  currentBalance?: number;
+  availableBalance?: number;
+  institutionId: string;
+}
+
+interface AppwriteTransaction extends Models.Document {
+  userId: string;
+  bankId: string;
+  accountId: string;
+  amount: number;
+  name: string;
+  paymentChannel: string;
+  category: string | string[];
+  subcategory: string | string[];
+  type: string;
+  date: string;
+  image?: string;
+  senderBankId?: string;
+  receiverBankId?: string;
+  channel: string;
+}
 
 // Initialize Appwrite client
 const client = new Client()
@@ -21,29 +70,13 @@ const client = new Client()
 
 const databases = new Databases(client);
 
-// Initialize MongoDB client
-const mongoClient = new MongoClient(MONGODB_URI!);
-
-export async function migrateToMongoDB() {
+export async function migrateToMongoDB(): Promise<void> {
   console.log('🚀 Starting migration from Appwrite to MongoDB...');
 
   try {
-    // Connect to MongoDB
-    await mongoClient.connect();
-    const db = mongoClient.db('yourbank');
-
-    const usersCollection = db.collection('users');
-    const banksCollection = db.collection('banks');
-    const transactionsCollection = db.collection('transactions');
-
-    // Create indexes
-    console.log('📝 Creating indexes...');
-    await usersCollection.createIndex({ email: 1 }, { unique: true });
-    await banksCollection.createIndex({ userId: 1 });
-    await banksCollection.createIndex({ accountId: 1 }, { unique: true });
-    await transactionsCollection.createIndex({ userId: 1 });
-    await transactionsCollection.createIndex({ bankId: 1 });
-    await transactionsCollection.createIndex({ date: -1 });
+    // Connect to MongoDB using Mongoose
+    await connectToDatabase();
+    console.log('✅ Connected to MongoDB');
 
     // Migrate Users
     console.log('📊 Migrating users...');
@@ -53,8 +86,9 @@ export async function migrateToMongoDB() {
         APPWRITE_USER_COLLECTION_ID!
       );
 
-      for (const user of appwriteUsers.documents) {
-        const mongoUser = {
+      for (const userDoc of appwriteUsers.documents) {
+        const user = userDoc as unknown as AppwriteUser;
+        const mongoUser = new User({
           _id: user.$id,
           firstName: user.firstName,
           lastName: user.lastName,
@@ -70,11 +104,9 @@ export async function migrateToMongoDB() {
           dwollaCustomerUrl: user.dwollaCustomerUrl,
           createdAt: new Date(user.$createdAt),
           updatedAt: new Date(user.$updatedAt),
-        };
-
-        await usersCollection.replaceOne({ _id: user.$id }, mongoUser, {
-          upsert: true,
         });
+
+        await mongoUser.save();
       }
       console.log(`✅ Migrated ${appwriteUsers.documents.length} users`);
     } catch (error) {
@@ -89,29 +121,29 @@ export async function migrateToMongoDB() {
         APPWRITE_BANK_COLLECTION_ID!
       );
 
-      for (const bank of appwriteBanks.documents) {
-        const mongoBank = {
+      for (const bankDoc of appwriteBanks.documents) {
+        const bank = bankDoc as unknown as AppwriteBank;
+        const mongoBank = new Bank({
           _id: bank.$id,
           userId: bank.userId,
           accountId: bank.accountId,
           accessToken: bank.accessToken,
           fundingSourceUrl: bank.fundingSourceUrl,
-          name: bank.name,
-          officialName: bank.officialName,
-          type: bank.type,
-          subtype: bank.subtype,
-          sharableId: bank.shareableId,
-          mask: bank.mask,
+          name: bank.name || 'Unknown Bank',
+          officialName: bank.officialName || 'Unknown Bank',
+          type: bank.type || 'depository',
+          subtype: bank.subtype || 'checking',
+          shareableId: bank.shareableId,
+          mask: bank.mask || '0000',
           currentBalance: bank.currentBalance || 0,
           availableBalance: bank.availableBalance || 0,
-          institutionId: bank.institutionId,
+          institutionId: bank.institutionId || 'unknown',
+          bankId: bank.$id, // Use document ID as bankId
           createdAt: new Date(bank.$createdAt),
           updatedAt: new Date(bank.$updatedAt),
-        };
-
-        await banksCollection.replaceOne({ _id: bank.$id }, mongoBank, {
-          upsert: true,
         });
+
+        await mongoBank.save();
       }
       console.log(`✅ Migrated ${appwriteBanks.documents.length} banks`);
     } catch (error) {
@@ -126,8 +158,9 @@ export async function migrateToMongoDB() {
         APPWRITE_TRANSACTION_COLLECTION_ID!
       );
 
-      for (const transaction of appwriteTransactions.documents) {
-        const mongoTransaction = {
+      for (const transactionDoc of appwriteTransactions.documents) {
+        const transaction = transactionDoc as unknown as AppwriteTransaction;
+        const mongoTransaction = new Transaction({
           _id: transaction.$id,
           userId: transaction.userId,
           bankId: transaction.bankId,
@@ -149,13 +182,9 @@ export async function migrateToMongoDB() {
           channel: transaction.channel,
           createdAt: new Date(transaction.$createdAt),
           updatedAt: new Date(transaction.$updatedAt),
-        };
+        });
 
-        await transactionsCollection.replaceOne(
-          { _id: transaction.$id },
-          mongoTransaction,
-          { upsert: true }
-        );
+        await mongoTransaction.save();
       }
       console.log(
         `✅ Migrated ${appwriteTransactions.documents.length} transactions`
@@ -171,14 +200,18 @@ export async function migrateToMongoDB() {
   } catch (error) {
     console.error('❌ Migration failed:', error);
     throw error;
-  } finally {
-    await mongoClient.close();
   }
 }
 
 // Run migration if called directly
 if (require.main === module) {
   migrateToMongoDB()
-    .then(() => process.exit(0))
-    .catch(() => process.exit(1));
+    .then(() => {
+      console.log('Migration completed, exiting...');
+      process.exit(0);
+    })
+    .catch(error => {
+      console.error('Migration failed:', error);
+      process.exit(1);
+    });
 }

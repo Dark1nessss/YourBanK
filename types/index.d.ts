@@ -315,7 +315,19 @@ declare interface getUserInfoProps {
 
 declare interface exchangePublicTokenProps {
   publicToken: string;
-  user: User & { _id: string; dwollaCustomerId: string };
+  user: User;
+}
+
+declare interface getBanksProps {
+  userId: string;
+}
+
+declare interface getBankProps {
+  documentId: string;
+}
+
+declare interface getBankByAccountIdProps {
+  accountId: string;
 }
 
 declare interface createBankAccountProps {
