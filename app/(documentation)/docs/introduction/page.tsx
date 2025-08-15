@@ -161,10 +161,13 @@ export default function IntroductionPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.7 }}
-        className="flex gap-4"
+        className="flex flex-wrap gap-4"
       >
         <Link href="/docs/installation">
-          <Button size="lg" className="bg-[#39A36A] hover:bg-[#2E8754]">
+          <Button
+            size="lg"
+            className="bg-[#39A36A] hover:bg-[#2E8754] whitespace-nowrap"
+          >
             Get Started
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
@@ -173,7 +176,7 @@ export default function IntroductionPage() {
           <Button
             variant="outline"
             size="lg"
-            className="text-white hover:bg-white/10"
+            className="text-white hover:bg-white/10 border-gray-600 whitespace-nowrap"
           >
             Browse Components
           </Button>
