@@ -1,10 +1,9 @@
 'use client';
-import React from 'react';
 
-import { motion } from 'framer-motion';
 import { CodeBlock } from '@/components/docs/code-block';
-import { Card } from '@/components/ui/card';
 import RecentTransactions from '@/components/RecentTransactions';
+import { Card } from '@/components/ui/card';
+import { motion } from 'framer-motion';
 
 export default function RecentTransactionsPage() {
   const mockData = {
@@ -26,18 +25,18 @@ export default function RecentTransactionsPage() {
     transactions: [
       {
         id: '1',
-        $id: '1',
+        _id: '1',
         name: 'Coffee Shop',
         amount: 50,
         description: 'Coffee Shop',
         date: '2024-03-20',
         paymentChannel: 'in-store',
         type: 'debit',
-        category: 'Food and Drink',
+        category: ['Food and Drink'],
         pending: false,
         accountId: 'acc1',
         image: 'https://example.com/image.jpg',
-        $createdAt: '2024-03-20T12:00:00Z',
+        $createdAt: new Date().toISOString(),
         channel: 'transfer',
         account_id: 'acc1',
         transaction_id: 'txn1',
@@ -68,6 +67,10 @@ export default function RecentTransactionsPage() {
         transaction_code: null,
         senderBankId: 'bank1',
         receiverBankId: 'bank2',
+        userId: 'user1',
+        bankId: 'bank1',
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
     ],
     appwriteItemId: 'acc1',

@@ -9,23 +9,22 @@ import { Form } from '@/components/ui/form';
 import { signIn, signUp } from '@/lib/actions/user.actions';
 import { authFormSchema } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader } from 'lucide-react';
+import { Loader, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import CustomInput from './CustomInput';
 import PlaidLink from './PlaidLink';
 
-const AuthForm = ({ type }: { type: string }) => {
+const AuthForm = ({ type, user }: { type: string; user?: User }) => {
   const router = useRouter();
-  const [user, setUser] = useState(null);
-  const [redirectInitiated, setRedirectInitiated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [redirectInitiated, setRedirectInitiated] = useState(false);
+  const [signedUpUser, setSignedUpUser] = useState<User | null>(null); // Add this state
 
   const formSchema = authFormSchema(type);
 
-  // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -34,14 +33,13 @@ const AuthForm = ({ type }: { type: string }) => {
     },
   });
 
-  // 2. Define a submit handler.
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    if (redirectInitiated) return;
+
     setErrorMessage('');
     setIsLoading(true);
 
     try {
-      // Sign up with Appwrite & create plaid token
-
       if (type === 'sign-up') {
         const userData = {
           firstName: data.firstName!,
@@ -58,7 +56,12 @@ const AuthForm = ({ type }: { type: string }) => {
 
         const newUser = await signUp(userData);
 
-        setUser(newUser);
+        if (newUser) {
+          console.log('Signup successful, user:', newUser.user);
+          setSignedUpUser(newUser.user); // Set the user to show PlaidLink
+          setIsLoading(false); // Stop loading to show PlaidLink
+          return;
+        }
       }
 
       if (type === 'sign-in') {
@@ -74,12 +77,34 @@ const AuthForm = ({ type }: { type: string }) => {
         }
       }
     } catch (error) {
-      console.log(error);
-      setErrorMessage(errorMessage || 'An unexpected error occurred.');
+      console.error('Auth error:', error);
+
+      let errorMsg = 'An unexpected error occurred.';
+
+      if (error instanceof Error) {
+        if (error.message.includes('User not found')) {
+          errorMsg = 'No account found with this email address.';
+        } else if (error.message.includes('Invalid credentials')) {
+          errorMsg = 'Invalid email or password.';
+        } else if (error.message.includes('User already exists')) {
+          errorMsg = 'An account with this email already exists.';
+        } else {
+          errorMsg = error.message
+            .replace('Failed to sign up: ', '')
+            .replace('Failed to sign in: ', '');
+        }
+      }
+
+      setErrorMessage(errorMsg);
     } finally {
-      setIsLoading(false);
+      if (type === 'sign-in') {
+        setIsLoading(false);
+      }
     }
   };
+
+  // Show PlaidLink if user signed up successfully or if user prop is passed
+  const currentUser = user || signedUpUser;
 
   return (
     <section className="auth-form relative">
@@ -98,18 +123,23 @@ const AuthForm = ({ type }: { type: string }) => {
 
         <div className="flex flex-col gap-1 md:gap-3">
           <h1 className="text-24 lg:text-36 font-semibold text-gray-900">
-            {user ? 'Link Account' : type === 'sign-in' ? 'Sign In' : 'Sign Up'}
-            <p className="text-16 font-normal text-gray-600">
-              {user
-                ? 'Link your account to get started'
-                : 'Please enter your details'}
-            </p>
+            {currentUser
+              ? 'Link Account'
+              : type === 'sign-in'
+                ? 'Sign In'
+                : 'Sign Up'}
           </h1>
+          <p className="text-16 font-normal text-gray-600">
+            {currentUser
+              ? 'Link your account to get started'
+              : 'Please enter your details'}
+          </p>
         </div>
       </header>
-      {user ? (
+
+      {currentUser ? (
         <div className="flex flex-col gap-4">
-          <PlaidLink user={user} variant="primary" />
+          <PlaidLink user={currentUser} variant="primary" />
         </div>
       ) : (
         <>
@@ -128,7 +158,7 @@ const AuthForm = ({ type }: { type: string }) => {
                       control={form.control}
                       name="lastName"
                       label="Last Name"
-                      placeholder="Enter your first name"
+                      placeholder="Enter your last name"
                     />
                   </div>
                   <CustomInput
@@ -188,13 +218,23 @@ const AuthForm = ({ type }: { type: string }) => {
                 placeholder="Enter your password"
               />
 
+              {errorMessage && (
+                <div className="text-red-500 text-sm mt-2">{errorMessage}</div>
+              )}
+
               <div className="flex flex-col gap-4">
                 <Button type="submit" disabled={isLoading} className="form-btn">
-                  {type === 'sign-in' ? 'Sign In' : 'Sign Up'}
+                  {isLoading ? (
+                    <>
+                      <Loader2 size={20} className="animate-spin" /> &nbsp;
+                      Loading...
+                    </>
+                  ) : type === 'sign-in' ? (
+                    'Sign In'
+                  ) : (
+                    'Sign Up'
+                  )}
                 </Button>
-                {errorMessage && (
-                  <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
-                )}
               </div>
             </form>
           </Form>
@@ -214,36 +254,38 @@ const AuthForm = ({ type }: { type: string }) => {
           </footer>
         </>
       )}
-      {(isLoading || redirectInitiated) && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center transition-all duration-300 backdrop-blur-[.8px] backdrop-filter">
-          <div className="flex flex-col items-center space-y-4">
-            <Loader size={64} className="animate-spin text-green-700" />
-            <span className="text-green-700 text-lg font-semibold inline-flex items-center">
-              Please wait
-              <span className="ml-1 inline-flex">
-                <span
-                  className="dot inline-block animate-ellipsis text-xl"
-                  style={{ animationDelay: '0s' }}
-                >
-                  .
-                </span>
-                <span
-                  className="dot inline-block animate-ellipsis text-xl"
-                  style={{ animationDelay: '0.2s' }}
-                >
-                  .
-                </span>
-                <span
-                  className="dot inline-block animate-ellipsis text-xl"
-                  style={{ animationDelay: '0.4s' }}
-                >
-                  .
+      {/* Only show loading overlay for sign-in, not for sign-up after user is set */}
+      {(isLoading && !signedUpUser) ||
+        (redirectInitiated && (
+          <div className="absolute inset-0 z-50 flex items-center justify-center transition-all duration-300 backdrop-blur-[.8px] backdrop-filter">
+            <div className="flex flex-col items-center space-y-4">
+              <Loader size={64} className="animate-spin text-green-700" />
+              <span className="text-green-700 text-lg font-semibold inline-flex items-center">
+                Please wait
+                <span className="ml-1 inline-flex">
+                  <span
+                    className="dot inline-block animate-ellipsis text-xl"
+                    style={{ animationDelay: '0s' }}
+                  >
+                    .
+                  </span>
+                  <span
+                    className="dot inline-block animate-ellipsis text-xl"
+                    style={{ animationDelay: '0.2s' }}
+                  >
+                    .
+                  </span>
+                  <span
+                    className="dot inline-block animate-ellipsis text-xl"
+                    style={{ animationDelay: '0.4s' }}
+                  >
+                    .
+                  </span>
                 </span>
               </span>
-            </span>
+            </div>
           </div>
-        </div>
-      )}
+        ))}
     </section>
   );
 };

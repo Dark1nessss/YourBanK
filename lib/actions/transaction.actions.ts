@@ -1,38 +1,30 @@
 'use server';
 
-import { connectToDatabase, getTransactionsCollection } from '../mongodb';
+import { createAdminClient } from '../appwrite';
 import { parseStringify } from '../utils';
 
 export const createTransaction = async (
   transaction: CreateTransactionProps
 ) => {
   try {
-    await connectToDatabase();
-    const transactionsCollection = getTransactionsCollection();
+    const { Transaction } = await createAdminClient();
 
-    const newTransaction = {
+    const newTransaction = new Transaction({
       channel: 'online',
       category: ['Transfer'],
       paymentChannel: 'online',
       subcategory: ['default'],
       type: 'debit',
-      image: undefined,
       date: new Date(),
       userId: transaction.senderId,
       bankId: transaction.senderBankId,
       accountId: transaction.senderBankId,
       ...transaction,
       amount: parseFloat(transaction.amount),
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-
-    const result = await transactionsCollection.insertOne(newTransaction);
-    const createdTransaction = await transactionsCollection.findOne({
-      _id: result.insertedId,
     });
 
-    return parseStringify(createdTransaction);
+    await newTransaction.save();
+    return parseStringify(newTransaction);
   } catch (error) {
     throw new Error(`Failed to create transaction: ${error}`);
   }
@@ -42,15 +34,15 @@ export const getTransactionsByBankId = async ({
   bankId,
 }: getTransactionsByBankIdProps) => {
   try {
-    await connectToDatabase();
-    const transactionsCollection = getTransactionsCollection();
+    const { Transaction } = await createAdminClient();
 
-    const senderTransactions = await transactionsCollection
-      .find({ senderBankId: bankId })
-      .toArray();
-    const receiverTransactions = await transactionsCollection
-      .find({ receiverBankId: bankId })
-      .toArray();
+    const senderTransactions = await Transaction.find({
+      senderBankId: bankId,
+    }).lean();
+
+    const receiverTransactions = await Transaction.find({
+      receiverBankId: bankId,
+    }).lean();
 
     const transactions = {
       total: senderTransactions.length + receiverTransactions.length,
@@ -60,5 +52,19 @@ export const getTransactionsByBankId = async ({
     return parseStringify(transactions);
   } catch (error) {
     throw new Error(`Failed to get transactions: ${error}`);
+  }
+};
+
+export const getTransactions = async ({ userId }: { userId: string }) => {
+  try {
+    const { Transaction } = await createAdminClient();
+
+    const transactions = await Transaction.find({ userId })
+      .sort({ date: -1 })
+      .lean();
+
+    return parseStringify(transactions);
+  } catch (error) {
+    throw new Error(`Error getting transactions: ${error}`);
   }
 };

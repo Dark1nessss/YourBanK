@@ -4,15 +4,17 @@ import TransactionsTable from '@/components/TransactionsTable';
 import { getAccount, getAccounts } from '@/lib/actions/bank.actions';
 import { getLoggedInUser } from '@/lib/actions/user.actions';
 import { formatAmount } from '@/lib/utils';
-import React from 'react';
 
 const TransactionHistory = async ({
   searchParams: { id, page },
 }: SearchParamProps) => {
   const currentPage = Number(page as string) || 1;
   const loggedIn = await getLoggedInUser();
+
+  if (!loggedIn) return;
+
   const accounts = await getAccounts({
-    userId: loggedIn.$id,
+    userId: loggedIn._id,
   });
 
   if (!accounts) return;
@@ -32,6 +34,7 @@ const TransactionHistory = async ({
     indexOfFirstTransaction,
     indexOfLastTransaction
   );
+
   return (
     <div className="transactions">
       <div className="transactions-header">
@@ -47,9 +50,7 @@ const TransactionHistory = async ({
             <h2 className="text-18 font-bold text-white">
               {account?.data.name}
             </h2>
-            <p className="text-14 text-green-25">
-              {account?.data.officialName}
-            </p>
+            <p className="text-14 text-blue-25">{account?.data.officialName}</p>
             <p className="text-14 font-semibold tracking-[1.1px] text-white">
               ●●●● ●●●● ●●●● {account?.data.mask}
             </p>

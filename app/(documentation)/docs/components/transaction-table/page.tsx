@@ -1,14 +1,14 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { CodeBlock } from '@/components/docs/code-block';
-import { Card } from '@/components/ui/card';
 import TransactionsTable from '@/components/TransactionsTable';
+import { Card } from '@/components/ui/card';
+import { motion } from 'framer-motion';
 
 export default function TransactionTablePage() {
   const mockTransactions = [
     {
-      $id: '1',
+      _id: '1',
       accountId: 'acc1',
       pending: false,
       image: 'image1.png',
@@ -25,7 +25,7 @@ export default function TransactionTablePage() {
       receiverBankId: '',
     },
     {
-      $id: '2',
+      _id: '2',
       accountId: 'acc2',
       pending: false,
       image: 'image2.png',

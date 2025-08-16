@@ -1,8 +1,8 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { CodeBlock } from '@/components/docs/code-block';
 import { Card } from '@/components/ui/card';
+import { motion } from 'framer-motion';
 
 export default function TransactionsPage() {
   return (
@@ -100,7 +100,7 @@ console.log('Transactions:', documents)`}
 }
 
 interface Transaction {
-  $id: string
+  _id: string
   name: string
   amount: string
   senderId: string
