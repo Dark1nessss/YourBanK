@@ -59,6 +59,14 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
       });
       const senderBank = await getBank({ documentId: data.senderBank });
 
+      if (!senderBank || !receiverBank) {
+        throw new Error('Bank account not found');
+      }
+
+      if (!senderBank.fundingSourceUrl || !receiverBank.fundingSourceUrl) {
+        throw new Error('Funding source URL not found for bank accounts');
+      }
+
       const transferParams = {
         sourceFundingSourceUrl: senderBank.fundingSourceUrl,
         destinationFundingSourceUrl: receiverBank.fundingSourceUrl,

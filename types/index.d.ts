@@ -87,6 +87,8 @@ declare interface Transaction {
   receiverBankId: string;
   createdAt: Date;
   updatedAt: Date;
+  type: 'debit' | 'credit';
+  paymentChannel: string;
 }
 
 declare interface PlaidTransaction {

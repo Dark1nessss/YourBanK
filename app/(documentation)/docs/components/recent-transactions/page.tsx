@@ -31,7 +31,7 @@ export default function RecentTransactionsPage() {
         description: 'Coffee Shop',
         date: '2024-03-20',
         paymentChannel: 'in-store',
-        type: 'debit',
+        type: 'debit' as const,
         category: ['Food and Drink'],
         pending: false,
         accountId: 'acc1',

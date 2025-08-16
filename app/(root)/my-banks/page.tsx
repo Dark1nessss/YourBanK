@@ -5,6 +5,9 @@ import { getLoggedInUser } from '@/lib/actions/user.actions';
 
 const MyBanks = async () => {
   const loggedIn = await getLoggedInUser();
+
+  if (!loggedIn) return;
+
   const accounts = await getAccounts({
     userId: loggedIn._id,
   });

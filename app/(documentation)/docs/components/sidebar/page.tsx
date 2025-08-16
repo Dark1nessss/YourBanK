@@ -86,6 +86,8 @@ export default function SidebarPage() {
         appwriteItemId: 'item1',
       },
     ],
+    createdAt: new Date(),
+    updatedAt: new Date(),
   };
 
   return (
