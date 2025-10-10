@@ -1,14 +1,14 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { CodeBlock } from '@/components/docs/code-block';
-import { Card } from '@/components/ui/card';
 import RightSidebar from '@/components/RightSidebar';
+import { Card } from '@/components/ui/card';
+import { motion } from 'framer-motion';
 
 export default function RightSidebarPage() {
   const mockData = {
     user: {
-      $id: '1',
+      _id: '1',
       userId: 'user123',
       dwollaCustomerUrl: 'https://api-sandbox.dwolla.com/customers/123',
       dwollaCustomerId: '123',
@@ -26,50 +26,60 @@ export default function RightSidebarPage() {
       country: 'USA',
       dateOfBirth: '1990-01-01',
       ssn: '123-45-6789',
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
     transactions: [
       {
         id: '1',
-        $id: '1',
+        _id: '1',
         name: 'Shopping',
-        category: 'Shopping',
+        category: ['Shopping'],
         amount: 50,
         paymentChannel: 'Online',
-        date: '2023-01-01',
+        date: new Date(),
         status: 'Completed',
-        type: 'expense',
+        type: 'debit' as const,
         accountId: 'acc1',
         pending: false,
         image: 'image1.png',
         notes: 'note1',
-        $createdAt: '2023-01-01T00:00:00Z',
+        $createdAt: new Date().toISOString(),
         channel: 'Online',
         senderBankId: 'bank1',
         receiverBankId: 'bank2',
+        userId: 'user123',
+        bankId: 'bank1',
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
       {
         id: '2',
-        $id: '2',
+        _id: '2',
         name: 'Food',
-        category: 'Food',
+        category: ['Food'],
         amount: 30,
         paymentChannel: 'In-store',
-        date: '2023-01-02',
+        date: new Date(),
         status: 'Completed',
-        type: 'expense',
+        type: 'credit' as const,
         accountId: 'acc2',
         pending: false,
         image: 'image2.png',
         notes: 'note2',
-        $createdAt: '2023-01-02T00:00:00Z',
+        $createdAt: new Date().toISOString(),
         channel: 'In-store',
         senderBankId: 'bank1',
         receiverBankId: 'bank2',
+        userId: 'user123',
+        bankId: 'bank1',
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
     ],
     banks: [
       {
-        $id: '1',
+        _id: '1',
         id: '1',
         name: 'Main Account',
         accountId: 'acc1',
@@ -86,6 +96,8 @@ export default function RightSidebarPage() {
         institutionId: 'inst1',
         subtype: 'subtype1',
         appwriteItemId: 'item1',
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
     ],
   };

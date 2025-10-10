@@ -1,28 +1,26 @@
 'use server';
 
 import { CountryCode } from 'plaid';
-
 import { plaidClient } from '../plaid';
 import { parseStringify } from '../utils';
-
 import { getTransactionsByBankId } from './transaction.actions';
 import { getBank, getBanks } from './user.actions';
 
 // Get multiple bank accounts
 export const getAccounts = async ({ userId }: getAccountsProps) => {
   try {
-    // get banks from db
+    // Get banks from MongoDB
     const banks = await getBanks({ userId });
 
     const accounts = await Promise.all(
       banks?.map(async (bank: Bank) => {
-        // get each account info from plaid
+        // Get each account info from plaid
         const accountsResponse = await plaidClient.accountsGet({
           access_token: bank.accessToken,
         });
         const accountData = accountsResponse.data.accounts[0];
 
-        // get institution info from plaid
+        // Get institution info from plaid
         const institution = await getInstitution({
           institutionId: accountsResponse.data.item.institution_id!,
         });
@@ -37,7 +35,7 @@ export const getAccounts = async ({ userId }: getAccountsProps) => {
           mask: accountData.mask!,
           type: accountData.type as string,
           subtype: accountData.subtype! as string,
-          appwriteItemId: bank._id,
+          appwriteItemId: bank._id.toString(), // Keep for compatibility
           shareableId: bank.shareableId,
         };
 
@@ -62,18 +60,23 @@ export const getAccounts = async ({ userId }: getAccountsProps) => {
 // Get one bank account
 export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
   try {
-    // get bank from db
+    // Get bank from MongoDB
     const bank = await getBank({ documentId: appwriteItemId });
 
-    // get account info from plaid
+    // Add null check
+    if (!bank) {
+      throw new Error('Bank not found');
+    }
+
+    // Get account info from plaid
     const accountsResponse = await plaidClient.accountsGet({
       access_token: bank.accessToken,
     });
     const accountData = accountsResponse.data.accounts[0];
 
-    // get transfer transactions from mongodb
+    // Get transfer transactions from MongoDB
     const transferTransactionsData = await getTransactionsByBankId({
-      bankId: bank._id,
+      bankId: bank._id.toString(),
     });
 
     const transferTransactions = transferTransactionsData.documents.map(
@@ -84,17 +87,25 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
         date: transferData.createdAt,
         paymentChannel: transferData.channel,
         category: transferData.category,
-        type: transferData.senderBankId === bank._id ? 'debit' : 'credit',
+        type:
+          transferData.senderBankId === bank._id.toString()
+            ? 'debit'
+            : 'credit',
       })
     );
 
-    // get institution info from plaid
+    // Get institution info from plaid - add null check
+    const institutionId = accountsResponse.data.item.institution_id;
+    if (!institutionId) {
+      throw new Error('Institution ID not found');
+    }
+
     const institution = await getInstitution({
-      institutionId: accountsResponse.data.item.institution_id!,
+      institutionId,
     });
 
     const transactions = await getTransactions({
-      accessToken: bank?.accessToken,
+      accessToken: bank.accessToken,
     });
 
     const account: Account = {
@@ -107,10 +118,10 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
       mask: accountData.mask!,
       type: accountData.type as string,
       subtype: accountData.subtype! as string,
-      appwriteItemId: bank._id,
+      appwriteItemId: bank._id.toString(),
     };
 
-    // sort transactions by date such that the most recent transaction is first
+    // Sort transactions by date such that the most recent transaction is first
     const allTransactions = [...transactions, ...transferTransactions].sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );

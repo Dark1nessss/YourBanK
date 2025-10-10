@@ -1,45 +1,53 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { CodeBlock } from '@/components/docs/code-block';
-import { Card } from '@/components/ui/card';
 import TransactionsTable from '@/components/TransactionsTable';
+import { Card } from '@/components/ui/card';
+import { motion } from 'framer-motion';
 
 export default function TransactionTablePage() {
   const mockTransactions = [
     {
-      $id: '1',
+      _id: '1',
       accountId: 'acc1',
       pending: false,
       image: 'image1.png',
       id: '1',
       name: 'Coffee Shop',
       amount: 5.75,
-      type: 'debit',
+      type: 'debit' as const,
       date: '2024-03-20T10:30:00',
       paymentChannel: '',
-      category: '',
+      category: [],
       $createdAt: '',
       channel: '',
       senderBankId: '',
       receiverBankId: '',
+      userId: 'user1',
+      bankId: 'bank1',
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
     {
-      $id: '2',
+      _id: '2',
       accountId: 'acc2',
       pending: false,
       image: 'image2.png',
       id: '2',
       name: 'Salary Deposit',
       amount: 2500.0,
-      type: 'credit',
+      type: 'credit' as const,
       date: '2024-03-19T09:00:00',
       paymentChannel: 'transfer',
-      category: 'Income',
+      category: ['Income'],
       $createdAt: '2024-03-19T08:00:00',
       channel: 'online',
       senderBankId: 'bank1',
       receiverBankId: 'bank2',
+      userId: 'user2',
+      bankId: 'bank2',
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
   ];
 

@@ -1,13 +1,13 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { CodeBlock } from '@/components/docs/code-block';
-import { Card } from '@/components/ui/card';
 import PlaidLink from '@/components/PlaidLink';
+import { Card } from '@/components/ui/card';
+import { motion } from 'framer-motion';
 
 export default function PlaidLinkPage() {
   const mockUser = {
-    $id: '1',
+    _id: '1',
     userId: 'user123',
     dwollaCustomerUrl: 'https://api.dwolla.com/customers/123',
     dwollaCustomerId: '123',
@@ -24,6 +24,8 @@ export default function PlaidLinkPage() {
     postalCode: '10001',
     dateOfBirth: '1990-01-01',
     ssn: '123-45-6789',
+    createdAt: new Date(),
+    updatedAt: new Date(),
   };
 
   return (

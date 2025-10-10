@@ -1,13 +1,13 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { CodeBlock } from '@/components/docs/code-block';
-import { Card } from '@/components/ui/card';
 import Sidebar from '@/components/Sidebar';
+import { Card } from '@/components/ui/card';
+import { motion } from 'framer-motion';
 
 export default function SidebarPage() {
   const mockUser = {
-    $id: '1',
+    _id: '1',
     userId: 'user123',
     dwollaCustomerUrl: 'https://api-sandbox.dwolla.com/customers/123',
     dwollaCustomerId: '123',
@@ -28,7 +28,7 @@ export default function SidebarPage() {
     transactions: [
       {
         id: '1',
-        $id: '1',
+        _id: '1',
         name: 'Shopping',
         category: 'Shopping',
         amount: 50,
@@ -47,7 +47,7 @@ export default function SidebarPage() {
       },
       {
         id: '2',
-        $id: '2',
+        _id: '2',
         name: 'Food',
         category: 'Food',
         amount: 30,
@@ -67,7 +67,7 @@ export default function SidebarPage() {
     ],
     banks: [
       {
-        $id: '1',
+        _id: '1',
         id: '1',
         name: 'Main Account',
         accountId: 'acc1',
@@ -86,6 +86,8 @@ export default function SidebarPage() {
         appwriteItemId: 'item1',
       },
     ],
+    createdAt: new Date(),
+    updatedAt: new Date(),
   };
 
   return (

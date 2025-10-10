@@ -44,7 +44,7 @@ const TransactionsTable = ({ transactions }: TransactionTableProps) => {
       </TableHeader>
       <TableBody>
         {transactions.map((t: Transaction) => {
-          const status = getTransactionStatus(new Date(t.date));
+          const status = getTransactionStatus(new Date(t.createdAt));
           const amount = formatAmount(t.amount);
 
           const isDebit = t.type === 'debit';
@@ -52,7 +52,7 @@ const TransactionsTable = ({ transactions }: TransactionTableProps) => {
 
           return (
             <TableRow
-              key={t.id}
+              key={t._id}
               className={`${isDebit || amount[0] === '-' ? 'bg-[#FFFBFA]' : 'bg-[#F6FEF9]'} !over:bg-none !border-b-DEFAULT`}
             >
               <TableCell className="max-w-[250px] pl-2 pr-10">
@@ -78,7 +78,7 @@ const TransactionsTable = ({ transactions }: TransactionTableProps) => {
               </TableCell>
 
               <TableCell className="min-w-32 pl-2 pr-10">
-                {formatDateTime(new Date(t.date)).dateTime}
+                {formatDateTime(new Date(t.createdAt)).dateTime}
               </TableCell>
 
               <TableCell className="pl-2 pr-10 capitalize min-w-24">
@@ -86,7 +86,11 @@ const TransactionsTable = ({ transactions }: TransactionTableProps) => {
               </TableCell>
 
               <TableCell className="pl-2 pr-10 max-md:hidden">
-                <CategoryBadge category={t.category} />
+                <CategoryBadge
+                  category={
+                    Array.isArray(t.category) ? t.category[0] : t.category
+                  }
+                />
               </TableCell>
             </TableRow>
           );
