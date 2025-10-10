@@ -63,7 +63,11 @@ export default function Documentation() {
           className="flex flex-col gap-4 sm:flex-row"
         >
           <Link href="/docs/quick-start">
-            <Button size="lg" className="bg-[#39A36A] hover:bg-[#2E8754]">
+            <Button
+              size="lg"
+              className="bg-[#39A36A] 
+             hover:bg-[#2E8754]"
+            >
               Get Started
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>

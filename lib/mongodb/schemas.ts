@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 // MongoDB User Schema
 export const UserSchema = z.object({
-  _id: z.string().optional(),
+  _id: z.string(),
   firstName: z.string(),
   lastName: z.string(),
   email: z.string().email(),
@@ -13,19 +13,19 @@ export const UserSchema = z.object({
   postalCode: z.string(),
   dateOfBirth: z.string(),
   ssn: z.string(), // encrypted
-  dwollaCustomerId: z.string().optional(),
-  dwollaCustomerUrl: z.string().optional(),
+  dwollaCustomerId: z.string(),
+  dwollaCustomerUrl: z.string(),
   createdAt: z.date().default(() => new Date()),
   updatedAt: z.date().default(() => new Date()),
 });
 
 // MongoDB Bank Schema
 export const BankSchema = z.object({
-  _id: z.string().optional(),
+  _id: z.string(),
   userId: z.string(), // Reference to User._id
   accountId: z.string(),
   accessToken: z.string(), // encrypted
-  fundingSourceUrl: z.string().optional(),
+  fundingSourceUrl: z.string(),
   name: z.string(),
   officialName: z.string(),
   type: z.string(),
@@ -41,7 +41,7 @@ export const BankSchema = z.object({
 
 // MongoDB Transaction Schema
 export const TransactionSchema = z.object({
-  _id: z.string().optional(),
+  _id: z.string(),
   userId: z.string(), // Reference to User._id
   bankId: z.string(), // Reference to Bank._id
   accountId: z.string(),
@@ -53,8 +53,8 @@ export const TransactionSchema = z.object({
   type: z.string(),
   date: z.date(),
   image: z.string().optional(),
-  senderBankId: z.string().optional(),
-  receiverBankId: z.string().optional(),
+  senderBankId: z.string(),
+  receiverBankId: z.string(),
   channel: z.string(),
   createdAt: z.date().default(() => new Date()),
   updatedAt: z.date().default(() => new Date()),
