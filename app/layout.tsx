@@ -1,10 +1,11 @@
 export const dynamic = 'force-dynamic';
 
-import type { Metadata } from 'next';
-import { Analytics } from '@vercel/analytics/next';
-import { Inter, IBM_Plex_Serif } from 'next/font/google';
-import './globals.css';
 import { ClientWrapper } from '@/components/ClientWrapper';
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import type { Metadata } from 'next';
+import { IBM_Plex_Serif, Inter } from 'next/font/google';
+import './globals.css';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const ibmPlexSerif = IBM_Plex_Serif({
@@ -31,6 +32,7 @@ export default function RootLayout({
       <body className={`${inter.variable} ${ibmPlexSerif.variable}`}>
         <ClientWrapper>{children}</ClientWrapper>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
